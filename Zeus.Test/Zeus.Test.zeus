@@ -1,0 +1,3 @@
+﻿<logs>
+	<channel Type="ConsoleChannel" Name="ConsoleTest" />
+</logs>
