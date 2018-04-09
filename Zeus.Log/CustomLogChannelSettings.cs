@@ -560,6 +560,16 @@ namespace Zeus.Log
             return m_CutomSettingsStore.Keys.OrderBy(k => k);
         }
 
+        /// <summary>
+        /// Checks if the requested key exists.
+        /// </summary>
+        /// <param name="key">The key to be checked.</param>
+        /// <returns>Tru if the key exists, false otherwise.</returns>
+        public bool HasKey(string key)
+        {
+            return m_CutomSettingsStore.ContainsKey(key);
+        }
+
         #endregion
     }
 }

@@ -79,7 +79,7 @@ namespace Zeus.Log
             string parsedFormat = format;
             parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Date"), "0");
             parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Time"), "0");
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Type"), "1");
+            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Level"), "1");
             parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "ProcessName"), "2");
             parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "MethodName"), "3");
             parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Text"), "4");

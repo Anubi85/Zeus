@@ -126,6 +126,10 @@ namespace Zeus
         /// Configuration manager initialization failed error.
         /// </summary>
         public static readonly ErrorCodes ConfigManagerInitFailed = new ErrorCodes("Error occurred while initializing configuration editor.");
+        /// <summary>
+        /// Requested key missing error.
+        /// </summary>
+        public static readonly ErrorCodes MissingSettingsKey = new ErrorCodes("The requested key is missing.");
 
         #endregion
     }

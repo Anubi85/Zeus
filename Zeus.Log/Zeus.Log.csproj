@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Channels\ConsoleChannel.cs" />
+    <Compile Include="Channels\FileChannel.cs" />
     <Compile Include="Channels\ILogChannel.cs" />
     <Compile Include="CustomLogChannelSettings.cs" />
     <Compile Include="LogChannelSettings.cs" />
@@ -59,6 +60,10 @@
     <ProjectReference Include="..\Zeus.InternalLogger\Zeus.InternalLogger.csproj">
       <Project>{1646f32e-c6f3-445b-aeca-5fe29bbe5f61}</Project>
       <Name>Zeus.InternalLogger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zeus\Zeus.csproj">
+      <Project>{26023327-E03F-4A49-B5C0-F130AA72C3FB}</Project>
+      <Name>Zeus</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
