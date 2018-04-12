@@ -2,12 +2,12 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Zeus.Config;
-using Zeus.InternalLogger;
 using Zeus.Log.Channels;
 
 namespace Zeus.Log
@@ -30,7 +30,6 @@ namespace Zeus.Log
             /// Conunts how many <see cref="LogChannelRecord"/> instances has been created.
             /// </summary>
             private static byte s_InstanceCounter = 0;
-
             /// <summary>
             /// The minimum log level that has to be processed by this channel.
             /// </summary>
@@ -39,6 +38,10 @@ namespace Zeus.Log
             /// The maximum log level that has to be processed by this channel.
             /// </summary>
             private LogLevels m_MaxLogLevel;
+            /// <summary>
+            /// The flag that indicate if the channel is enabled or not.
+            /// </summary>
+            private bool m_Enabled;
 
             #endregion
 
@@ -53,7 +56,7 @@ namespace Zeus.Log
             {
                 s_InstanceCounter++;
                 m_MinLogLevel = settings.MinimumLogLevel;
-                m_MaxLogLevel = settings.MaximumLogLevel;                
+                m_MaxLogLevel = settings.MaximumLogLevel;
                 if (string.IsNullOrEmpty(settings.ChannelName))
                 {
                     Name = string.Format("Channel {0}", s_InstanceCounter);
@@ -63,6 +66,7 @@ namespace Zeus.Log
                     Name = settings.ChannelName;
                 }
                 MessageFormat = settings.MessageFormat;
+                m_Enabled = settings.Enabled;
                 Channel = channel;
             }
 
@@ -96,7 +100,7 @@ namespace Zeus.Log
             /// <returns>True if the incoming message level is in the range that the channel should process, false otherwise.</returns>
             public bool CanProcess(LogLevels level)
             {
-                return (m_MinLogLevel <= level) && (level <= m_MaxLogLevel);
+                return m_Enabled && ((m_MinLogLevel <= level) && (level <= m_MaxLogLevel));
             }
 
             #endregion
@@ -117,6 +121,11 @@ namespace Zeus.Log
             s_ProcessName = Process.GetCurrentProcess().ProcessName;
             s_AddChannelMethod = typeof(LogManager).GetMethod("AddChannel", BindingFlags.Public | BindingFlags.Static);
             AppDomain.CurrentDomain.ProcessExit += OnExit;
+            //add internal loger channel
+            s_InternalLogger = new FileChannel();
+            CustomLogChannelSettings clcs = new CustomLogChannelSettings();
+            clcs.SetValue<string>("FileName", Path.ChangeExtension(Path.GetFileName(Environment.GetCommandLineArgs().First()), "log"));
+            s_InternalLogger.Initialize(clcs);
             LogSettings settings = ConfigManager.LoadSection<LogSettings>();
             //configure the log channels
             if (settings != null)
@@ -134,7 +143,7 @@ namespace Zeus.Log
             }
             else
             {
-                Logger.Log("No logger sonfiguration found");
+                LogInternally("No logger sonfiguration found");
             }
         }
 
@@ -184,6 +193,10 @@ namespace Zeus.Log
         /// The <see cref="LogManager.AddChannel{T}"/> method information retrieved throug reflection.
         /// </summary>
         private static MethodInfo s_AddChannelMethod;
+        /// <summary>
+        /// The log channel used to log internal error messages.
+        /// </summary>
+        private static ILogChannel s_InternalLogger;
 
         #endregion
 
@@ -298,7 +311,14 @@ namespace Zeus.Log
                     {
                         if (record.CanProcess(msg.Level))
                         {
-                            record.Channel.WriteMessage(msg, record.MessageFormat);
+                            try
+                            {
+                                record.Channel.WriteMessage(msg, record.MessageFormat);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogInternally(string.Format("Fail to write message on channel {0} with error {1}", record.Name, ex.Message));
+                            }
                         }
                     }
                 }
@@ -367,7 +387,7 @@ namespace Zeus.Log
                 if (s_LogChannels.OfType<T>().Count() != 0)
                 {
                     //log the error and exit
-                    Logger.Log(string.Format("Multiple instance of {0} channel are not allowed.", typeof(T).Name));
+                    LogInternally(string.Format("Multiple instance of {0} channel are not allowed.", typeof(T).Name));
                     return false;
                 }
             }
@@ -380,7 +400,7 @@ namespace Zeus.Log
             }
             catch (Exception ex)
             {
-                Logger.Log(string.Format("Channel {0} initialization fails with error: {1}", channel, ex.Message));
+                LogInternally(string.Format("Channel {0} initialization fails with error: {1}", channel, ex.Message));
                 return false;
             }
         }
@@ -393,6 +413,15 @@ namespace Zeus.Log
         private static void AddChannel(Type channelType, LogChannelSettings settings)
         {
             s_AddChannelMethod.MakeGenericMethod(channelType).Invoke(null, new[] { settings });
+        }
+
+        /// <summary>
+        /// Logs a message to the internal logger
+        /// </summary>
+        /// <param name="text">The message to log.</param>
+        private static void LogInternally(string text, [CallerMemberName]string methodName="Internal")
+        {
+            s_InternalLogger.WriteMessage(new LogMessage(LogLevels.Error, methodName, s_ProcessName, text), null);
         }
 
         #endregion

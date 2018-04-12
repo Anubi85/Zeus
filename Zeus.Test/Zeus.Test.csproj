@@ -79,6 +79,10 @@
       <Project>{621ae297-b161-4285-b536-b08c4a52fdb1}</Project>
       <Name>Zeus.Log</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zeus.Plugin\Zeus.Plugin.csproj">
+      <Project>{41cefaa2-bc57-4f40-a056-9e12038aee1d}</Project>
+      <Name>Zeus.Plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zeus\Zeus.csproj">
       <Project>{26023327-e03f-4a49-b5c0-f130aa72c3fb}</Project>
       <Name>Zeus</Name>

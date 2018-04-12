@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Zeus.Log
 {
@@ -60,9 +60,16 @@ namespace Zeus.Log
         #region Constants
 
         /// <summary>
-        /// Match pattern used by <see cref="Regex.Replace(string, string, string)"/> to format the message.
+        /// The dictionary that contains format keys mapping.
         /// </summary>
-        private const string c_MatchPattern = "(?<={{)(?i){0}(?-i)";
+        private static readonly Dictionary<string, string> c_FormatKeys = new Dictionary<string, string>() {
+            { "Date", "0" },
+            { "Time", "0" },
+            { "Level", "1" },
+            { "ProcessName", "2" },
+            { "MethodName", "3" },
+            { "Text", "4" }
+        };
 
         #endregion
 
@@ -76,13 +83,7 @@ namespace Zeus.Log
         public string ApplyFormat(string format)
         {
             //convert tags to indexes
-            string parsedFormat = format;
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Date"), "0");
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Time"), "0");
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Level"), "1");
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "ProcessName"), "2");
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "MethodName"), "3");
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Text"), "4");
+            string parsedFormat = FormatParser.Parse(format, c_FormatKeys);
             try
             {
                 return string.Format(parsedFormat, Time, Level, ProcessName, MethodName, Text);

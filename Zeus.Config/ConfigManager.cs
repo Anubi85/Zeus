@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
-using Zeus.InternalLogger;
 
 namespace Zeus.Config
 {
@@ -36,9 +35,13 @@ namespace Zeus.Config
             s_Sources = new List<IConfigSource>();
             //add default local source
             DataStore settings = new DataStore();
-            if (!AddSource<FileSource>(settings, "Local zeus file"))
+            try
             {
-                throw new ZeusException(ErrorCodes.ConfigManagerInitFailed);
+                AddSource<FileSource>(settings, "Local zeus file");
+            }
+            catch (Exception ex)
+            {
+                throw new ZeusException(ErrorCodes.ConfigManagerInitFailed, ex.Message);
             }
         }
 
@@ -90,36 +93,26 @@ namespace Zeus.Config
             foreach (IConfigSource source in s_Sources)
             {
                 Stream dataStream = source.Open();
-                if (dataStream != null)
+                using (XmlReader xr = XmlReader.Create(dataStream, s_ReaderSettings))
                 {
-                    using (XmlReader xr = XmlReader.Create(dataStream, s_ReaderSettings))
+                    //move to root node
+                    xr.MoveToContent();
+                    //search for requested section
+                    if (xr.IsStartElement(GetSectionName<T>()) || xr.ReadToFollowing(GetSectionName<T>()))
                     {
-                        //move to root node
-                        xr.MoveToContent();
-                        //search for requested section
-                        if (xr.IsStartElement(GetSectionName<T>()) || xr.ReadToFollowing(GetSectionName<T>()))
+                        //check if section has been found
+                        if (xr.NodeType != XmlNodeType.None)
                         {
-                            //check if section has been found
-                            if (xr.NodeType != XmlNodeType.None)
-                            {
-                                //deserialize section
-                                XmlSerializer xs = new XmlSerializer(typeof(T));
-                                //get section data
-                                data = (T)xs.Deserialize(xr.ReadSubtree());
-                                //data found, stop searching
-                                break;
-                            }
+                            //deserialize section
+                            XmlSerializer xs = new XmlSerializer(typeof(T));
+                            //get section data
+                            data = (T)xs.Deserialize(xr.ReadSubtree());
+                            //data found, stop searching
+                            break;
                         }
                     }
-                    if (!source.Close())
-                    {
-                        Logger.Log(string.Format("Fail to close {0} config source.", source.Name));
-                    }
                 }
-                else
-                {
-                    Logger.Log(string.Format("Fail to open {0} config source for reading.", source.Name));
-                }
+                source.Close();
             }
             s_CfgMutex.ReleaseMutex();
             return data;
@@ -139,58 +132,48 @@ namespace Zeus.Config
                 //save only to local source
                 IConfigSource source = s_Sources.First();
                 Stream dataStream = source.Open();
-                if (dataStream != null)
+                using (XmlReader xr = XmlReader.Create(dataStream, s_ReaderSettings))
                 {
-                    using (XmlReader xr = XmlReader.Create(dataStream, s_ReaderSettings))
+                    using (XmlWriter xw = XmlWriter.Create(ms, s_WriterSettings))
                     {
-                        using (XmlWriter xw = XmlWriter.Create(ms, s_WriterSettings))
+                        //states need to be maually changed otherwise XmlSerializer try to write start document node
+                        //that for Fragment xml throw an exception.
+                        xw.FakeWrite();
+                        //flag to indicate if the section already exists
+                        bool dataWritten = false;
+                        xr.MoveToContent();
+                        //check if file is empty
+                        if (xr.NodeType != XmlNodeType.None)
                         {
-                            //states need to be maually changed otherwise XmlSerializer try to write start document node
-                            //that for Fragment xml throw an exception.
-                            xw.FakeWrite();
-                            //flag to indicate if the section already exists
-                            bool dataWritten = false;
-                            xr.MoveToContent();
-                            //check if file is empty
-                            if (xr.NodeType != XmlNodeType.None)
+                            //loop over all available sections
+                            while (xr.NodeType == XmlNodeType.Element)
                             {
-                                //loop over all available sections
-                                while (xr.NodeType == XmlNodeType.Element)
+                                if (xr.Name != GetSectionName<T>())
                                 {
-                                    if (xr.Name != GetSectionName<T>())
-                                    {
-                                        //if not requested section copy it to output
-                                        xw.WriteNode(xr.ReadSubtree(), false);
-                                    }
-                                    else
-                                    {
-                                        xs.Serialize(xw, sectionData, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
-                                        dataWritten = true;
-                                    }
-                                    //move to next section
-                                    xr.Skip();
+                                    //if not requested section copy it to output
+                                    xw.WriteNode(xr.ReadSubtree(), false);
                                 }
-                            }
-                            if (!dataWritten)
-                            {
-                                //section has not been found, create it
-                                xs.Serialize(xw, sectionData, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
+                                else
+                                {
+                                    xs.Serialize(xw, sectionData, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
+                                    dataWritten = true;
+                                }
+                                //move to next section
+                                xr.Skip();
                             }
                         }
-                    }
-                    //update the settings file with the data stored in the temporary memory stream
-                    dataStream.Seek(0, SeekOrigin.Begin);
-                    dataStream.SetLength(0);
-                    dataStream.Write(ms.GetBuffer(), 0, (int)ms.Length);
-                    if (!source.Close())
-                    {
-                        Logger.Log(string.Format("Fail to close {0} config source.", source.Name));
+                        if (!dataWritten)
+                        {
+                            //section has not been found, create it
+                            xs.Serialize(xw, sectionData, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
+                        }
                     }
                 }
-                else
-                {
-                    Logger.Log(string.Format("Fail to open {0} config source for writing.", source.Name));
-                }
+                //update the settings file with the data stored in the temporary memory stream
+                dataStream.Seek(0, SeekOrigin.Begin);
+                dataStream.SetLength(0);
+                dataStream.Write(ms.GetBuffer(), 0, (int)ms.Length);
+                source.Close();
             }
             s_CfgMutex.ReleaseMutex();
         }
@@ -200,16 +183,11 @@ namespace Zeus.Config
         /// <typeparam name="T">The <see cref="Type"/> of the source that has to be added.</typeparam>
         /// <param name="settings">The new source settings.</param>
         /// <param name="name">The new source name.</param>
-        /// <returns>True if the source has been sucessfully added and initialized, false otherwise.</returns>
-        public static bool AddSource<T>(DataStore settings, string name) where T : IConfigSource
+        public static void AddSource<T>(DataStore settings, string name) where T : IConfigSource
         {
             IConfigSource newSource = (IConfigSource)Activator.CreateInstance(typeof(T), true);
-            if (newSource.Initialize(settings, name))
-            {
-                s_Sources.Add(newSource);
-                return true;
-            }
-            return false;
+            newSource.Initialize(settings, name);
+            s_Sources.Add(newSource);
         }
 
         #endregion

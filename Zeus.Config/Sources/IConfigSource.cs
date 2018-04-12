@@ -18,15 +18,13 @@ namespace Zeus.Config.Sources
         /// <summary>
         /// Closes the configuration source.
         /// </summary>
-        /// <returns>True if the operation succeed, false otherwise.</returns>
-        bool Close();
+        void Close();
         /// <summary>
         /// Initialize the configuration source.
         /// </summary>
         /// <param name="settings">The settings needed by the <see cref="IConfigSource"/> to initialize the source.</param>
         /// <param name="name">The name of the config source.</param>
-        /// <returns>Returns true if the initialization succeeds, false otherwise.</returns>
-        bool Initialize(DataStore settings, string name);
+        void Initialize(DataStore settings, string name);
 
         #endregion
 

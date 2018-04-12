@@ -35,6 +35,10 @@ namespace Zeus.Log
         /// The name of the attribute that contains information about the channel message format.
         /// </summary>
         private const string c_FormatAttributeName = "Format";
+        /// <summary>
+        /// The name of the attrbute that contains information about the channel enable/disable.
+        /// </summary>
+        private const string c_EnabledAttributeKey = "Enabled";
 
         #endregion
 
@@ -48,6 +52,7 @@ namespace Zeus.Log
             CustomSettings = new CustomLogChannelSettings();
             MinimumLogLevel = LogLevels.Trace;
             MaximumLogLevel = LogLevels.Fatal;
+            Enabled = true;
         }
 
         #endregion
@@ -78,6 +83,11 @@ namespace Zeus.Log
         /// Gets or sets the message format of the cahnnel.
         /// </summary>
         public string MessageFormat { get; set; }
+
+        /// <summary>
+        /// Gets or sets a flag that enable or disable the channel.
+        /// </summary>
+        public bool Enabled { get; set; }
 
         /// <summary>
         /// Gets the channel specific settings.
@@ -130,6 +140,9 @@ namespace Zeus.Log
                         //save message format
                         MessageFormat = reader.Value;
                         break;
+                    case c_EnabledAttributeKey:
+                        Enabled = bool.Parse(reader.Value);
+                        break;
                     default:
                         //save settings into custom settings
                         CustomSettings.SetValue(reader.Name, reader.Value);
@@ -176,6 +189,10 @@ namespace Zeus.Log
                 writer.WriteValue(MessageFormat);
                 writer.WriteEndAttribute();
             }
+            //write enabled flag as xml node attribute
+            writer.WriteStartAttribute(c_EnabledAttributeKey);
+            writer.WriteValue(Enabled);
+            writer.WriteEndAttribute();
             //write all remaining custom settings as xml node attributes
             foreach (string key in CustomSettings.GetKeys())
             {

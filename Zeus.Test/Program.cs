@@ -7,6 +7,8 @@ using System.ServiceModel;
 using System.Text;
 using Zeus.InternalLogger;
 using Zeus.Log;
+using Zeus.Plugin;
+using Zeus.Plugin.Repositories;
 
 namespace Zeus.Test
 {

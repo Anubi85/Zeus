@@ -13,15 +13,6 @@ namespace Zeus.Log
     [SectionName("logs")]
     public class LogSettings : IXmlSerializable
     {
-        #region Constants
-
-        /// <summary>
-        /// The name of the attribute that contains information about the custom channels repository path.
-        /// </summary>
-        private const string c_ChannelsRepositoryAttributeName = "ChannelsRepository";
-
-        #endregion
-
         #region Fields
 
         /// <summary>
@@ -50,12 +41,6 @@ namespace Zeus.Log
         /// </summary>
         public List<LogChannelSettings> ChannelSettings { get { return m_ChannelSettings; } }
 
-        /// <summary>
-        /// Gets or sets the channels modules repository path.
-        /// Used to load custom log channels through the plugin system.
-        /// </summary>
-        public string ChannelsRepository { get; set; }
-
         #endregion
 
         #region IXmlSerializable interface
@@ -74,10 +59,8 @@ namespace Zeus.Log
             {
                 switch (reader.Name)
                 {
-                    case c_ChannelsRepositoryAttributeName:
-                        ChannelsRepository = reader.Value;
-                        break;
                     default:
+                        //no attribute expected
                         break;
                 }
                 reader.MoveToElement();
@@ -98,13 +81,6 @@ namespace Zeus.Log
 
         void IXmlSerializable.WriteXml(XmlWriter writer)
         {
-            //write channel repository path if present
-            if (!string.IsNullOrEmpty(ChannelsRepository))
-            {
-                writer.WriteStartAttribute(c_ChannelsRepositoryAttributeName);
-                writer.WriteValue(ChannelsRepository);
-                writer.WriteEndAttribute();
-            }
             //create an instance of XmlXerializer class
             XmlSerializer xs = new XmlSerializer(typeof(LogChannelSettings));
             //loop over all channels settings

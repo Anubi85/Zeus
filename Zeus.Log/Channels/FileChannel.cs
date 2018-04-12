@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Zeus.Exceptions;
 
 namespace Zeus.Log.Channels
 {
     /// <summary>
     /// Logs message to file.
     /// </summary>
+    [AllowMultipleInstances]
     public class FileChannel : ILogChannel
     {
         #region ILogChannel interface
@@ -23,12 +20,40 @@ namespace Zeus.Log.Channels
         public void Initialize(CustomLogChannelSettings settings)
         {
             //loop over all defined keys
-            foreach (string key in settings.GetKeys())
+            foreach (string key in settings.GetKeys().OrderBy(k => c_KeyPriority[k]))
             {
-                switch(key)
+                switch (key)
                 {
                     case c_FileNameKey:
                         m_FileNameTemplate = settings.GetValue<string>(c_FileNameKey);
+                        break;
+                    case c_MaxFileSizeKey:
+                        string maxFileSize = settings.GetValue<string>(c_MaxFileSizeKey);
+                        switch (maxFileSize.Last())
+                        {
+                            case 'm':
+                            case 'M':
+                                m_MaxFileSize = int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)) * (int)1E6;
+                                break;
+                            case 'k':
+                            case 'K':
+                                m_MaxFileSize = int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)) * (int)1E3;
+                                break;
+                            case 'g':
+                            case 'G':
+                                m_MaxFileSize = int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)) * (int)1E9;
+                                break;
+                            case 'l':
+                            case 'L':
+                                m_MaxFileSize = -int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)); //negative numbers mean line numbers, not file size.
+                                break;
+                            default:
+                                if (char.IsDigit(maxFileSize.Last()))
+                                {
+                                    m_MaxFileSize = int.Parse(maxFileSize);
+                                }
+                                break;
+                        }
                         break;
                     case c_CreateAnywayKey:
                         if (settings.GetValue<bool>(c_CreateAnywayKey))
@@ -55,6 +80,15 @@ namespace Zeus.Log.Channels
             }
             //log to file
             m_LogFile.WriteLine(msg.ApplyFormat(format ?? c_MsgFormat));
+            //update message counter
+            m_MsgCounter++;
+            if (m_MaxFileSize != 0)
+            {
+                if (((m_MaxFileSize > 0) && (m_MaxFileSize < m_LogFile.BaseStream.Length)) || ((m_MaxFileSize < 0) && (m_MaxFileSize + m_MsgCounter == 0)))
+                {
+                    CloseLogFile();
+                }
+            }
         }
 
         #endregion
@@ -66,19 +100,13 @@ namespace Zeus.Log.Channels
         /// </summary>
         public void Dispose()
         {
-            m_LogFile?.Flush();
-            m_LogFile?.Close();
-            m_LogFile?.Dispose();
+            CloseLogFile();
         }
 
         #endregion
 
         #region Constants
 
-        /// <summary>
-        /// Match pattern used by <see cref="Regex.Replace(string, string, string)"/> to format the file name.
-        /// </summary>
-        private const string c_MatchPattern = "(?<={{)(?i){0}(?-i)";
         /// <summary>
         /// Format string for messages logged by this channel.
         /// </summary>
@@ -91,6 +119,27 @@ namespace Zeus.Log.Channels
         /// The settings key for the file name.
         /// </summary>
         private const string c_FileNameKey = "FileName";
+        /// <summary>
+        /// The settings key for the maximum file size.
+        /// </summary>
+        private const string c_MaxFileSizeKey = "MaxFileSize";
+        /// <summary>
+        /// The dictionary that contains format keys mapping.
+        /// </summary>
+        private static readonly Dictionary<string, string> c_FormatKeys = new Dictionary<string, string>() {
+            { "Date", "0" },
+            { "Time", "0" },
+            { "Id", "1" }
+        };
+        /// <summary>
+        /// The dictionary that maps each possible settings key to its parsing priority.
+        /// </summary>
+        private static readonly Dictionary<string, int> c_KeyPriority = new Dictionary<string, int>() {
+            { c_FileNameKey, 0 },
+            { c_MaxFileSizeKey, 1 },
+            { c_CreateAnywayKey, 2 }
+        };
+
 
         #endregion
 
@@ -108,6 +157,14 @@ namespace Zeus.Log.Channels
         /// A counter that keep trace about how much log files has been created.
         /// </summary>
         private int m_FileCounter;
+        /// <summary>
+        /// A counter that keep trace about how much message has been logged.
+        /// </summary>
+        private int m_MsgCounter;
+        /// <summary>
+        /// The maximum log file size in bytes.
+        /// </summary>
+        private int m_MaxFileSize;
 
         #endregion
 
@@ -131,12 +188,54 @@ namespace Zeus.Log.Channels
         /// <returns>The <see cref="StreamWriter"/> that allows to wite logs to file.</returns>
         private StreamWriter GetLogFile()
         {
-            string parsedFormat = m_FileNameTemplate;
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Date"), "0");
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Time"), "0");
-            parsedFormat = Regex.Replace(parsedFormat, string.Format(c_MatchPattern, "Id"), "1");
-            string fileName = string.Format(parsedFormat, DateTime.UtcNow, m_FileCounter++);
-            return new StreamWriter(File.Open(fileName, FileMode.Append, FileAccess.Write, FileShare.Read)) { AutoFlush = true };
+            FileStream stream = null;
+            bool stop = false;
+            while (!stop)
+            {
+                string parsedFormat = FormatParser.Parse(m_FileNameTemplate, c_FormatKeys);
+                string fileName = string.Format(parsedFormat, DateTime.UtcNow, m_FileCounter++);
+                stream?.Flush();
+                stream?.Close();
+                stream?.Dispose();
+                stream = File.Open(fileName, FileMode.Append, FileAccess.Write, FileShare.Read);
+                //check if a restriction about file size exists
+                if (m_MaxFileSize != 0)
+                {
+                    if (m_MaxFileSize > 0)
+                    {
+                        stop = stream.Length < m_MaxFileSize;
+                    }
+                    else
+                    {
+                        m_MsgCounter = 0;
+                        using (StreamReader reader = new StreamReader(File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                        {
+                            while (reader.ReadLine() != null)
+                            {
+                                m_MsgCounter++;
+                            }
+                        }
+                        stop = m_MsgCounter + m_MaxFileSize < 0; //m_MaxFileSize is negative!
+                    }
+                }
+                else
+                {
+                    stop = true;
+                }
+            }
+            return new StreamWriter(stream) { AutoFlush = true };
+        }
+
+        /// <summary>
+        /// Closes the log file.
+        /// </summary>
+        private void CloseLogFile()
+        {
+            m_LogFile?.Flush();
+            m_LogFile?.Close();
+            m_LogFile?.Dispose();
+            m_LogFile = null;
+            m_MsgCounter = 0;
         }
 
         #endregion

@@ -52,10 +52,6 @@
       <Project>{00b7aa2b-dcb8-4ac8-8b0b-867843f7e5d0}</Project>
       <Name>Zeus.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zeus.InternalLogger\Zeus.InternalLogger.csproj">
-      <Project>{1646f32e-c6f3-445b-aeca-5fe29bbe5f61}</Project>
-      <Name>Zeus.InternalLogger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Zeus\Zeus.csproj">
       <Project>{26023327-E03F-4A49-B5C0-F130AA72C3FB}</Project>
       <Name>Zeus</Name>

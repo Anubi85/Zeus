@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
-using Zeus.InternalLogger;
+using Zeus.Exceptions;
 
 namespace Zeus.Config.Sources
 {
@@ -13,7 +13,13 @@ namespace Zeus.Config.Sources
     {
         #region Constants
 
+        /// <summary>
+        /// The <see cref="DataStore"/> tag that contains information about the file name.
+        /// </summary>
         private const string c_FileNameTag = "FileName";
+        /// <summary>
+        /// The <see cref="DataStore"/> tag that contains information about file creation option.
+        /// </summary>
         private const string c_CreateIfNotExistsTag = "CreateIfNotExists";
 
         #endregion
@@ -25,22 +31,19 @@ namespace Zeus.Config.Sources
         /// </summary>
         /// <param name="settings">Config source settings.</param>
         /// <param name="name">Config source name.</param>
-        /// <returns>Returns true if the initialization succeeds, false otherwise.</returns>
-        public bool Initialize(DataStore settings, string name)
+        public void Initialize(DataStore settings, string name)
         {
             Name = name;
             m_FileName = settings.TryGet<string>(c_FileNameTag, Path.ChangeExtension(Path.GetFileName(Environment.GetCommandLineArgs().First()), "zeus"));
             if (string.IsNullOrEmpty(m_FileName))
             {
-                Logger.Log("File name is not valid.");
                 m_FileName = null;
-                return false;
+                throw new ZeusException(ErrorCodes.InvalidSettings, "Invalid file name settings");
             }
             if (settings.TryGet<bool>(c_CreateIfNotExistsTag, true) && !File.Exists(m_FileName))
             {
                 File.Open(m_FileName, FileMode.OpenOrCreate).Close();
             }
-            return true;
         }
         /// <summary>
         /// Open the config source.
@@ -48,33 +51,16 @@ namespace Zeus.Config.Sources
         /// <returns>A <see cref="Stream"/> with the configuration data.</returns>
         public Stream Open()
         {
-            try
-            {
-                m_DataStream = File.Open(m_FileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-                return m_DataStream;
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex.Message);
-                return null;
-            }
+            m_DataStream = File.Open(m_FileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+            return m_DataStream;
         }
         /// <summary>
         /// Closes the configuration source.
         /// </summary>
-        public bool Close()
+        public void Close()
         {
-            try
-            {
-                m_DataStream.Close();
-                m_DataStream.Dispose();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(ex.Message);
-                return false;
-            }
+            m_DataStream?.Close();
+            m_DataStream?.Dispose();
         }
 
         /// <summary>

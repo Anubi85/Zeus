@@ -14,7 +14,7 @@ namespace Zeus.Exceptions
         /// <summary>
         /// The error code associated to the current instance.
         /// </summary>
-        public int ErrorCode { get; private set; }
+        public ErrorCodes ErrorCode { get; private set; }
 
         #endregion
 
@@ -23,15 +23,7 @@ namespace Zeus.Exceptions
         /// <summary>
         /// Initialize a new instance of the class with the given error code.
         /// </summary>
-        public ZeusException() : this(null, ErrorCodes.Undefined, ErrorCodes.Undefined.Message)
-        {
-        }
-
-        /// <summary>
-        /// Initialize a new instance of the class with the given error code.
-        /// </summary>
-        /// <param name="code">The error code associated with the occurred error.</param>
-        public ZeusException(ErrorCodes code) : this(null, code, code.Message)
+        public ZeusException() : this(null, ErrorCodes.Undefined, "General Error")
         {
         }
 
@@ -41,15 +33,6 @@ namespace Zeus.Exceptions
         /// <param name="code">The error code associated with the occurred error.</param>
         /// <param name="message">The message that describes the occurred error.</param>
         public ZeusException(ErrorCodes code, string message) : this(null, code, message)
-        {
-        }
-
-        /// <summary>
-        /// Initialize a new instance of the class with the specified message, inner exception and error code.
-        /// </summary>
-        /// <param name="innerException"></param>
-        /// <param name="code">The code associated with the occurred error.</param>
-        public ZeusException(Exception innerException, ErrorCodes code) : this(innerException, code, code.Message)
         {
         }
 
