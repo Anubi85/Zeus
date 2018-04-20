@@ -34,6 +34,10 @@ namespace Zeus.Config.Sources
         /// Gets the name of the config source.
         /// </summary>
         string Name { get; }
+        /// <summary>
+        /// Gets a flag that indicates if the source is readonly or not.
+        /// </summary>
+        bool IsReadOnly { get; }
 
         #endregion
     }

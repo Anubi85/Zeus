@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Zeus.Plugin.Repositories;
 
 namespace Zeus.Plugin
@@ -19,7 +17,7 @@ namespace Zeus.Plugin
         /// </summary>
         static PluginLoader()
         {
-            s_Repositories = new List<IRepository>();
+            s_Repositories = new List<RepositoryBase>();
         }
 
         #endregion
@@ -29,7 +27,7 @@ namespace Zeus.Plugin
         /// <summary>
         /// The list of the configured repositories.
         /// </summary>
-        private static List<IRepository> s_Repositories;
+        private static List<RepositoryBase> s_Repositories;
 
         #endregion
 
@@ -38,13 +36,14 @@ namespace Zeus.Plugin
         /// <summary>
         /// Add a new repository to the <see cref="PluginLoader"/>.
         /// </summary>
+        /// <param name="type">The type of the repository that has to be added.</param>
         /// <param name="repositoryPath">The path of the repository that has to be added.</param>
-        public static void AddRepository<T>(string repositoryPath) where T: IRepository, new ()
+        public static void AddRepository(RepositoryTypes type, string repositoryPath)
         {
             //check if a repository for the same path already exists
             if (!s_Repositories.Any(r => r.Path == repositoryPath))
             {
-                IRepository newRepo = new T();
+                RepositoryBase newRepo = Activator.CreateInstance(type) as RepositoryBase;
                 newRepo.Initialize(repositoryPath);
                 newRepo.Inspect();
                 s_Repositories.Add(newRepo);
@@ -57,7 +56,7 @@ namespace Zeus.Plugin
         /// <param name="repositoryPath">The path of the repository that has to be removed.</param>
         public static void RemoveRepository(string repositoryPath)
         {
-            IRepository toRemove = s_Repositories.FirstOrDefault(r => r.Path == repositoryPath);
+            RepositoryBase toRemove = s_Repositories.FirstOrDefault(r => r.Path == repositoryPath);
             if (toRemove != null)
             {
                 s_Repositories.Remove(toRemove);
@@ -69,10 +68,32 @@ namespace Zeus.Plugin
         /// </summary>
         public static void UpdateRepositorties()
         {
-            foreach(IRepository rep in s_Repositories)
+            foreach(RepositoryBase rep in s_Repositories)
             {
                 rep.Inspect();
             }
+        }
+
+        /// <summary>
+        /// Gets all the avaialble plugin <see cref="PluginFactory{T}"/> for the requested plugin type.
+        /// </summary>
+        /// <typeparam name="T">The type of the requested plugin.</typeparam>
+        /// <returns>A collection of all the <see cref="PluginFactory{T}"/> capable to instantiate a plugin of the requested type.</returns>
+        public static IEnumerable<PluginFactory<T>> GetFactories<T>() where T: class
+        {
+            return s_Repositories.SelectMany(rep => rep.GetFactories<T>());
+        }
+
+        /// <summary>
+        /// Gets all the avaialble plugin <see cref="PluginFactory{T, TMetaData}"/> for the requsted plugin type and that satisfy the filtering function.
+        /// </summary>
+        /// <typeparam name="T">The type of the requestd plugin.</typeparam>
+        /// <typeparam name="TMetaData">The type of the plugin metadata.</typeparam>
+        /// <param name="filter">The filtering funtion used to filter the available plugins.</param>
+        /// <returns>A collection of all the <see cref="PluginFactory{T, TMetaData}"/> capable to instantiate a plgin of the request type and which metadata satisfy the filtering function.</returns>
+        public static IEnumerable<PluginFactory<T>> GetFactories<T, TMetaData>(Func<TMetaData, bool> filter) where T: class where TMetaData: class
+        {
+            return s_Repositories.SelectMany(rep => rep.GetFactories<T, TMetaData>(filter));
         }
 
         #endregion

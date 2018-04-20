@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Reflection.Emit;
 using Zeus.Exceptions;
 
 namespace Zeus.Plugin.Repositories
@@ -13,55 +11,37 @@ namespace Zeus.Plugin.Repositories
     /// <summary>
     /// Represent a repository mapped to a computer directory.
     /// </summary>
-    public class DirectoryRepository : IRepository
+    internal class DirectoryRepository : RepositoryBase
     {
-        #region Fields
-
-        /// <summary>
-        /// The path to the repository directory.
-        /// </summary>
-        private string m_RepositoryPath;
-        /// <summary>
-        /// The list of the possible plugins found in the repository.
-        /// </summary>
-        private List<RepositoryRecord> m_Records;
-
-        #endregion
-
-        #region IRepository interface
+        #region RepositoryBase abstract methods
 
         /// <summary>
         /// Initialize the repository object.
         /// </summary>
         /// <param name="repositoryPath">The path of the repository.</param>
-        public void Initialize(string repositoryPath)
+        public override void Initialize(string repositoryPath)
         {
             if (string.IsNullOrEmpty(repositoryPath) || !Directory.Exists(repositoryPath))
             {
-                throw new ZeusException(ErrorCodes.RepositoryPathNotExist, string.Format("Repository {0} does not exists", repositoryPath));
+                throw new ZeusException(ErrorCodes.RepositoryPathNotExist, string.Format("Directory {0} does not exists", repositoryPath));
             }
-            m_RepositoryPath = repositoryPath;
+            Path = repositoryPath;
             m_Records = new List<RepositoryRecord>();
         }
 
         /// <summary>
         /// Inspects the repository and retrieve information about avaialble plugins.
         /// </summary>
-        public void Inspect()
+        public override void Inspect()
         {
             //create a new app domain for directory inspection
             AppDomain inspectorDomain = AppDomain.CreateDomain("InspectorAppDomain");
             //create an inspector object in the new app domain
             Inspector directoryInspector = inspectorDomain.CreateInstance<Inspector>();
-            m_Records = directoryInspector.Inspect(m_RepositoryPath);
+            m_Records = directoryInspector.Inspect(Path);
             //destroy the inspector app domain
             AppDomain.Unload(inspectorDomain);
         }
-
-        /// <summary>
-        /// Gets the repository path.
-        /// </summary>
-        public string Path { get { return m_RepositoryPath; } }
 
         #endregion
 
@@ -87,16 +67,7 @@ namespace Zeus.Plugin.Repositories
                 {
                     //load the dll
                     Assembly asm = Assembly.LoadFile(assemblyFileName);
-                    //loop over all the public types of the assembly
-                    foreach (Type t in asm.GetExportedTypes())
-                    {
-                        //check if at least one type attrbute is an instance of ExportPluginAttribute or at least inherit from it
-                        foreach (ExportPluginAttribute epa in t.GetCustomAttributes<ExportPluginAttribute>(true))
-                        {
-                            //add a new record to the results list
-                            records.Add(new RepositoryRecord(asm.Location, t.FullName, epa, epa.GetType(), epa.PluginType));
-                        }
-                    }
+                    records.AddRange(InspectAssembly(asm));
                 }
                 return records;
             }

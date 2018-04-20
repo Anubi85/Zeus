@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Zeus.Plugin
 {
     /// <summary>
-    /// This attribute allows to class marked with it to be recognized by the <see cref="PluginLoader"/> class.
-    /// This attribute does not allow multiple definition and can be applied only to clases and interfaces.
+    /// This attribute allows to the <see cref="PluginLoader"/> to recognize the class as a plugin.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
-    public class ExportPluginAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public sealed class ExportPluginAttribute : Attribute
     {
         #region Constructor
 

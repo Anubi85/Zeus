@@ -42,11 +42,15 @@
   <ItemGroup>
     <Compile Include="AppDomainExtension.cs" />
     <Compile Include="ExportPluginAttribute.cs" />
+    <Compile Include="ExportPluginMetadataAttribute.cs" />
+    <Compile Include="PluginFactory.cs" />
+    <Compile Include="Repositories\AssemblyRepository.cs" />
     <Compile Include="Repositories\DirectoryRepository.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="PluginLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\RepositoryRecord.cs" />
+    <Compile Include="Repositories\RepositoryTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zeus\Zeus.csproj">

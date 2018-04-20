@@ -21,6 +21,10 @@ namespace Zeus.Config.Sources
         /// The <see cref="DataStore"/> tag that contains information about file creation option.
         /// </summary>
         private const string c_CreateIfNotExistsTag = "CreateIfNotExists";
+        /// <summary>
+        /// The <see cref="DataStore"/> tag that contains information about config source readonly flag.
+        /// </summary>
+        private const string c_IsReadOnlyTag = "ReadOnly";
 
         #endregion
 
@@ -44,6 +48,7 @@ namespace Zeus.Config.Sources
             {
                 File.Open(m_FileName, FileMode.OpenOrCreate).Close();
             }
+            IsReadOnly = settings.TryGet<bool>(c_IsReadOnlyTag, true);
         }
         /// <summary>
         /// Open the config source.
@@ -62,11 +67,14 @@ namespace Zeus.Config.Sources
             m_DataStream?.Close();
             m_DataStream?.Dispose();
         }
-
         /// <summary>
         /// Gets the name of the confg source.
         /// </summary>
         public string Name { get; private set; }
+        /// <summary>
+        /// Gets a flag that indicates if the source is readonly or not.
+        /// </summary>
+        public bool IsReadOnly { get; private set; }
 
         #endregion
 

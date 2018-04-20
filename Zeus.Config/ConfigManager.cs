@@ -35,6 +35,7 @@ namespace Zeus.Config
             s_Sources = new List<IConfigSource>();
             //add default local source
             DataStore settings = new DataStore();
+            settings.Create<bool>("ReadOnly");
             try
             {
                 AddSource<FileSource>(settings, "Local zeus file");
@@ -125,55 +126,56 @@ namespace Zeus.Config
         public static void SaveSection<T>(T sectionData) where T : class
         {
             s_CfgMutex.WaitOne();
-            XmlSerializer xs = new XmlSerializer(typeof(T));
-            //use a memory stream to holt temporary output in order to be able to modify sections in the middle of the file.
-            using (MemoryStream ms = new MemoryStream())
+            foreach (IConfigSource source in s_Sources.Where(s => !s.IsReadOnly))
             {
-                //save only to local source
-                IConfigSource source = s_Sources.First();
-                Stream dataStream = source.Open();
-                using (XmlReader xr = XmlReader.Create(dataStream, s_ReaderSettings))
+                XmlSerializer xs = new XmlSerializer(typeof(T));
+                //use a memory stream to holt temporary output in order to be able to modify sections in the middle of the file.
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    using (XmlWriter xw = XmlWriter.Create(ms, s_WriterSettings))
+                    Stream dataStream = source.Open();
+                    using (XmlReader xr = XmlReader.Create(dataStream, s_ReaderSettings))
                     {
-                        //states need to be maually changed otherwise XmlSerializer try to write start document node
-                        //that for Fragment xml throw an exception.
-                        xw.FakeWrite();
-                        //flag to indicate if the section already exists
-                        bool dataWritten = false;
-                        xr.MoveToContent();
-                        //check if file is empty
-                        if (xr.NodeType != XmlNodeType.None)
+                        using (XmlWriter xw = XmlWriter.Create(ms, s_WriterSettings))
                         {
-                            //loop over all available sections
-                            while (xr.NodeType == XmlNodeType.Element)
+                            //states need to be maually changed otherwise XmlSerializer try to write start document node
+                            //that for Fragment xml throw an exception.
+                            xw.FakeWrite();
+                            //flag to indicate if the section already exists
+                            bool dataWritten = false;
+                            xr.MoveToContent();
+                            //check if file is empty
+                            if (xr.NodeType != XmlNodeType.None)
                             {
-                                if (xr.Name != GetSectionName<T>())
+                                //loop over all available sections
+                                while (xr.NodeType == XmlNodeType.Element)
                                 {
-                                    //if not requested section copy it to output
-                                    xw.WriteNode(xr.ReadSubtree(), false);
+                                    if (xr.Name != GetSectionName<T>())
+                                    {
+                                        //if not requested section copy it to output
+                                        xw.WriteNode(xr.ReadSubtree(), false);
+                                    }
+                                    else
+                                    {
+                                        xs.Serialize(xw, sectionData, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
+                                        dataWritten = true;
+                                    }
+                                    //move to next section
+                                    xr.Skip();
                                 }
-                                else
-                                {
-                                    xs.Serialize(xw, sectionData, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
-                                    dataWritten = true;
-                                }
-                                //move to next section
-                                xr.Skip();
+                            }
+                            if (!dataWritten)
+                            {
+                                //section has not been found, create it
+                                xs.Serialize(xw, sectionData, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
                             }
                         }
-                        if (!dataWritten)
-                        {
-                            //section has not been found, create it
-                            xs.Serialize(xw, sectionData, new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty }));
-                        }
                     }
+                    //update the settings file with the data stored in the temporary memory stream
+                    dataStream.Seek(0, SeekOrigin.Begin);
+                    dataStream.SetLength(0);
+                    dataStream.Write(ms.GetBuffer(), 0, (int)ms.Length);
+                    source.Close();
                 }
-                //update the settings file with the data stored in the temporary memory stream
-                dataStream.Seek(0, SeekOrigin.Begin);
-                dataStream.SetLength(0);
-                dataStream.Write(ms.GetBuffer(), 0, (int)ms.Length);
-                source.Close();
             }
             s_CfgMutex.ReleaseMutex();
         }
@@ -188,6 +190,31 @@ namespace Zeus.Config
             IConfigSource newSource = (IConfigSource)Activator.CreateInstance(typeof(T), true);
             newSource.Initialize(settings, name);
             s_Sources.Add(newSource);
+        }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the readonly flag of the local configuration source.
+        /// </summary>
+        public static bool IsLocalSourceReadOnly
+        {
+            get
+            {
+                s_CfgMutex.WaitOne();
+                bool res = s_Sources.First().IsReadOnly;
+                s_CfgMutex.ReleaseMutex();
+                return res;
+            }
+            set
+            {
+                s_CfgMutex.WaitOne();
+                IConfigSource localSource = s_Sources.First();
+                localSource.GetType().GetProperty("IsReadOnly").SetValue(localSource, value);
+                s_CfgMutex.ReleaseMutex();
+            }
         }
 
         #endregion
