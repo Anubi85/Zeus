@@ -23,17 +23,12 @@ namespace Zeus.Config.Sources
         /// Initialize the configuration source.
         /// </summary>
         /// <param name="settings">The settings needed by the <see cref="IConfigSource"/> to initialize the source.</param>
-        /// <param name="name">The name of the config source.</param>
-        void Initialize(DataStore settings, string name);
+        void Initialize(DataStore settings);
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets the name of the config source.
-        /// </summary>
-        string Name { get; }
         /// <summary>
         /// Gets a flag that indicates if the source is readonly or not.
         /// </summary>

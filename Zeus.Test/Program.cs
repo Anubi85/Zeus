@@ -28,14 +28,6 @@ namespace Zeus.Test
             {
                 Console.WriteLine(et);
             }
-            LogSettings settings = ConfigManager.LoadSection<LogSettings>();
-            ConfigManager.IsLocalSourceReadOnly = true;
-            LogChannelSettings lcs = new LogChannelSettings();
-            lcs.ChannelName = "DynamicFile";
-            lcs.ChannelType = "FileChannel";
-            lcs.CustomSettings.SetValue<string>("FileName", "dynamic.csv");
-            settings.ChannelSettings.Add(lcs);
-            ConfigManager.SaveSection<LogSettings>(settings);
             Console.ReadLine();
             LogManager.Start();
             Console.ReadLine();

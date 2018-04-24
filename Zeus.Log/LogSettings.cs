@@ -10,7 +10,7 @@ namespace Zeus.Log
     /// Containsthe settings of the application logger.
     /// The name of the Xml configration file node associated with this class is "message".
     /// </summary>
-    [SectionName("logs")]
+    [SectionName("log")]
     public class LogSettings : IXmlSerializable
     {
         #region Fields

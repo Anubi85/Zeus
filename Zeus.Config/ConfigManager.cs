@@ -38,11 +38,50 @@ namespace Zeus.Config
             settings.Create<bool>("ReadOnly");
             try
             {
-                AddSource<FileSource>(settings, "Local zeus file");
+                AddSource<FileSource>(settings);
             }
             catch (Exception ex)
             {
                 throw new ZeusException(ErrorCodes.ConfigManagerInitFailed, ex.Message);
+            }
+            //try read configuration file
+            ConfigSettings configSettings = null;
+            //get configuration file source
+            IConfigSource source = s_Sources.First();
+            Stream dataStream = source.Open();
+            using (XmlReader xr = XmlReader.Create(dataStream, s_ReaderSettings))
+            {
+                //move to root node
+                xr.MoveToContent();
+                //search for requested section
+                if (xr.IsStartElement("config") || xr.ReadToFollowing("config"))
+                {
+                    //check if config section has been found
+                    if (xr.NodeType != XmlNodeType.None)
+                    {
+                        //create config settings instance
+                        configSettings = new ConfigSettings();
+                        //read settings from xml file
+                        IXmlSerializable serializer = configSettings as IXmlSerializable;
+                        serializer.ReadXml(xr);
+                    }
+                }
+            }
+            //close the configureation file
+            source.Close();
+            //if settings exists apply them
+            if (configSettings != null)
+            {
+                //get the add source method
+                MethodInfo addSourceMethod = typeof(ConfigManager).GetMethod("AddSource");
+                if (addSourceMethod != null)
+                {
+                    foreach (Tuple<Type, DataStore> sourceSettings in configSettings.Sources)
+                    {
+                        //add the configured sources
+                        addSourceMethod.MakeGenericMethod(sourceSettings.Item1).Invoke(null, new[] { sourceSettings.Item2 });
+                    }
+                }
             }
         }
 
@@ -184,11 +223,10 @@ namespace Zeus.Config
         /// </summary>
         /// <typeparam name="T">The <see cref="Type"/> of the source that has to be added.</typeparam>
         /// <param name="settings">The new source settings.</param>
-        /// <param name="name">The new source name.</param>
-        public static void AddSource<T>(DataStore settings, string name) where T : IConfigSource
+        public static void AddSource<T>(DataStore settings) where T : IConfigSource
         {
             IConfigSource newSource = (IConfigSource)Activator.CreateInstance(typeof(T), true);
-            newSource.Initialize(settings, name);
+            newSource.Initialize(settings);
             s_Sources.Add(newSource);
         }
 
