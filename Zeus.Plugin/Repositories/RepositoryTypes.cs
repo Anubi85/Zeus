@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Zeus.Patterns;
 
 namespace Zeus.Plugin.Repositories
@@ -57,6 +54,14 @@ namespace Zeus.Plugin.Repositories
         public static implicit operator string (RepositoryTypes value)
         {
             return value.Description;
+        }
+        /// <summary>
+        /// Converts the type name into corresponding <see cref="RepositoryTypes"/> if exists, return null otherwise.
+        /// </summary>
+        /// <param name="typeName">The name of the type to be converted.</param>
+        public static implicit operator RepositoryTypes (string typeName)
+        {
+            return GetValues().FirstOrDefault(v => v.RepositoryClassType.Name == typeName);
         }
 
         #endregion

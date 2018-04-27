@@ -24,8 +24,9 @@ namespace Zeus.Plugin
             PluginSettings settings = ConfigManager.LoadSection<PluginSettings>();
             if (settings != null)
             {
-                foreach(KeyValuePair<string, DataStore> repoSettings in settings.RepositorySettings)
+                foreach (KeyValuePair<string, DataStore> repoSettings in settings.RepositorySettings)
                 {
+                    AddRepository(repoSettings.Key, repoSettings.Value);
                 }
             }
         }
@@ -47,29 +48,16 @@ namespace Zeus.Plugin
         /// Add a new repository to the <see cref="PluginLoader"/>.
         /// </summary>
         /// <param name="type">The type of the repository that has to be added.</param>
-        /// <param name="repositoryPath">The path of the repository that has to be added.</param>
-        public static void AddRepository(RepositoryTypes type, string repositoryPath)
+        /// <param name="settings">The data needed to initialize the repository.</param>
+        public static void AddRepository(RepositoryTypes type, DataStore settings)
         {
             //check if a repository for the same path already exists
-            if (!s_Repositories.Any(r => r.Path == repositoryPath))
+            if (!s_Repositories.Any(r => r.EqualsTo(settings)))
             {
                 RepositoryBase newRepo = Activator.CreateInstance(type) as RepositoryBase;
-                newRepo.Initialize(repositoryPath);
+                newRepo.Initialize(settings);
                 newRepo.Inspect();
                 s_Repositories.Add(newRepo);
-            }
-        }
-
-        /// <summary>
-        /// Remove a repository from the <see cref="PluginLoader"/>.
-        /// </summary>
-        /// <param name="repositoryPath">The path of the repository that has to be removed.</param>
-        public static void RemoveRepository(string repositoryPath)
-        {
-            RepositoryBase toRemove = s_Repositories.FirstOrDefault(r => r.Path == repositoryPath);
-            if (toRemove != null)
-            {
-                s_Repositories.Remove(toRemove);
             }
         }
 
@@ -78,7 +66,7 @@ namespace Zeus.Plugin
         /// </summary>
         public static void UpdateRepositorties()
         {
-            foreach(RepositoryBase rep in s_Repositories)
+            foreach (RepositoryBase rep in s_Repositories)
             {
                 rep.Inspect();
             }
@@ -89,7 +77,7 @@ namespace Zeus.Plugin
         /// </summary>
         /// <typeparam name="T">The type of the requested plugin.</typeparam>
         /// <returns>A collection of all the <see cref="PluginFactory{T}"/> capable to instantiate a plugin of the requested type.</returns>
-        public static IEnumerable<PluginFactory<T>> GetFactories<T>() where T: class
+        public static IEnumerable<PluginFactory<T>> GetFactories<T>() where T : class
         {
             return s_Repositories.SelectMany(rep => rep.GetFactories<T>());
         }
@@ -101,7 +89,7 @@ namespace Zeus.Plugin
         /// <typeparam name="TMetaData">The type of the plugin metadata.</typeparam>
         /// <param name="filter">The filtering funtion used to filter the available plugins.</param>
         /// <returns>A collection of all the <see cref="PluginFactory{T, TMetaData}"/> capable to instantiate a plgin of the request type and which metadata satisfy the filtering function.</returns>
-        public static IEnumerable<PluginFactory<T>> GetFactories<T, TMetaData>(Func<TMetaData, bool> filter) where T: class where TMetaData: class
+        public static IEnumerable<PluginFactory<T>> GetFactories<T, TMetaData>(Func<TMetaData, bool> filter) where T : class where TMetaData : class
         {
             return s_Repositories.SelectMany(rep => rep.GetFactories<T, TMetaData>(filter));
         }

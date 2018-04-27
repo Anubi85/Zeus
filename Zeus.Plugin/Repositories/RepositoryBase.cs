@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using Zeus.Data;
 
 namespace Zeus.Plugin.Repositories
 {
@@ -26,8 +27,8 @@ namespace Zeus.Plugin.Repositories
         /// <summary>
         /// Initialize the repository object.
         /// </summary>
-        /// <param name="repositoryPath">The path of the repository.</param>
-        public abstract void Initialize(string repositoryPath);
+        /// <param name="settings">The data needed to initialize the repository.</param>
+        public abstract void Initialize(DataStore settings);
 
         /// <summary>
         /// Inspects the repository and retrieve information about avaialble plugins.
@@ -164,15 +165,12 @@ namespace Zeus.Plugin.Repositories
             //create the dummy type
             return tb.CreateType();
         }
-
-        #endregion
-
-        #region Properties
-
         /// <summary>
-        /// Gets the repository path.
+        /// Compare the current repository object with the settings provided to check if it is the same.
         /// </summary>
-        public string Path { get; set; }
+        /// <param name="settings">the repository settings that has to be checked.</param>
+        /// <returns>Returns true if the repository are the same, false otherwise.</returns>
+        public abstract bool EqualsTo(DataStore settings);
 
         #endregion
     }

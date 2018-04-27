@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
+using Zeus.Data;
 using Zeus.Exceptions;
 
 namespace Zeus.Plugin.Repositories
@@ -13,22 +12,40 @@ namespace Zeus.Plugin.Repositories
     /// </summary>
     internal class DirectoryRepository : RepositoryBase
     {
+        #region Constants
+
+        /// <summary>
+        /// The tag name of the directory path data in the <see cref="DataStore"/> object that contains repository settings.
+        /// </summary>
+        private const string c_DirectoryPathTag = "Path";
+
+        #endregion
+
+        #region Fields
+
+        /// <summary>
+        /// The path of the directory to wich the repository is linked.
+        /// </summary>
+        private string m_directoryPath;
+
+        #endregion
+
         #region RepositoryBase abstract methods
 
         /// <summary>
         /// Initialize the repository object.
         /// </summary>
-        /// <param name="repositoryPath">The path of the repository.</param>
-        public override void Initialize(string repositoryPath)
+        /// <param name="settings">The data needed to initialize the repository.</param>
+        public override void Initialize(DataStore settings)
         {
+            string repositoryPath = settings.TryGet<string>(c_DirectoryPathTag, null);
             if (string.IsNullOrEmpty(repositoryPath) || !Directory.Exists(repositoryPath))
             {
                 throw new ZeusException(ErrorCodes.RepositoryPathNotExist, string.Format("Directory {0} does not exists", repositoryPath));
             }
-            Path = repositoryPath;
+            m_directoryPath = repositoryPath;
             m_Records = new List<RepositoryRecord>();
         }
-
         /// <summary>
         /// Inspects the repository and retrieve information about avaialble plugins.
         /// </summary>
@@ -38,9 +55,18 @@ namespace Zeus.Plugin.Repositories
             AppDomain inspectorDomain = AppDomain.CreateDomain("InspectorAppDomain");
             //create an inspector object in the new app domain
             Inspector directoryInspector = inspectorDomain.CreateInstance<Inspector>();
-            m_Records = directoryInspector.Inspect(Path);
+            m_Records = directoryInspector.Inspect(m_directoryPath);
             //destroy the inspector app domain
             AppDomain.Unload(inspectorDomain);
+        }
+        /// <summary>
+        /// Compare the current repository object with the settings provided to check if it is the same.
+        /// </summary>
+        /// <param name="settings">the repository settings that has to be checked.</param>
+        /// <returns>Returns true if the repository are the same, false otherwise.</returns>
+        public override bool EqualsTo(DataStore settings)
+        {
+            return m_directoryPath == settings.TryGet<string>(c_DirectoryPathTag, null);
         }
 
         #endregion

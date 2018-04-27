@@ -11,7 +11,6 @@ using Zeus.Config;
 using Zeus.Data;
 using Zeus.Log.Channels;
 using Zeus.Plugin;
-using Zeus.Plugin.Repositories;
 
 namespace Zeus.Log
 {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Zeus.Data;
 using Zeus.Exceptions;
 
 namespace Zeus.Plugin.Repositories
@@ -13,6 +10,19 @@ namespace Zeus.Plugin.Repositories
     /// </summary>
     internal class AssemblyRepository : RepositoryBase
     {
+        #region Constants
+
+        /// <summary>
+        /// The tag name of the assembly name data in the <see cref="DataStore"/> object that contains repository settings.
+        /// </summary>
+        private const string c_AssemblyNameTag = "AssemblyName";
+        /// <summary>
+        /// The tag name of the assembly data in the <see cref="DataStore"/> object that contains repository settings.
+        /// </summary>
+        private const string c_AssemblyTag = "Assembly";
+
+        #endregion
+
         #region Fields
 
         /// <summary>
@@ -27,19 +37,28 @@ namespace Zeus.Plugin.Repositories
         /// <summary>
         /// Initialize the repository object.
         /// </summary>
-        /// <param name="repositoryPath">The path of the repository.</param>
-        public override void Initialize(string repositoryPath)
+        /// <param name="settings">The data needed to initialize the repository.</param>
+        public override void Initialize(DataStore settings)
         {
+            string assemblyName = settings.TryGet<string>(c_AssemblyNameTag, null);
             try
             {
-                m_Assembly = Assembly.Load(new AssemblyName(repositoryPath));
-                Path = repositoryPath;
-                m_Records = new List<RepositoryRecord>();
+                if (!string.IsNullOrEmpty(assemblyName))
+                {
+                    m_Assembly = Assembly.Load(new AssemblyName(assemblyName));
+                }
             }
             catch
             {
-                throw new ZeusException(ErrorCodes.RepositoryPathNotExist, string.Format("Assembly {0} not found", repositoryPath));
+                throw new ZeusException(ErrorCodes.RepositoryPathNotExist, string.Format("Assembly {0} not found", assemblyName));
             }
+            //if also an assembly has been provided it has priority over the assemly name
+            m_Assembly = settings.TryGet<Assembly>(c_AssemblyTag, m_Assembly);
+            if (m_Assembly == null)
+            {
+                throw new ZeusException(ErrorCodes.RepositoryPathNotExist, "No assembly provided for the repository");
+            }
+            m_Records = new List<RepositoryRecord>();
         }
 
         /// <summary>
@@ -51,6 +70,23 @@ namespace Zeus.Plugin.Repositories
             m_Records.Clear();
             //inspect the assembly
             m_Records.AddRange(InspectAssembly(m_Assembly));
+        }
+
+        /// <summary>
+        /// Compare the current repository object with the settings provided to check if it is the same.
+        /// </summary>
+        /// <param name="settings">the repository settings that has to be checked.</param>
+        /// <returns>Returns true if the repository are the same, false otherwise.</returns>
+        public override bool EqualsTo(DataStore settings)
+        {
+            string assemblyName = settings.TryGet<string>(c_AssemblyNameTag, null);
+            if (!string.IsNullOrEmpty(assemblyName))
+            {
+                return m_Assembly.GetName() == new AssemblyName(assemblyName);
+            }
+            //if an assembly has been provided
+            Assembly asm = settings.TryGet<Assembly>(c_AssemblyTag, m_Assembly);
+            return m_Assembly == asm;
         }
 
         #endregion

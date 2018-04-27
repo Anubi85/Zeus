@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -35,7 +36,9 @@ namespace Zeus.Log
         {
             m_ChannelSettings = new List<KeyValuePair<string, DataStore>>();
             //configure the plugin loader
-            PluginLoader.AddRepository(RepositoryTypes.Assembly, typeof(ILogChannel).Assembly.FullName);
+            DataStore settings = new DataStore();
+            settings.Create<Assembly>("Assembly", typeof(ILogChannel).Assembly);
+            PluginLoader.AddRepository(RepositoryTypes.Assembly, settings);
         }
 
         #endregion
