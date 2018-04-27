@@ -1,0 +1,4 @@
+PluginSettings class to configure repositories
+Log channel for Athena as plugin
+Athena WCF service
+Athena WPF viewer

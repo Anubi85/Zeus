@@ -1,4 +1,4 @@
 ﻿<log>
-	<channel Type="ConsoleChannel" Name="ConsoleTest" MinLvl="Info" />
-  <channel Type="FileChannel" Name="FileTest" FileName="Log.csv" MaxLvl="Success" />
+  <ConsoleChannel MinLvl="Info" />
+  <FileChannel FileName="Log.csv" MaxLvl="Success" />
 </log>

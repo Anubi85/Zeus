@@ -43,8 +43,8 @@
     <Compile Include="Channels\ConsoleChannel.cs" />
     <Compile Include="Channels\FileChannel.cs" />
     <Compile Include="Channels\ILogChannel.cs" />
-    <Compile Include="CustomLogChannelSettings.cs" />
-    <Compile Include="LogChannelSettings.cs" />
+    <Compile Include="Channels\ILogChannelMetaData.cs" />
+    <Compile Include="Channels\LogChannelBase.cs" />
     <Compile Include="LogLevels.cs" />
     <Compile Include="LogManager.cs" />
     <Compile Include="LogMessage.cs" />
@@ -56,6 +56,14 @@
     <ProjectReference Include="..\Zeus.Config\Zeus.Config.csproj">
       <Project>{56d03dcd-2d5b-40b8-9515-590c8263975f}</Project>
       <Name>Zeus.Config</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zeus.Data\Zeus.Data.csproj">
+      <Project>{00B7AA2B-DCB8-4AC8-8B0B-867843F7E5D0}</Project>
+      <Name>Zeus.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zeus.Plugin\Zeus.Plugin.csproj">
+      <Project>{41CEFAA2-BC57-4F40-A056-9E12038AEE1D}</Project>
+      <Name>Zeus.Plugin</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zeus\Zeus.csproj">
       <Project>{26023327-E03F-4A49-B5C0-F130AA72C3FB}</Project>

@@ -1,28 +1,23 @@
 ﻿using System;
+using Zeus.Data;
+using Zeus.Plugin;
 
 namespace Zeus.Log.Channels
 {
     /// <summary>
     /// Logs a message to the console.
     /// </summary>
-    public class ConsoleChannel : ILogChannel
+    [ExportPlugin(typeof(ILogChannel))]
+    [ExportPluginMetadata("Name", "ConsoleChannel")]
+    public class ConsoleChannel : LogChannelBase
     {
         #region ILogChannel interface
-
-        /// <summary>
-        /// Initializes the log channel.
-        /// </summary>
-        /// <param name="settings">The object that contains channel settings.</param>
-        public void Initialize(CustomLogChannelSettings settings)
-        {
-        }
 
         /// <summary>
         /// Writes a new message on the console.
         /// </summary>
         /// <param name="msg">The message that has to be processed.</param>
-        /// <param name="format">The message format string.</param>
-        public void WriteMessage(LogMessage msg, string format)
+        public override void WriteMessage(LogMessage msg)
         {
             ConsoleColor original = Console.ForegroundColor;
             switch (msg.Level)
@@ -51,19 +46,7 @@ namespace Zeus.Log.Channels
             }
             Console.Write(string.Format("[{0}]:", msg.Level).PadRight(12));
             Console.ForegroundColor = original;
-            Console.WriteLine(msg.ApplyFormat(format ?? c_MsgFormat));
-        }
-
-        #endregion
-
-        #region IDisposable interface
-
-        /// <summary>
-        /// Releases unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-
+            Console.WriteLine(msg.ApplyFormat(MessageFormat ?? c_MsgFormat));
         }
 
         #endregion

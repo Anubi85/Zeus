@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -14,16 +12,16 @@ namespace Zeus.Config
     /// <summary>
     /// Contains the settings for the configuration manager.
     /// </summary>
-    class ConfigSettings : IXmlSerializable
+    internal class ConfigSettings : IXmlSerializable
     {
         #region Fields
 
         /// <summary>
         /// The list of the avaiavle sources data.
         /// </summary>
-        private List<Tuple<Type, DataStore>> m_Sources;
+        private List<KeyValuePair<Type, DataStore>> m_Sources;
         /// <summary>
-        /// A disctionary that associate avaialble source types to its names.
+        /// A dictionary that associate avaialble source types to its names.
         /// </summary>
         private static Dictionary<string, Type> s_AvaialbleSources;
 
@@ -36,7 +34,7 @@ namespace Zeus.Config
         /// </summary>
         public ConfigSettings()
         {
-            m_Sources = new List<Tuple<Type, DataStore>>();
+            m_Sources = new List<KeyValuePair<Type, DataStore>>();
         }
         /// <summary>
         /// Initialize class static fields.
@@ -56,7 +54,7 @@ namespace Zeus.Config
         /// <summary>
         /// Gets the configured sources data.
         /// </summary>
-        public List<Tuple<Type, DataStore>> Sources { get { return m_Sources; } }
+        public List<KeyValuePair<Type, DataStore>> Sources { get { return m_Sources; } }
 
         #endregion
 
@@ -79,11 +77,19 @@ namespace Zeus.Config
                 //deserialize channel settings if channel type exists
                 if (s_AvaialbleSources.ContainsKey(reader.Name))
                 {
-                    IXmlSettingsParser parser = Activator.CreateInstance(s_AvaialbleSources[reader.Name], true) as IXmlSettingsParser;
-                    if (parser != null)
+                    KeyValuePair<Type, DataStore> srcInfo = new KeyValuePair<Type, DataStore>(s_AvaialbleSources[reader.Name], new DataStore());
+                    while(reader.MoveToNextAttribute())
                     {
-                        m_Sources.Add(new Tuple<Type, DataStore> (s_AvaialbleSources[reader.Name], parser.ParseXmlData(reader)));
+                        srcInfo.Value.Create<string>(reader.Name, reader.Value);
                     }
+                    reader.MoveToElement();
+                    string elemName = reader.Name;
+                    reader.ReadStartElement();
+                    if (reader.NodeType == XmlNodeType.EndElement && reader.Name == elemName)
+                    {
+                        reader.ReadEndElement();
+                    }
+                    m_Sources.Add(srcInfo);
                 }
             }
             //read end element of the xml configuration

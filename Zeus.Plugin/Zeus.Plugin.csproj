@@ -44,6 +44,7 @@
     <Compile Include="ExportPluginAttribute.cs" />
     <Compile Include="ExportPluginMetadataAttribute.cs" />
     <Compile Include="PluginFactory.cs" />
+    <Compile Include="PluginSettings.cs" />
     <Compile Include="Repositories\AssemblyRepository.cs" />
     <Compile Include="Repositories\DirectoryRepository.cs" />
     <Compile Include="PluginLoader.cs" />
@@ -53,6 +54,14 @@
     <Compile Include="Repositories\RepositoryTypes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Zeus.Config\Zeus.Config.csproj">
+      <Project>{56D03DCD-2D5B-40B8-9515-590C8263975F}</Project>
+      <Name>Zeus.Config</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zeus.Data\Zeus.Data.csproj">
+      <Project>{00B7AA2B-DCB8-4AC8-8B0B-867843F7E5D0}</Project>
+      <Name>Zeus.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zeus\Zeus.csproj">
       <Project>{26023327-E03F-4A49-B5C0-F130AA72C3FB}</Project>
       <Name>Zeus</Name>

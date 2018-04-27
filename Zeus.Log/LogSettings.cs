@@ -3,22 +3,26 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using Zeus.Config;
+using Zeus.Data;
+using Zeus.Log.Channels;
+using Zeus.Plugin;
+using Zeus.Plugin.Repositories;
 
 namespace Zeus.Log
 {
     /// <summary>
-    /// Containsthe settings of the application logger.
-    /// The name of the Xml configration file node associated with this class is "message".
+    /// Contains the settings of the application logger.
+    /// The name of the Xml configration file node associated with this class is "log".
     /// </summary>
     [SectionName("log")]
-    public class LogSettings : IXmlSerializable
+    public sealed class LogSettings : IXmlSerializable
     {
         #region Fields
 
         /// <summary>
-        /// List of <see cref="ChannelSettings"/> objects that contains configuration information for log channels.
+        /// List of objects that contains configuration information for log channels.
         /// </summary>
-        private List<LogChannelSettings> m_ChannelSettings;
+        private List<KeyValuePair<string, DataStore>> m_ChannelSettings;
 
         #endregion
 
@@ -29,7 +33,9 @@ namespace Zeus.Log
         /// </summary>
         public LogSettings()
         {
-            m_ChannelSettings = new List<LogChannelSettings>();
+            m_ChannelSettings = new List<KeyValuePair<string, DataStore>>();
+            //configure the plugin loader
+            PluginLoader.AddRepository(RepositoryTypes.Assembly, typeof(ILogChannel).Assembly.FullName);
         }
 
         #endregion
@@ -37,9 +43,9 @@ namespace Zeus.Log
         #region Properties
 
         /// <summary>
-        /// Gets a list of <see cref="ChannelSettings"/> objects that contains channels configuration information.
+        /// Gets a list of objects that contains channels configuration information.
         /// </summary>
-        public List<LogChannelSettings> ChannelSettings { get { return m_ChannelSettings; } }
+        public IList<KeyValuePair<string, DataStore>> ChannelSettings { get { return m_ChannelSettings; } }
 
         #endregion
 
@@ -54,26 +60,28 @@ namespace Zeus.Log
         {
             //clear the channels settings list
             m_ChannelSettings.Clear();
-            //read repository path if present
-            while (reader.MoveToNextAttribute())
-            {
-                switch (reader.Name)
-                {
-                    default:
-                        //no attribute expected
-                        break;
-                }
-                reader.MoveToElement();
-            }
             //read start element of the xml configuration
             reader.ReadStartElement();
-            //create an instance of XmlSerializer class used to deseialize channel settings
-            XmlSerializer xs = new XmlSerializer(typeof(LogChannelSettings));
             //read all the nodes until the end element node is reached
             while (reader.NodeType != XmlNodeType.EndElement)
             {
-                //deserialize channel settings
-                m_ChannelSettings.Add((LogChannelSettings)xs.Deserialize(reader));
+                //prepare the item for the channel list
+                KeyValuePair<string, DataStore> chInfo = new KeyValuePair<string, DataStore>(reader.Name, new DataStore());
+                while (reader.MoveToNextAttribute())
+                {
+                    //read the attributes into the data store
+                    chInfo.Value.Create<string>(reader.Name, reader.Value);
+                }
+                //read the element
+                reader.MoveToElement();
+                string elemName = reader.Name;
+                reader.ReadStartElement();
+                if (reader.NodeType == XmlNodeType.EndElement && reader.Name == elemName)
+                {
+                    reader.ReadEndElement();
+                }
+                //add new data into channel settings list
+                m_ChannelSettings.Add(chInfo);
             }
             //read end element of the xml configuration
             reader.ReadEndElement();
@@ -81,13 +89,17 @@ namespace Zeus.Log
 
         void IXmlSerializable.WriteXml(XmlWriter writer)
         {
-            //create an instance of XmlXerializer class
-            XmlSerializer xs = new XmlSerializer(typeof(LogChannelSettings));
-            //loop over all channels settings
-            foreach (LogChannelSettings cs in m_ChannelSettings)
+            //loop over all configured channels
+            foreach (KeyValuePair<string, DataStore> chInfo in m_ChannelSettings)
             {
-                //serialize all channel settings
-                xs.Serialize(writer, cs);
+                writer.WriteStartElement(chInfo.Key);
+                foreach (string key in chInfo.Value.GetTags())
+                {
+                    writer.WriteStartAttribute(key);
+                    writer.WriteValue(chInfo.Value.Get<string>(key));
+                    writer.WriteEndAttribute();
+                }
+                writer.WriteEndElement();
             }
         }
 

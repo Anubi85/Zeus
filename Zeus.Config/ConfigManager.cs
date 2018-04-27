@@ -76,10 +76,10 @@ namespace Zeus.Config
                 MethodInfo addSourceMethod = typeof(ConfigManager).GetMethod("AddSource");
                 if (addSourceMethod != null)
                 {
-                    foreach (Tuple<Type, DataStore> sourceSettings in configSettings.Sources)
+                    foreach (KeyValuePair<Type, DataStore> sourceSettings in configSettings.Sources)
                     {
                         //add the configured sources
-                        addSourceMethod.MakeGenericMethod(sourceSettings.Item1).Invoke(null, new[] { sourceSettings.Item2 });
+                        addSourceMethod.MakeGenericMethod(sourceSettings.Key).Invoke(null, new[] { sourceSettings.Value });
                     }
                 }
             }

@@ -44,5 +44,9 @@ namespace Zeus
         /// Repository path does not exist error.
         /// </summary>
         RepositoryPathNotExist,
+        /// <summary>
+        /// The requested repository class was not found error.
+        /// </summary>
+        RepositoryClassNotFound,
     }
 }

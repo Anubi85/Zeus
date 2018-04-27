@@ -46,7 +46,6 @@
     <Compile Include="Sources\IConfigSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\FileSource.cs" />
-    <Compile Include="Sources\IXmlSettingsParser.cs" />
     <Compile Include="XmlWriterExtension.cs" />
   </ItemGroup>
   <ItemGroup>

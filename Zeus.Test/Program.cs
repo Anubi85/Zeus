@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
 using Zeus.Config;
+using Zeus.Data;
 using Zeus.InternalLogger;
 using Zeus.Log;
 using Zeus.Patterns;
@@ -24,6 +25,12 @@ namespace Zeus.Test
 
         static void Main(string[] args)
         {
+            DataStore store = new DataStore();
+            store.Create<bool>("test1", false);
+            store.Set<string>("test1", "true");
+            bool test1 = store.Get<bool>("test1");
+            store.Create<string>("test2", "true");
+            bool test = store.Get<bool>("test2");
             foreach (EnumTest et in EnumTest.GetValues())
             {
                 Console.WriteLine(et);

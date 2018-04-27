@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Zeus.Data;
+using Zeus.Plugin;
 
 namespace Zeus.Log.Channels
 {
@@ -9,7 +11,9 @@ namespace Zeus.Log.Channels
     /// Logs message to file.
     /// </summary>
     [AllowMultipleInstances]
-    public class FileChannel : ILogChannel
+    [ExportPlugin(typeof(ILogChannel))]
+    [ExportPluginMetadata("Name", "FileChannel")]
+    public class FileChannel : LogChannelBase
     {
         #region ILogChannel interface
 
@@ -17,51 +21,45 @@ namespace Zeus.Log.Channels
         /// Initializes the log channel.
         /// </summary>
         /// <param name="settings">The object that contains channel settings.</param>
-        public void Initialize(CustomLogChannelSettings settings)
+        public override void Initialize(DataStore settings)
         {
-            //loop over all defined keys
-            foreach (string key in settings.GetKeys().OrderBy(k => c_KeyPriority[k]))
+            base.Initialize(settings);
+            //try get file name
+            m_FileNameTemplate = settings.TryGet<string>(c_FileNameKey, m_FileNameTemplate);
+            //try get the max file size
+            string maxFileSize = settings.TryGet<string>(c_MaxFileSizeKey, null);
+            if (!string.IsNullOrEmpty(maxFileSize))
             {
-                switch (key)
+                switch (maxFileSize.Last())
                 {
-                    case c_FileNameKey:
-                        m_FileNameTemplate = settings.GetValue<string>(c_FileNameKey);
+                    case 'm':
+                    case 'M':
+                        m_MaxFileSize = int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)) * (int)1E6;
                         break;
-                    case c_MaxFileSizeKey:
-                        string maxFileSize = settings.GetValue<string>(c_MaxFileSizeKey);
-                        switch (maxFileSize.Last())
-                        {
-                            case 'm':
-                            case 'M':
-                                m_MaxFileSize = int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)) * (int)1E6;
-                                break;
-                            case 'k':
-                            case 'K':
-                                m_MaxFileSize = int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)) * (int)1E3;
-                                break;
-                            case 'g':
-                            case 'G':
-                                m_MaxFileSize = int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)) * (int)1E9;
-                                break;
-                            case 'l':
-                            case 'L':
-                                m_MaxFileSize = -int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)); //negative numbers mean line numbers, not file size.
-                                break;
-                            default:
-                                if (char.IsDigit(maxFileSize.Last()))
-                                {
-                                    m_MaxFileSize = int.Parse(maxFileSize);
-                                }
-                                break;
-                        }
+                    case 'k':
+                    case 'K':
+                        m_MaxFileSize = int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)) * (int)1E3;
                         break;
-                    case c_CreateAnywayKey:
-                        if (settings.GetValue<bool>(c_CreateAnywayKey))
+                    case 'g':
+                    case 'G':
+                        m_MaxFileSize = int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)) * (int)1E9;
+                        break;
+                    case 'l':
+                    case 'L':
+                        m_MaxFileSize = -int.Parse(maxFileSize.Substring(0, maxFileSize.Length - 1)); //negative numbers mean line numbers, not file size.
+                        break;
+                    default:
+                        if (char.IsDigit(maxFileSize.Last()))
                         {
-                            m_LogFile = GetLogFile();
+                            m_MaxFileSize = int.Parse(maxFileSize);
                         }
                         break;
                 }
+            }
+            //try get create anyway flag
+            if (settings.TryGet<bool>(c_CreateAnywayKey, false))
+            {
+                m_LogFile = GetLogFile();
             }
         }
 
@@ -69,8 +67,7 @@ namespace Zeus.Log.Channels
         /// Writes a new message on the console.
         /// </summary>
         /// <param name="msg">The message that has to be processed.</param>
-        /// <param name="format">The message format string.</param>
-        public void WriteMessage(LogMessage msg, string format)
+        public override void WriteMessage(LogMessage msg)
         {
             //check for file existance
             if (m_LogFile == null)
@@ -79,7 +76,7 @@ namespace Zeus.Log.Channels
                 m_LogFile = GetLogFile();
             }
             //log to file
-            m_LogFile.WriteLine(msg.ApplyFormat(format ?? c_MsgFormat));
+            m_LogFile.WriteLine(msg.ApplyFormat(MessageFormat ?? c_MsgFormat));
             //update message counter
             m_MsgCounter++;
             if (m_MaxFileSize != 0)
@@ -98,7 +95,7 @@ namespace Zeus.Log.Channels
         /// <summary>
         /// Releases unmanaged resources.
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             CloseLogFile();
         }
@@ -131,15 +128,6 @@ namespace Zeus.Log.Channels
             { "Time", "0" },
             { "Id", "1" }
         };
-        /// <summary>
-        /// The dictionary that maps each possible settings key to its parsing priority.
-        /// </summary>
-        private static readonly Dictionary<string, int> c_KeyPriority = new Dictionary<string, int>() {
-            { c_FileNameKey, 0 },
-            { c_MaxFileSizeKey, 1 },
-            { c_CreateAnywayKey, 2 }
-        };
-
 
         #endregion
 

@@ -10,7 +10,7 @@ namespace Zeus.Config.Sources
     /// <summary>
     /// Gives access to a .odin configuration file.
     /// </summary>
-    public sealed class FileSource : IConfigSource, IXmlSettingsParser
+    public sealed class FileSource : IConfigSource
     {
         #region Constants
 
@@ -70,39 +70,6 @@ namespace Zeus.Config.Sources
         /// Gets a flag that indicates if the source is readonly or not.
         /// </summary>
         public bool IsReadOnly { get; private set; }
-
-        #endregion
-
-        #region IXmlSettingsParser interface
-
-        /// <summary>
-        /// Parses the xml attributes of a config source node into a <see cref="DataStore"/>.
-        /// </summary>
-        /// <param name="reader">The <see cref="XmlReader"> object from where read the data.</param>
-        /// <returns>The <see cref="DataStore"/> object with the parsed data.</returns>
-        DataStore IXmlSettingsParser.ParseXmlData(XmlReader reader)
-        {
-            DataStore res = new DataStore();
-            while(reader.MoveToNextAttribute())
-            {
-                switch(reader.Name)
-                {
-                    case c_FileNameTag:
-                        res.Create<string>(c_FileNameTag, reader.Value);
-                        break;
-                    case c_IsReadOnlyTag:
-                        res.Create<bool>(c_IsReadOnlyTag, bool.Parse(reader.Value));
-                        break;
-                    case c_CreateIfNotExistsTag:
-                        res.Create<bool>(c_CreateIfNotExistsTag, bool.Parse(reader.Value));
-                        break;
-                }
-            }
-            //move back to start element and read it
-            reader.MoveToElement();
-            reader.ReadStartElement();            
-            return res;
-        }
 
         #endregion
 

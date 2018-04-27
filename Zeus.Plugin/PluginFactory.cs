@@ -7,7 +7,7 @@ namespace Zeus.Plugin
     /// A factory that creates instance of the given type <typeparamref name="T"/>
     /// </summary>
     /// <typeparam name="T">The type of the objects instantieted by the factory.</typeparam>
-    public class PluginFactory<T> where T: class
+    public sealed class PluginFactory<T> where T: class
     {
         #region Constructor
 
@@ -28,7 +28,7 @@ namespace Zeus.Plugin
         /// <summary>
         /// The type of the instances created by this facotry.
         /// </summary>
-        protected Type m_InstancesType;
+        private Type m_InstancesType;
 
         #endregion
 
@@ -42,6 +42,15 @@ namespace Zeus.Plugin
         {
             return (T)Activator.CreateInstance(m_InstancesType);
         }
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the type of the plugin.
+        /// </summary>
+        public Type PluginType { get { return m_InstancesType; } }
 
         #endregion
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Zeus.Config;
+using Zeus.Data;
 using Zeus.Plugin.Repositories;
 
 namespace Zeus.Plugin
@@ -18,6 +20,14 @@ namespace Zeus.Plugin
         static PluginLoader()
         {
             s_Repositories = new List<RepositoryBase>();
+            //load settings from configuration
+            PluginSettings settings = ConfigManager.LoadSection<PluginSettings>();
+            if (settings != null)
+            {
+                foreach(KeyValuePair<string, DataStore> repoSettings in settings.RepositorySettings)
+                {
+                }
+            }
         }
 
         #endregion

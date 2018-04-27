@@ -1,6 +1,8 @@
 ﻿using Zeus.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 namespace Zeus.Data
 {
@@ -52,29 +54,6 @@ namespace Zeus.Data
                 Idx = idx;
                 ValueType = type;
                 Value = value;
-            }
-
-            #endregion
-
-            #region Methods
-
-            /// <summary>
-            /// Check if the <see cref="Record"/> data can be cast to <typeparamref name="T"/> <see cref="Type"/>.
-            /// </summary>
-            /// <typeparam name="T">The <see cref="Type"/> that has to be checked.</typeparam>
-            /// <returns>True if the <see cref="Record"/> can be cast to <typeparamref name="T"/> <see cref="Type"/>, false otherwise.</returns>
-            public bool CanCastTo<T>()
-            {
-                return typeof(T).IsAssignableFrom(ValueType);
-            }
-            /// <summary>
-            /// Check if the <see cref="Record"/> can be cast from <typeparamref name="T"/> <see cref="Type"/>.
-            /// </summary>
-            /// <typeparam name="T">The <see cref="Type"/> that has to be checked.</typeparam>
-            /// <returns>True if the <see cref="Record"/> can be cast from <typeparamref name="T"/> <see cref="Type"/>, false otherwise.</returns>
-            public bool CanCastFrom<T>()
-            {
-                return ValueType.IsAssignableFrom(typeof(T));
             }
 
             #endregion
@@ -240,6 +219,32 @@ namespace Zeus.Data
         }
         /// <summary>
         /// Set the value of an item in the data store.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Type"/> of the new value.</typeparam>
+        /// <param name="record">The record which that has to be set.</param>
+        /// <param name="value">The new record value.</param>
+        private void Set<T>(Record record, T value)
+        {
+            if (!(record.Value is T))
+            {
+                Type inType = typeof(T);
+                TypeConverter converter = TypeDescriptor.GetConverter(record.ValueType);
+                if (converter.CanConvertFrom(inType))
+                {
+                    record.Value = converter.ConvertFrom(value);
+                }
+                else
+                {
+                    throw new ZeusException(ErrorCodes.TypeMismatch, string.Format("Type {0} is not compatible with stored type ({1})", inType.Name, record.ValueType.Name));
+                }
+            }
+            else
+            {
+                record.Value = value;
+            }
+        }
+        /// <summary>
+        /// Set the value of an item in the data store.
         /// If the tag does not exists it will be created.
         /// </summary>
         /// <typeparam name="T">The <see cref="Type"/> of the new value.</typeparam>
@@ -254,14 +259,7 @@ namespace Zeus.Data
             else
             {
                 Record record = m_RecordDic[tag];
-                if (record.CanCastFrom<T>())
-                {
-                    record.Value = value;
-                }
-                else
-                {
-                    throw new ZeusException(ErrorCodes.TypeMismatch, string.Format("Type {0} is not compatible with stored type ({1}) for tag {2}", typeof(T).Name, record.ValueType.Name, tag));
-                }
+                Set<T>(record, value);
             }
         }
         /// <summary>
@@ -279,14 +277,32 @@ namespace Zeus.Data
             else
             {
                 Record record = m_RecordList[idx];
-                if (record.CanCastFrom<T>())
+                Set<T>(record, value);
+            }
+        }
+        /// <summary>
+        /// Get the value of a record in the data store.
+        /// </summary>
+        /// <typeparam name="T">The <see cref="Type"/> of the value to be retrieved.</typeparam>
+        /// <param name="record">The record which value has to be retrieved.</param>
+        /// <returns>The stored value.</returns>
+        private T Get<T>(Record record)
+        {
+            if (!(record.Value is T))
+            {
+                Type outType = typeof(T);
+                TypeConverter converter = TypeDescriptor.GetConverter(outType);
+                //check type compatibility
+                if (!converter.CanConvertFrom(record.ValueType))
                 {
-                    record.Value = value;
+                    throw new ZeusException(ErrorCodes.TypeMismatch, string.Format("Requested type {0} is incompatible with stored type {1}", outType.Name, record.ValueType.Name));
                 }
-                else
-                {
-                    throw new ZeusException(ErrorCodes.TypeMismatch, string.Format("Type {0} is not compatible with stored type ({1}) for index {2}", typeof(T).Name, record.ValueType.Name, idx));
-                }
+                //everithing ok
+                return (T)converter.ConvertFrom(record.Value);
+            }
+            else
+            {
+                return (T)record.Value;
             }
         }
         /// <summary>
@@ -304,13 +320,7 @@ namespace Zeus.Data
             }
             //get the record
             Record record = m_RecordDic[tag];
-            //check type compatibility
-            if (!record.CanCastTo<T>())
-            {
-                throw new ZeusException(ErrorCodes.TypeMismatch, string.Format("Requested type {0} for tag {1} is incompatible with stored type {2}", typeof(T).Name, tag, record.ValueType.Name));
-            }
-            //everithing ok
-            return (T)record.Value;
+            return Get<T>(record);
         }
         /// <summary>
         /// Get the value of an item in the data store.
@@ -327,13 +337,7 @@ namespace Zeus.Data
             }
             //get the record
             Record record = m_RecordList[idx];
-            //check type compatibility
-            if (!record.CanCastTo<T>())
-            {
-                throw new ZeusException(ErrorCodes.TypeMismatch, string.Format("Requested type {0} for index {1} is incompatible with stored type {2}", typeof(T).Name, idx, record.ValueType.Name));
-            }
-            //everithing ok
-            return (T)record.Value;
+            return Get<T>(record);
         }
         /// <summary>
         /// Try to get the requested value from the data store.
@@ -402,6 +406,22 @@ namespace Zeus.Data
             }
             //everithing ok
             return m_RecordList[idx].Tag;
+        }
+        /// <summary>
+        /// Gets all the avaialble tags of the <see cref="DataStore"/>.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> of all the avaialble tags.</returns>
+        public IEnumerable<string> GetTags()
+        {
+            return m_RecordList.Select(r => r.Tag);
+        }
+        /// <summary>
+        /// Gets all the avaialble index of the <see cref="DataStore"/>.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> of all the available indexes.</returns>
+        public IEnumerable<int> GetIdxs()
+        {
+            return m_RecordList.Select(r => r.Idx);
         }
 
         #endregion
