@@ -1,4 +1,8 @@
-﻿<log>
-  <ConsoleChannel MinLvl="Info" />
-  <FileChannel FileName="Log.csv" MaxLvl="Success" />
+﻿<plugin>
+  <DirectoryRepository Path="..\..\..\..\Athena\Redist" />
+</plugin>
+<log>
+  <ConsoleChannel MinLvl="Info" MaxLvl="Fatal" />
+  <FileChannel MinLvl="Trace" MaxLvl="Success" CreateAnyway="true" FileName="Log_{id}.csv" MaxFileSize="128" />
+  <AthenaChannel />
 </log>

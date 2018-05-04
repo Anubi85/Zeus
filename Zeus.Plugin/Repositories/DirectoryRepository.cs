@@ -89,7 +89,7 @@ namespace Zeus.Plugin.Repositories
             {
                 List<RepositoryRecord> records = new List<RepositoryRecord>();
                 //gets all the files with .dll extension contained in the inspected directory
-                foreach (string assemblyFileName in Directory.GetFiles(folder, "*.dll"))
+                foreach (string assemblyFileName in Directory.GetFiles(Path.GetFullPath(folder), "*.dll"))
                 {
                     //load the dll
                     Assembly asm = Assembly.LoadFile(assemblyFileName);

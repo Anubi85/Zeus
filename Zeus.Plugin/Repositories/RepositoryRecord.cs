@@ -9,8 +9,18 @@ namespace Zeus.Plugin.Repositories
     /// <summary>
     /// Contains all the information relative to a repository record.
     /// </summary>
-    sealed class RepositoryRecord
+    [Serializable]
+    internal class RepositoryRecord
     {
+        #region Fields
+
+        /// <summary>
+        /// A cache to store the dummy types created for the metadata interfaces.
+        /// </summary>
+        private static Dictionary<Type, Type> s_MetaDataTypesCache;
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
@@ -26,6 +36,13 @@ namespace Zeus.Plugin.Repositories
             TypeName = typeName;
             ExportedType = exportedType;
             MetaData = metadata;
+        }
+        /// <summary>
+        /// Initialize class static fields.
+        /// </summary>
+        static RepositoryRecord()
+        {
+            s_MetaDataTypesCache = new Dictionary<Type, Type>();
         }
 
         #endregion
@@ -69,48 +86,59 @@ namespace Zeus.Plugin.Repositories
             {
                 throw new ArgumentException("Provided type is not an interface", "metadataType");
             }
-            //create a type builder object
-            TypeBuilder tb = AppDomain.CurrentDomain
-                .DefineDynamicAssembly(new AssemblyName("PluginRepository"), AssemblyBuilderAccess.Run)
-                .DefineDynamicModule("PluginRepository")
-                .DefineType("Dummy" + metadataType.Name);
-            //implement the interface
-            tb.AddInterfaceImplementation(metadataType);
-            //implement interface methods
-            foreach (MethodInfo mi in metadataType.GetMethods())
+            Type dummyMetaDataType;
+            //check for metadata type into the cache
+            if (s_MetaDataTypesCache.ContainsKey(metadataType))
             {
-                if (!mi.IsSpecialName)
+                dummyMetaDataType = s_MetaDataTypesCache[metadataType];
+            }
+            else
+            {
+                //create a type builder object
+                TypeBuilder tb = AppDomain.CurrentDomain
+                    .DefineDynamicAssembly(new AssemblyName("PluginRepository"), AssemblyBuilderAccess.Run)
+                    .DefineDynamicModule("PluginRepository")
+                    .DefineType("Dummy" + metadataType.Name);
+                //implement the interface
+                tb.AddInterfaceImplementation(metadataType);
+                //implement interface methods
+                foreach (MethodInfo mi in metadataType.GetMethods())
                 {
-                    MethodBuilder mb = tb.DefineMethod(mi.Name, MethodAttributes.Public | MethodAttributes.Virtual, mi.ReturnType, mi.GetParameters().Select(pi => pi.ParameterType).ToArray());
-                    if (mi.IsGenericMethod)
+                    if (!mi.IsSpecialName)
                     {
-                        mb.DefineGenericParameters(mi.GetGenericArguments().Select(t => t.Name).ToArray());
+                        MethodBuilder mb = tb.DefineMethod(mi.Name, MethodAttributes.Public | MethodAttributes.Virtual, mi.ReturnType, mi.GetParameters().Select(pi => pi.ParameterType).ToArray());
+                        if (mi.IsGenericMethod)
+                        {
+                            mb.DefineGenericParameters(mi.GetGenericArguments().Select(t => t.Name).ToArray());
+                        }
+                        ILGenerator gen = mb.GetILGenerator();
+                        gen.ThrowException(typeof(NotImplementedException));
                     }
-                    ILGenerator gen = mb.GetILGenerator();
-                    gen.ThrowException(typeof(NotImplementedException));
                 }
+                //implement interface properties
+                foreach (PropertyInfo pi in metadataType.GetProperties())
+                {
+                    FieldBuilder fb = tb.DefineField("m_" + pi.Name, pi.PropertyType, FieldAttributes.Private);
+                    PropertyBuilder pb = tb.DefineProperty(pi.Name, PropertyAttributes.None, pi.PropertyType, null);
+                    MethodBuilder mbGet = tb.DefineMethod("get_" + pi.Name, MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig | MethodAttributes.Virtual, pi.PropertyType, null);
+                    ILGenerator genGet = mbGet.GetILGenerator();
+                    genGet.Emit(OpCodes.Ldarg_0);
+                    genGet.Emit(OpCodes.Ldfld, fb);
+                    genGet.Emit(OpCodes.Ret);
+                    MethodBuilder mbSet = tb.DefineMethod("set_" + pi.Name, MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig | MethodAttributes.Virtual, null, new[] { pi.PropertyType });
+                    ILGenerator genSet = mbSet.GetILGenerator();
+                    genSet.Emit(OpCodes.Ldarg_0);
+                    genSet.Emit(OpCodes.Ldarg_1);
+                    genSet.Emit(OpCodes.Stfld, fb);
+                    genSet.Emit(OpCodes.Ret);
+                    pb.SetGetMethod(mbGet);
+                    pb.SetSetMethod(mbSet);
+                }
+                //create the dummy type
+                dummyMetaDataType = tb.CreateType();
+                //add it to the cahce
+                s_MetaDataTypesCache.Add(metadataType, dummyMetaDataType);
             }
-            //implement interface properties
-            foreach (PropertyInfo pi in metadataType.GetProperties())
-            {
-                FieldBuilder fb = tb.DefineField("m_" + pi.Name, pi.PropertyType, FieldAttributes.Private);
-                PropertyBuilder pb = tb.DefineProperty(pi.Name, PropertyAttributes.None, pi.PropertyType, null);
-                MethodBuilder mbGet = tb.DefineMethod("get_" + pi.Name, MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig | MethodAttributes.Virtual, pi.PropertyType, null);
-                ILGenerator genGet = mbGet.GetILGenerator();
-                genGet.Emit(OpCodes.Ldarg_0);
-                genGet.Emit(OpCodes.Ldfld, fb);
-                genGet.Emit(OpCodes.Ret);
-                MethodBuilder mbSet = tb.DefineMethod("set_" + pi.Name, MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig | MethodAttributes.Virtual, null, new[] { pi.PropertyType });
-                ILGenerator genSet = mbSet.GetILGenerator();
-                genSet.Emit(OpCodes.Ldarg_0);
-                genSet.Emit(OpCodes.Ldarg_1);
-                genSet.Emit(OpCodes.Stfld, fb);
-                genSet.Emit(OpCodes.Ret);
-                pb.SetGetMethod(mbGet);
-                pb.SetSetMethod(mbSet);
-            }
-            //create the dummy type
-            Type dummyMetaDataType = tb.CreateType();
             //assign metadata to dummy type instance
             object metadataObj = Activator.CreateInstance(dummyMetaDataType);
             foreach(KeyValuePair<string, object> metadataKVP in metadata)

@@ -9,6 +9,7 @@ using Zeus.Config;
 using Zeus.Data;
 using Zeus.InternalLogger;
 using Zeus.Log;
+using Zeus.Log.Channels;
 using Zeus.Patterns;
 using Zeus.Plugin;
 using Zeus.Plugin.Repositories;
