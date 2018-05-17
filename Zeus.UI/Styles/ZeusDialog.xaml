@@ -89,7 +89,7 @@
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
-                                Margin="0,5,0,0"
+                                Padding="5"
                                 Background="{TemplateBinding Background}"
                                 Foreground="{TemplateBinding Foreground}"
                                 Content="{TemplateBinding Content}"/>

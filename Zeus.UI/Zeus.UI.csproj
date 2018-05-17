@@ -57,6 +57,10 @@
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="Mvvm\ServiceLocator.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Page Include="Styles\Label.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Menu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
