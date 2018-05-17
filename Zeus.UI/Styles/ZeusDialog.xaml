@@ -20,6 +20,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="WindowStyle" Value="ToolWindow" />
+        <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome
