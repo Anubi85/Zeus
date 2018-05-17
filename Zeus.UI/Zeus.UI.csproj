@@ -50,6 +50,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ZeusDialog.cs" />
     <Compile Include="Mvvm\DialogService.cs" />
     <Compile Include="Mvvm\Interfaces\IDialogService.cs" />
     <Compile Include="Mvvm\ObservableObject.cs" />
@@ -79,6 +80,10 @@
     <Page Include="Styles\ZeusButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ZeusDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\ZeusWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

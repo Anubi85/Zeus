@@ -4,6 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusButton.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusWindow.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDialog.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/Zeus.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -1,0 +1,101 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Zeus.UI.Controls"
+                    xmlns:converters="clr-namespace:Zeus.UI.Converters">
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    <Style TargetType="{x:Type local:ZeusDialog}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource BlueColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="WindowStyle" Value="ToolWindow" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome
+                    CornerRadius="0"
+                    GlassFrameThickness="0"
+                    UseAeroCaptionButtons="False"
+                    NonClientFrameEdges="None"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ZeusDialog}">
+                    <Border
+                        x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Background="{TemplateBinding BorderBrush}">
+                                <Grid
+                                    Margin="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        Grid.Column="0"
+                                        Padding="0"
+                                        VerticalAlignment="Center"
+                                        Foreground="{TemplateBinding Background}"
+                                        Content="{TemplateBinding Title}"/>
+                                    <local:ZeusButton
+                                        Grid.Column="1"
+                                        WindowChrome.IsHitTestVisibleInChrome="True"
+                                        Color="Red"
+                                        MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                        MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                                        Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
+                                        Visibility="{Binding ShowCloseButton, Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ZeusWindow}}}"
+                                        Foreground="{TemplateBinding Background}">
+                                        <Grid>
+                                            <Path
+                                                RenderOptions.EdgeMode="Aliased"
+                                                Width="9"
+                                                Height="9"
+                                                Data="M0,0 L9,9 M9,0 L0,9 Z"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ZeusButton}}}"
+                                                StrokeThickness="1.5" />
+                                        </Grid>
+                                    </local:ZeusButton>
+                                </Grid>
+                            </Border>
+                            <ContentControl
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Margin="0,5,0,0"
+                                Background="{TemplateBinding Background}"
+                                Foreground="{TemplateBinding Foreground}"
+                                Content="{TemplateBinding Content}"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
