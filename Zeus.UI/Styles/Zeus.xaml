@@ -2,5 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Zeus.UI.Controls">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/Menu.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/MenuItem.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/StatusBar.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/StatusBarItem.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

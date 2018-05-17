@@ -90,8 +90,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CircularBuffer.cs" />
+    <Compile Include="CircularIndex.cs" />
     <Compile Include="ErrorCodes.cs" />
     <Compile Include="Exceptions\ZeusException.cs" />
+    <Compile Include="Extensions\IComparableExtension.cs" />
     <Compile Include="FormatParser.cs" />
     <Compile Include="Patterns\Singleton.cs" />
     <Compile Include="Patterns\TypeSafeEnumBase.cs" />

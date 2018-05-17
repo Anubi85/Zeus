@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Zeus.Plugin
@@ -14,11 +15,14 @@ namespace Zeus.Plugin
         /// <summary>
         /// Initialize class fields and load the assembly provided if needed.
         /// </summary>
+        /// <param name="asmName">The name of the assembly that contains the requested type.</param>
         /// <param name="asmPath">The path of the assembly that contains the requested type.</param>
         /// <param name="typeName">The name of the type to load.</param>
-        internal PluginFactory(string asmPath, string typeName)
+        internal PluginFactory(string asmName, string asmPath, string typeName)
         {
-            m_InstancesType = Assembly.LoadFile(asmPath).GetType(typeName);
+            //check if an assembly with the same name has already been loaded
+            Assembly asm = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == asmName) ?? Assembly.LoadFrom(asmPath);
+            m_InstancesType = asm.GetType(typeName);
         }
 
         #endregion

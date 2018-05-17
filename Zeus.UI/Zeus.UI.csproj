@@ -50,27 +50,49 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Styles\Odin.xaml">
+    <Compile Include="Mvvm\DialogService.cs" />
+    <Compile Include="Mvvm\Interfaces\IDialogService.cs" />
+    <Compile Include="Mvvm\ObservableObject.cs" />
+    <Compile Include="Mvvm\RelayCommand.cs" />
+    <Compile Include="Mvvm\ServiceLocator.cs" />
+    <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Page Include="Styles\Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\MenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\StatusBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\StatusBarItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Zeus.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\OdinButton.xaml">
+    <Page Include="Styles\ZeusButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\OdinWindow.xaml">
+    <Page Include="Styles\ZeusWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Odin.Colors.xaml">
+    <Page Include="Themes\Zeus.Colors.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Odin.Dark.xaml">
+    <Page Include="Themes\Zeus.Dark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Odin.Light.xaml">
+    <Page Include="Themes\Zeus.Light.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -78,9 +100,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Controls\OdinButton.cs" />
-    <Compile Include="Controls\OdinTrayIcon.cs" />
-    <Compile Include="Controls\OdinWindow.cs" />
+    <Compile Include="Controls\ZeusButton.cs" />
+    <Compile Include="Controls\ZeusTrayIcon.cs" />
+    <Compile Include="Controls\ZeusWindow.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +136,10 @@
     <ProjectReference Include="..\Zeus.Helpers\Zeus.Helpers.csproj">
       <Project>{c9938270-db0a-446d-9c8f-4b95164cf916}</Project>
       <Name>Zeus.Helpers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zeus\Zeus.csproj">
+      <Project>{26023327-E03F-4A49-B5C0-F130AA72C3FB}</Project>
+      <Name>Zeus</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

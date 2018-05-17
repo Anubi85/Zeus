@@ -48,5 +48,13 @@ namespace Zeus
         /// The requested repository class was not found error.
         /// </summary>
         RepositoryClassNotFound,
+        /// <summary>
+        /// The registration already exists error.
+        /// </summary>
+        RegistrationAlreadyExists,
+        /// <summary>
+        /// The registration do not exist error.
+        /// </summary>
+        RegistrationDoNotExists,
     }
 }

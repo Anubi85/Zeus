@@ -5,8 +5,10 @@ using System.Numerics;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.Text;
+using Zeus;
 using Zeus.Config;
 using Zeus.Data;
+using Zeus.Extensions;
 using Zeus.InternalLogger;
 using Zeus.Log;
 using Zeus.Log.Channels;
@@ -26,6 +28,21 @@ namespace Zeus.Test
 
         static void Main(string[] args)
         {
+            CircularBuffer<double> buff = new CircularBuffer<double>(5);
+            buff.Add(1);
+            buff.Add(2);
+            buff.ChangeCapacity(3);
+            buff.Add(3);
+            buff.Add(4);
+            buff.Add(5);
+            buff.ChangeCapacity(4);
+            buff.Add(6);
+            buff.Add(7);
+            buff.Add(8);
+            foreach (double d in buff)
+            {
+                Console.WriteLine(d);
+            }
             DataStore store = new DataStore();
             store.Create<bool>("test1", false);
             store.Set<string>("test1", "true");

@@ -27,12 +27,14 @@ namespace Zeus.Plugin.Repositories
         /// Initialize class properties.
         /// </summary>
         /// <param name="assemblyName">Name of the <see cref="Assembly"/>.</param>
+        /// <param name="assemblyPath">Path of the <see cref="Assembly"/>.</param>
         /// <param name="typeName">Name of the exported plugin <see cref="Type"/>.</param>
         /// <param name="exportedType">The plugin exported <see cref="Type"/>.</param>
         /// <param name="metadata">Metadata of the exported plugin.</param>
-        public RepositoryRecord(string assemblyName, string typeName, Type exportedType, Dictionary<string, object> metadata)
+        public RepositoryRecord(string assemblyName, string assemblyPath, string typeName, Type exportedType, Dictionary<string, object> metadata)
         {
             AssemblyName = assemblyName;
+            AssemblyPath = assemblyPath;
             TypeName = typeName;
             ExportedType = exportedType;
             MetaData = metadata;
@@ -50,9 +52,14 @@ namespace Zeus.Plugin.Repositories
         #region Properties
 
         /// <summary>
-        /// Gets the <see cref="System.Reflection.Assembly"/> name.
+        /// Gets the <see cref="Assembly"/> name.
         /// </summary>
         public string AssemblyName { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="Assembly"/> path.
+        /// </summary>
+        public string AssemblyPath { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="Type"/> name of the exported type

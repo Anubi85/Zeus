@@ -25,6 +25,9 @@ namespace Zeus.UI.Controls
         public ZeusWindow()
         {
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, (sender, e) => SystemCommands.CloseWindow(this)));
+            CommandBindings.Add(new CommandBinding(SystemCommands.MaximizeWindowCommand, (sender, e) => SystemCommands.MaximizeWindow(this)));
+            CommandBindings.Add(new CommandBinding(SystemCommands.RestoreWindowCommand, (sender, e) => SystemCommands.RestoreWindow(this)));
+            CommandBindings.Add(new CommandBinding(SystemCommands.MinimizeWindowCommand, (sender, e) => SystemCommands.MinimizeWindow(this)));
             Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/Zeus.UI;component/Styles/Zeus.xaml", UriKind.Relative) });
         }
 
@@ -36,6 +39,14 @@ namespace Zeus.UI.Controls
         /// <see cref="DependencyProperty"/> that handle window close button visibility.
         /// </summary>
         public static readonly DependencyProperty ShowCloseButtonProperty = DependencyProperty.Register("ShowCloseButton", typeof(bool), typeof(ZeusWindow));
+        /// <summary>
+        /// <see cref="DependencyProperty"/> that handle window minimize button visibility.
+        /// </summary>
+        public static readonly DependencyProperty ShowMinimizeButtonProperty = DependencyProperty.Register("ShowMinimizeButton", typeof(bool), typeof(ZeusWindow));
+        /// <summary>
+        /// <see cref="DependencyProperty"/> that handle window maximize button visibility.
+        /// </summary>
+        public static readonly DependencyProperty ShowMaximizeButtonProperty = DependencyProperty.Register("ShowMaximizeButton", typeof(bool), typeof(ZeusWindow));
 
         #endregion
 
@@ -48,6 +59,22 @@ namespace Zeus.UI.Controls
         {
             get { return (bool)GetValue(ShowCloseButtonProperty); }
             set { SetValue(ShowCloseButtonProperty, value); }
+        }
+        /// <summary>
+        /// Flag that handle window minimize button visibility.
+        /// </summary>
+        public bool ShowMinimizeButton
+        {
+            get { return (bool)GetValue(ShowMinimizeButtonProperty); }
+            set { SetValue(ShowMinimizeButtonProperty, value); }
+        }
+        /// <summary>
+        /// Flag that handle window maximize button visibility.
+        /// </summary>
+        public bool ShowMaximizeButton
+        {
+            get { return (bool)GetValue(ShowMaximizeButtonProperty); }
+            set { SetValue(ShowMaximizeButtonProperty, value); }
         }
 
         #endregion

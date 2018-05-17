@@ -29,12 +29,10 @@ namespace Zeus.Plugin.Repositories
         /// </summary>
         /// <param name="settings">The data needed to initialize the repository.</param>
         public abstract void Initialize(DataStore settings);
-
         /// <summary>
         /// Inspects the repository and retrieve information about avaialble plugins.
         /// </summary>
         public abstract void Inspect();
-
         /// <summary>
         /// Gets all the avaialble plugin <see cref="PluginFactory{T}"/> for the requested plugin type.
         /// </summary>
@@ -42,24 +40,22 @@ namespace Zeus.Plugin.Repositories
         /// <returns>A collection of all the <see cref="PluginFactory{T}"/> capable to instantiate a plugin of the requested type.</returns>
         public IEnumerable<PluginFactory<T>> GetFactories<T>() where T : class
         {
-            return m_Records.Where(r => r.ExportedType == typeof(T)).Select(r => new PluginFactory<T>(r.AssemblyName, r.TypeName));
+            return m_Records.Where(r => r.ExportedType == typeof(T)).Select(r => new PluginFactory<T>(r.AssemblyName, r.AssemblyPath, r.TypeName));
         }
-
         /// <summary>
-        /// Gets all the avaialble plugin <see cref="PluginFactory{T, TMetaData}"/> for the requsted plugin type and that satisfy the filtering function.
+        /// Gets all the avaialble plugin <see cref="PluginFactory{T}"/> for the requsted plugin type and that satisfy the filtering function.
         /// </summary>
         /// <typeparam name="T">The type of the requestd plugin.</typeparam>
         /// <typeparam name="TMetaData">The type of the plugin metadata.</typeparam>
         /// <param name="filter">The filtering funtion used to filter the available plugins.</param>
-        /// <returns>A collection of all the <see cref="PluginFactory{T, TMetaData}"/> capable to instantiate a plgin of the request type and which metadata satisfy the filtering function.</returns>
+        /// <returns>A collection of all the <see cref="PluginFactory{T}"/> capable to instantiate a plgin of the request type and which metadata satisfy the filtering function.</returns>
         public IEnumerable<PluginFactory<T>> GetFactories<T, TMetaData>(Func<TMetaData, bool> filter) where T : class where TMetaData : class
         {
             return m_Records.Where(r => r.ExportedType == typeof(T))
                 .Where(r => r.MetaData.Count > 0)
                 .Where(r => filter(GetMetaData<TMetaData>(r.MetaData)))
-                .Select(r => new PluginFactory<T>(r.AssemblyName, r.TypeName));
+                .Select(r => new PluginFactory<T>(r.AssemblyName, r.AssemblyPath, r.TypeName));
         }
-
         /// <summary>
         /// Inspect the given assembly to discovery all avaialble plugins.
         /// </summary>
@@ -81,7 +77,7 @@ namespace Zeus.Plugin.Repositories
                         metadata.Add(epma.Name, epma.Value);
                     }
                     //add a new record to the results list
-                    records.Add(new RepositoryRecord(asm.Location, t.FullName, epa.PluginType, metadata));
+                    records.Add(new RepositoryRecord(asm.FullName, asm.Location, t.FullName, epa.PluginType, metadata));
                 }
             }
             return records;
@@ -90,7 +86,7 @@ namespace Zeus.Plugin.Repositories
         /// Gets the metadata object instance. Eventually create a runtime dummy type to store metadata if <typeparamref name="TMetaData"/> <see cref="Type"/> id an interface.
         /// </summary>
         /// <typeparam name="TMetaData">The type of the metadata.</typeparam>
-        /// <param name="metadataDict">The metadata information.</param>
+        /// <param name="metadata">The metadata information.</param>
         /// <returns>The object of type <typeparamref name="TMetaData"/> that contains the metadata information.</returns>
         private static TMetaData GetMetaData<TMetaData>(Dictionary<string, object> metadata) where TMetaData : class
         {

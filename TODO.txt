@@ -1,4 +1,6 @@
-Log channel for Athena as plugin
-Athena WCF service
 Athena WPF viewer
 Remove InternalLogger project
+Handle NoResize mode
+Handle WindowStyle None mode
+Implementare dialog service
+Implementare ZeusMessageBox

@@ -1,5 +1,0 @@
-Zeus.dll
-Zeus.Config.dll
-Zeus.Log.dll
-Zeus.Input.dll
-Zeus.Data.dll
