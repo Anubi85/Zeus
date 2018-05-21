@@ -27,6 +27,10 @@ namespace Zeus.UI.Controls
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusButton"/> color styles.
         /// </summary>
         public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(ZeusColorStyles), typeof(ZeusButton));
+        /// <summary>
+        /// <see cref="DependencyProperty"/> that handle <see cref="ZeusButton"/> border styles.
+        /// </summary>
+        public static readonly DependencyProperty IsBorderedProperty = DependencyProperty.Register("IsBordered", typeof(bool), typeof(ZeusButton));
 
         #endregion
 
@@ -39,6 +43,14 @@ namespace Zeus.UI.Controls
         {
             get { return (ZeusColorStyles)GetValue(ColorProperty); }
             set { SetValue(ColorProperty, value); }
+        }
+        /// <summary>
+        /// Gets or sets <see cref="ZeusButton"/> border style.
+        /// </summary>
+        public bool IsBordered
+        {
+            get { return (bool)GetValue(IsBorderedProperty); }
+            set { SetValue(IsBorderedProperty, value); }
         }
 
         #endregion
