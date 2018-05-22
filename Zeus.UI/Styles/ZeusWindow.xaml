@@ -156,14 +156,16 @@
                                     </StackPanel>
                                 </Grid>
                             </Border>
-                            <ContentControl
+                            <AdornerDecorator
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
-                                Margin="0,5,0,0"
-                                Background="{TemplateBinding Background}"
-                                Foreground="{TemplateBinding Foreground}"
-                                Content="{TemplateBinding Content}"/>
+                                Margin="0,5,0,0">
+                                <ContentControl
+                                    Background="{TemplateBinding Background}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Content="{TemplateBinding Content}"/>
+                            </AdornerDecorator>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

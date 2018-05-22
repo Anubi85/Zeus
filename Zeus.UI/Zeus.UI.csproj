@@ -51,12 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ZeusDialog.cs" />
+    <Compile Include="Converters\InvertThicknessConverter.cs" />
     <Compile Include="Mvvm\DialogService.cs" />
     <Compile Include="Mvvm\Interfaces\IDialogService.cs" />
     <Compile Include="Mvvm\ObservableObject.cs" />
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="Mvvm\ServiceLocator.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Compile Include="ValidationRules\IPTextValidationRule.cs" />
     <Page Include="Styles\Label.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -74,6 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\StatusBarItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\TextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

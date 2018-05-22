@@ -69,7 +69,7 @@
                                         MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                         MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                                         Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
-                                        Visibility="{Binding ShowCloseButton, Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ZeusWindow}}}"
+                                        Visibility="{Binding ShowCloseButton, Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ZeusDialog}}}"
                                         Foreground="{TemplateBinding Background}">
                                         <Grid>
                                             <Path
@@ -85,14 +85,16 @@
                                     </local:ZeusButton>
                                 </Grid>
                             </Border>
-                            <ContentControl
+                            <AdornerDecorator
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
-                                Margin="5"
-                                Background="{TemplateBinding Background}"
-                                Foreground="{TemplateBinding Foreground}"
-                                Content="{TemplateBinding Content}"/>
+                                Margin="5">
+                                <ContentControl                                    
+                                    Background="{TemplateBinding Background}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Content="{TemplateBinding Content}"/>
+                            </AdornerDecorator>
                         </Grid>
                     </Border>
                 </ControlTemplate>

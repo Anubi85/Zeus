@@ -7,5 +7,6 @@
         <ResourceDictionary Source="/Zeus.UI;component/Styles/StatusBar.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/StatusBarItem.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/Label.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/TextBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
