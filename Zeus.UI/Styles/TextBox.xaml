@@ -28,17 +28,39 @@
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border
-                        BorderThickness="{Binding AdornedElement.BorderThickness, ElementName=adorner}">
-                        <Border.BorderBrush>
-                            <SolidColorBrush Color="{DynamicResource RedColor}" />
-                        </Border.BorderBrush>
-                        <Grid>
-                            <AdornedElementPlaceholder
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <Border
+                            BorderThickness="{Binding ElementName=adorner, Path=AdornedElement.BorderThickness}">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="{DynamicResource RedColor}" />
+                            </Border.BorderBrush>
+                            <Grid>
+                                <AdornedElementPlaceholder
                                 x:Name="adorner"
-                                Margin="{Binding AdornedElement.BorderThickness, RelativeSource={RelativeSource Self}, Converter={StaticResource InvertThickness}}"/>
-                        </Grid>
-                    </Border>
+                                Margin="{Binding Path=AdornedElement.BorderThickness, RelativeSource={RelativeSource Self}, Converter={StaticResource InvertThickness}}" />
+                            </Grid>
+                        </Border>
+                        <Border
+                            Margin="5,0,0,0"
+                            Width="20"
+                            Height="20"
+                            CornerRadius="10"
+                            ToolTip="{Binding ElementName=adorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource RedColor}" />
+                            </Border.Background>
+                            <TextBlock
+                                Text="!"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                FontWeight="Bold">
+                                <TextBlock.Foreground>
+                                    <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -60,6 +82,22 @@
                                     <SolidColorBrush Color="{DynamicResource BlueColor}" />
                                 </Setter.Value>
                             </Setter>
+                        </Trigger>
+                        <Trigger Property="Validation.HasError" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" By="0,0,25,0" Duration="0:0:0"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" By="0,0,-25,0" Duration="0:0:0" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
