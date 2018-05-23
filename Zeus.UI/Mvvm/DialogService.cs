@@ -74,7 +74,8 @@ namespace Zeus.UI.Mvvm
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
         /// <param name="modal">A flag that indicates if the dialog has to be shown as modal.</param>
-        private void ShowDialog(ViewModelBase viewModel, bool modal)
+        /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
+        private bool? ShowDialog(ViewModelBase viewModel, bool modal)
         {
             //check if already registred
             if (!m_ViewStore.ContainsKey(viewModel.GetType()))
@@ -85,11 +86,12 @@ namespace Zeus.UI.Mvvm
             dialog.DataContext = viewModel;
             if (modal)
             {
-                dialog.ShowDialog();
+                return dialog.ShowDialog();
             }
             else
             {
                 dialog.Show();
+                return null;
             }
         }
         /// <summary>
@@ -104,9 +106,10 @@ namespace Zeus.UI.Mvvm
         /// Shows a new modal dialog that binds to the provided view model.
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
-        public void ShowModalDialog(ViewModelBase viewModel)
+        /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
+        public bool? ShowModalDialog(ViewModelBase viewModel)
         {
-            ShowDialog(viewModel, true);
+            return ShowDialog(viewModel, true);
         }
         /// <summary>
         /// Register a view for a specific view model type.

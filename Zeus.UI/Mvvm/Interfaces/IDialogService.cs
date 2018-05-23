@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace Zeus.UI.Mvvm.Interfaces
 {
@@ -36,7 +37,8 @@ namespace Zeus.UI.Mvvm.Interfaces
         /// Shows a new modal dialog that binds to the provided view model.
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
-        void ShowModalDialog(ViewModelBase viewModel);
+        /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
+        bool? ShowModalDialog(ViewModelBase viewModel);
         /// <summary>
         /// Register a view for a specific view model type.
         /// </summary>
