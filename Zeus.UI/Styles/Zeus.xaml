@@ -10,5 +10,6 @@
         <ResourceDictionary Source="/Zeus.UI;component/Styles/TextBox.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/TabControl.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/TabItem.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/DataGrid.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
