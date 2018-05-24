@@ -48,6 +48,11 @@
                                     <SolidColorBrush Color="{DynamicResource BlueColor}" />
                                 </Setter.Value>
                             </Setter>
+                            <Setter Property="Foreground">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
