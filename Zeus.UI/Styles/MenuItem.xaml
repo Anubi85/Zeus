@@ -15,7 +15,7 @@
         <Setter Property="Padding" Value="10,0" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate x:Name="ZeusMenuItem" TargetType="{x:Type MenuItem}">
+                <ControlTemplate TargetType="{x:Type MenuItem}">
                     <Grid SnapsToDevicePixels="True">
                         <Rectangle x:Name="bg" Fill="{TemplateBinding Background}"/>
                         <Border x:Name="bgBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,1,0" />
