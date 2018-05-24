@@ -108,7 +108,10 @@
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource ForegroundColor}" Opacity="0.1" />
+                        <LinearGradientBrush EndPoint="0,0" StartPoint="0,0" SpreadMethod="Repeat">
+                            <GradientStop Color="{DynamicResource BackgroundColor}" Offset="0.8" />
+                            <GradientStop Color="{DynamicResource ForegroundColor}" Offset="1" />
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -126,7 +129,10 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource ForegroundColor}" Opacity="0.15" />
+                        <LinearGradientBrush EndPoint="0,0" StartPoint="0,0" SpreadMethod="Repeat">
+                            <GradientStop Color="{DynamicResource BackgroundColor}" Offset="0.6" />
+                            <GradientStop Color="{DynamicResource ForegroundColor}" Offset="1" />
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </MultiTrigger>
@@ -137,7 +143,10 @@
                 </MultiTrigger.Conditions>
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource ForegroundColor}" Opacity="0.15" />
+                        <LinearGradientBrush EndPoint="0,0" StartPoint="0,0" SpreadMethod="Repeat">
+                            <GradientStop Color="{DynamicResource BackgroundColor}" Offset="0.6" />
+                            <GradientStop Color="{DynamicResource ForegroundColor}" Offset="1" />
+                        </LinearGradientBrush>
                     </Setter.Value>
                 </Setter>
             </MultiTrigger>
