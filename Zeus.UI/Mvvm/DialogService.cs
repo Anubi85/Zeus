@@ -73,10 +73,11 @@ namespace Zeus.UI.Mvvm
         /// Shows a new modal dialog that binds to the provided view model.
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
+        /// <param name="owner">The owner window of the dialog.</param>
         /// <param name="modal">A flag that indicates if the dialog has to be shown as modal.</param>
         /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
         /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
-        private bool? ShowDialog(ViewModelBase viewModel, bool modal, Action<ViewModelBase> callback)
+        private bool? ShowDialog(ViewModelBase viewModel, Window owner, bool modal, Action<ViewModelBase> callback)
         {
             //check if already registred
             if (!m_ViewStore.ContainsKey(viewModel.GetType()))
@@ -84,6 +85,10 @@ namespace Zeus.UI.Mvvm
                 throw new ZeusException(ErrorCodes.RegistrationDoNotExists, string.Format("The view model {0} is not registered.", viewModel.GetType().FullName));
             }
             Window dialog = Activator.CreateInstance(m_ViewStore[viewModel.GetType()]) as Window;
+            if (owner != null)
+            {
+                dialog.Owner = owner;
+            }
             dialog.DataContext = viewModel;
             bool? result = null;
             if (modal)
@@ -107,14 +112,22 @@ namespace Zeus.UI.Mvvm
             }
             return result;
         }
-
         /// <summary>
         /// Shows a new non modal dialog that binds to the provided view model.
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
         public void ShowDialog(ViewModelBase viewModel)
         {
-            ShowDialog(viewModel, false, null);
+            ShowDialog(viewModel, null, false, null);
+        }
+        /// <summary>
+        /// Shows a new non modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
+        /// <param name="owner">The owner window of the dialog.</param>
+        public void ShowDialog(ViewModelBase viewModel, Window owner)
+        {
+            ShowDialog(viewModel, owner, false, null);
         }
         /// <summary>
         /// Shows a new non modal dialog that binds to the provided view model.
@@ -123,7 +136,17 @@ namespace Zeus.UI.Mvvm
         /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
         public void ShowDialog(ViewModelBase viewModel, Action<ViewModelBase> callback)
         {
-            ShowDialog(viewModel, false, callback);
+            ShowDialog(viewModel, null, false, callback);
+        }
+        /// <summary>
+        /// Shows a new non modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
+        /// <param name="owner">The owner window of the dialog.</param>
+        /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
+        public void ShowDialog(ViewModelBase viewModel, Window owner, Action<ViewModelBase> callback)
+        {
+            ShowDialog(viewModel, owner, false, callback);
         }
         /// <summary>
         /// Shows a new modal dialog that binds to the provided view model.
@@ -132,7 +155,17 @@ namespace Zeus.UI.Mvvm
         /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
         public bool? ShowModalDialog(ViewModelBase viewModel)
         {
-            return ShowDialog(viewModel, true, null);
+            return ShowDialog(viewModel, null, true, null);
+        }
+        /// <summary>
+        /// Shows a new modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
+        /// <param name="owner">The owner window of the dialog.</param>
+        /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
+        public bool? ShowModalDialog(ViewModelBase viewModel, Window owner)
+        {
+            return ShowDialog(viewModel, owner, true, null);
         }
         /// <summary>
         /// Register a view for a specific view model type.
@@ -140,7 +173,7 @@ namespace Zeus.UI.Mvvm
         /// <typeparam name="TView">The view type.</typeparam>
         /// <typeparam name="TViewModel">The view model type.</typeparam>
         public void Register<TView, TViewModel>()
-            where TView: Window
+            where TView : Window
             where TViewModel : ViewModelBase
         {
             //check if already registred
@@ -156,7 +189,7 @@ namespace Zeus.UI.Mvvm
         /// <typeparam name="TView">The view type.</typeparam>
         /// <typeparam name="TViewModel">The view model type.</typeparam>
         public void Update<TView, TViewModel>()
-            where TView: Window
+            where TView : Window
             where TViewModel : ViewModelBase
         {
             //check if already registred
@@ -172,7 +205,7 @@ namespace Zeus.UI.Mvvm
         /// <typeparam name="TView">The view type.</typeparam>
         /// <typeparam name="TViewModel">The view model type.</typeparam>
         public void RegisterOrUpdate<TView, TViewModel>()
-            where TView: Window
+            where TView : Window
             where TViewModel : ViewModelBase
         {
             //check if already registred
