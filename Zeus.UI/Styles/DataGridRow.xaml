@@ -3,21 +3,6 @@
     <Style TargetType="{x:Type DataGridRow}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="SnapsToDevicePixels" Value="true"/>
-        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}" />
-        <Setter Property="ValidationErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-                    <TextBlock
-                        Margin="2,0,0,0"
-                        VerticalAlignment="Center"
-                        Text="!">
-                        <TextBlock.Foreground>
-                            <SolidColorBrush Color="{DynamicResource RedColor}" />
-                        </TextBlock.Foreground>
-                    </TextBlock>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridRow}">
@@ -36,8 +21,15 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
+                            <DataGridRowHeader
+                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Grid.RowSpan="2"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Row}}"/>
                             <DataGridCellsPresenter
                                 Grid.Column="1"
+                                Grid.Row="0"
                                 ItemsPanel="{TemplateBinding ItemsPanel}"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             <DataGridDetailsPresenter 
@@ -45,10 +37,6 @@
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 Visibility="{TemplateBinding DetailsVisibility}" />
-                            <DataGridRowHeader
-                                SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
-                                Grid.RowSpan="2"
-                                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Row}}"/>
                         </SelectiveScrollingGrid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -56,6 +44,13 @@
                             <Setter Property="Background">
                                 <Setter.Value>
                                     <SolidColorBrush Color="{DynamicResource BlueColor}" Opacity="0.25" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource BlueColor}" Opacity="0.75" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>

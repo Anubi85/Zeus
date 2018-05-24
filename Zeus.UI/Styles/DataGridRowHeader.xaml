@@ -17,23 +17,21 @@
         </Setter>
     </Style>
     <Style TargetType="{x:Type DataGridRowHeader}">
-        <Setter Property="Background">
-            <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
+                <SolidColorBrush Color="{DynamicResource BlueColor}" />
             </Setter.Value>
         </Setter>
         <Setter Property="BorderBrush">
             <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource BlueColor}" Opacity="0.25" />
+                <SolidColorBrush Color="{DynamicResource BlueColor}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderThickness" Value="0,0,0,1" />
-        <Setter Property="Width" Value="16"/>
+        <Setter Property="BorderThickness" Value="0,0,1,0" />
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
@@ -43,15 +41,9 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Padding ="{TemplateBinding Padding}">
-                            <StackPanel Orientation="Horizontal">
-                                <ContentPresenter
+                            <ContentPresenter
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                     VerticalAlignment="Center"/>
-                                <Control
-                                    SnapsToDevicePixels="false"
-                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=(Validation.HasError), Converter={StaticResource BoolToVisibility}}"
-                                    Template="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=ValidationErrorTemplate}" />
-                            </StackPanel>
                         </Border>
                         <Thumb
                             x:Name="PART_TopHeaderGripper"
@@ -66,24 +58,10 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource BlueColor}" Opacity="0.25" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource BlueColor}" Opacity="0.5" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
             <Trigger Property="IsRowSelected" Value="True">
                 <Setter Property="Background">
                     <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource BlueColor}" />
+                        <SolidColorBrush Color="{DynamicResource BlueColor}" Opacity="0.75" />
                     </Setter.Value>
                 </Setter>
                 <Setter Property="Foreground">
