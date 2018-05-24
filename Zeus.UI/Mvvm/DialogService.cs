@@ -74,8 +74,9 @@ namespace Zeus.UI.Mvvm
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
         /// <param name="modal">A flag that indicates if the dialog has to be shown as modal.</param>
+        /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
         /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
-        private bool? ShowDialog(ViewModelBase viewModel, bool modal)
+        private bool? ShowDialog(ViewModelBase viewModel, bool modal, Action<ViewModelBase> callback)
         {
             //check if already registred
             if (!m_ViewStore.ContainsKey(viewModel.GetType()))
@@ -84,23 +85,45 @@ namespace Zeus.UI.Mvvm
             }
             Window dialog = Activator.CreateInstance(m_ViewStore[viewModel.GetType()]) as Window;
             dialog.DataContext = viewModel;
+            bool? result = null;
             if (modal)
             {
-                return dialog.ShowDialog();
+                result = dialog.ShowDialog();
+                callback?.Invoke(viewModel);
             }
             else
             {
                 dialog.Show();
-                return null;
+                if (callback != null)
+                {
+                    EventHandler eventHandler = null;
+                    eventHandler = (sender, e) =>
+                    {
+                        (sender as Window).Closed -= eventHandler;
+                        callback(viewModel);
+                    };
+                    dialog.Closed += eventHandler;
+                }
             }
+            return result;
         }
+
         /// <summary>
         /// Shows a new non modal dialog that binds to the provided view model.
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
         public void ShowDialog(ViewModelBase viewModel)
         {
-            ShowDialog(viewModel, false);
+            ShowDialog(viewModel, false, null);
+        }
+        /// <summary>
+        /// Shows a new non modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
+        /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
+        public void ShowDialog(ViewModelBase viewModel, Action<ViewModelBase> callback)
+        {
+            ShowDialog(viewModel, false, callback);
         }
         /// <summary>
         /// Shows a new modal dialog that binds to the provided view model.
@@ -109,7 +132,7 @@ namespace Zeus.UI.Mvvm
         /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
         public bool? ShowModalDialog(ViewModelBase viewModel)
         {
-            return ShowDialog(viewModel, true);
+            return ShowDialog(viewModel, true, null);
         }
         /// <summary>
         /// Register a view for a specific view model type.
