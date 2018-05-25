@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ZeusDialog.cs" />
+    <Compile Include="Controls\ZeusTabControl.cs" />
+    <Compile Include="Controls\ZeusTabItem.cs" />
     <Compile Include="Converters\InvertThicknessConverter.cs" />
     <Compile Include="Mvvm\DialogService.cs" />
     <Compile Include="Mvvm\Interfaces\IDialogService.cs" />
@@ -99,13 +101,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\TabControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Styles\ZeusTabControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\TabItem.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Styles\ZeusTabItem.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\TextBox.xaml">
       <SubType>Designer</SubType>
