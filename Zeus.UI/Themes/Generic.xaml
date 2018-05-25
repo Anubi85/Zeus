@@ -3,10 +3,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusButton.xaml" />
-        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusWindow.xaml" />
-        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDialog.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusLabel.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusTextBox.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusMenu.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusMenuItem.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusStatusBar.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusStatusBarItem.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusTabItem.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusTabControl.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGrid.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGridColumnHeadersPresenter.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGridColumnHeader.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGridRow.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGridRowHeader.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGridCellsPresenter.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGridCell.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusWindow.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDialog.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/Zeus.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

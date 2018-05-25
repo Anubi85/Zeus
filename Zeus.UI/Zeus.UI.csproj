@@ -50,9 +50,22 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ZeusDataGrid.cs" />
+    <Compile Include="Controls\ZeusDataGridCell.cs" />
+    <Compile Include="Controls\ZeusDataGridCellsPresenter.cs" />
+    <Compile Include="Controls\ZeusDataGridColumnHeader.cs" />
+    <Compile Include="Controls\ZeusDataGridColumnHeadersPresenter.cs" />
+    <Compile Include="Controls\ZeusDataGridRow.cs" />
+    <Compile Include="Controls\ZeusDataGridRowHeader.cs" />
     <Compile Include="Controls\ZeusDialog.cs" />
+    <Compile Include="Controls\ZeusLabel.cs" />
+    <Compile Include="Controls\ZeusMenu.cs" />
+    <Compile Include="Controls\ZeusMenuItem.cs" />
+    <Compile Include="Controls\ZeusStatusBar.cs" />
+    <Compile Include="Controls\ZeusStatusBarItem.cs" />
     <Compile Include="Controls\ZeusTabControl.cs" />
     <Compile Include="Controls\ZeusTabItem.cs" />
+    <Compile Include="Controls\ZeusTextBox.cs" />
     <Compile Include="Converters\InvertThicknessConverter.cs" />
     <Compile Include="Mvvm\DialogService.cs" />
     <Compile Include="Mvvm\Interfaces\IDialogService.cs" />
@@ -61,43 +74,47 @@
     <Compile Include="Mvvm\ServiceLocator.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="ValidationRules\IPTextValidationRule.cs" />
-    <Page Include="Styles\DataGrid.xaml">
+    <Page Include="Styles\ZeusDataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\DataGridCell.xaml">
+    <Page Include="Styles\ZeusDataGridCell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\DataGridColumnHeader.xaml">
+    <Page Include="Styles\ZeusDataGridCellsPresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\DataGridRow.xaml">
+    <Page Include="Styles\ZeusDataGridColumnHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\DataGridRowHeader.xaml">
+    <Page Include="Styles\ZeusDataGridRow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\Label.xaml">
+    <Page Include="Styles\ZeusDataGridRowHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\Menu.xaml">
+    <Page Include="Styles\ZeusLabel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\MenuItem.xaml">
+    <Page Include="Styles\ZeusMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\StatusBar.xaml">
+    <Page Include="Styles\ZeusMenuItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\StatusBarItem.xaml">
+    <Page Include="Styles\ZeusStatusBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ZeusStatusBarItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -109,7 +126,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\TextBox.xaml">
+    <Page Include="Styles\ZeusTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -128,6 +145,10 @@
     <Page Include="Styles\ZeusWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\ZeusDataGridColumnHeadersPresenter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Zeus.Colors.xaml">
       <Generator>MSBuild:Compile</Generator>

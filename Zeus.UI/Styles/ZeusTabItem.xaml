@@ -41,6 +41,7 @@
                                 MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                 MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                                 Command="{TemplateBinding CloseTabCommand}"
+                                CommandParameter="{TemplateBinding DataContext}"
                                 Visibility="Visible">
                                 <zc:ZeusButton.Foreground>
                                     <SolidColorBrush Color="{DynamicResource RedColor}" />

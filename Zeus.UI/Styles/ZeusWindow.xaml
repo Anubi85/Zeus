@@ -65,7 +65,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="auto" />
                                     </Grid.ColumnDefinitions>
-                                    <Label
+                                    <zc:ZeusLabel
                                         Grid.Column="0"
                                         VerticalAlignment="Top"
                                         Foreground="{TemplateBinding Foreground}"
