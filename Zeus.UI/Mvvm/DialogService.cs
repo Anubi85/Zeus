@@ -32,6 +32,7 @@ namespace Zeus.UI.Mvvm
         public DialogService()
         {
             m_ViewStore = new Dictionary<Type, Type>();
+            m_ViewInstanceStore = new Dictionary<ViewModelBase, Window>();
         }
 
         #endregion
