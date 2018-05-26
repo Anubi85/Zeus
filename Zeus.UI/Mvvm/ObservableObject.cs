@@ -48,7 +48,7 @@ namespace Zeus.UI.Mvvm
         /// <param name="propertyName">The property name.</param>
         protected void Set<T>(ref T prop, T val, [CallerMemberName] string propertyName = null)
         {
-            if (!prop.Equals(val))
+            if (prop == null || !prop.Equals(val))
             {
                 prop = val;
                 NotifyPropertyChanged(propertyName);
