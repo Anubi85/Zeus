@@ -30,7 +30,7 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusButton"/> border styles.
         /// </summary>
-        public static readonly DependencyProperty IsBorderedProperty = DependencyProperty.Register("IsBordered", typeof(bool), typeof(ZeusButton));
+        public static readonly DependencyProperty IsBorderVisibleProperty = DependencyProperty.Register("IsBorderVisible", typeof(bool), typeof(ZeusButton));
 
         #endregion
 
@@ -47,10 +47,10 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="ZeusButton"/> border style.
         /// </summary>
-        public bool IsBordered
+        public bool IsBorderVisible
         {
-            get { return (bool)GetValue(IsBorderedProperty); }
-            set { SetValue(IsBorderedProperty, value); }
+            get { return (bool)GetValue(IsBorderVisibleProperty); }
+            set { SetValue(IsBorderVisibleProperty, value); }
         }
 
         #endregion

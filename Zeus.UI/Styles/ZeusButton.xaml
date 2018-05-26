@@ -34,7 +34,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="False" />
-                                <Condition Property="IsBordered" Value="True" />
+                                <Condition Property="IsBorderVisible" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter Property="Opacity" Value="0.25" TargetName="border" />
                             <Setter Property="BorderBrush" TargetName="border">
