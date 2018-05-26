@@ -73,6 +73,7 @@
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="Mvvm\ServiceLocator.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Compile Include="ValidationRules\IntegerValidationRule.cs" />
     <Compile Include="ValidationRules\IPTextValidationRule.cs" />
     <Page Include="Styles\ZeusDataGrid.xaml">
       <SubType>Designer</SubType>
