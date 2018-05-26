@@ -66,6 +66,7 @@
     <Compile Include="Controls\ZeusTabControl.cs" />
     <Compile Include="Controls\ZeusTabItem.cs" />
     <Compile Include="Controls\ZeusTextBox.cs" />
+    <Compile Include="Converters\InvertedBoolToVisibilityConverter.cs" />
     <Compile Include="Converters\InvertThicknessConverter.cs" />
     <Compile Include="Mvvm\DialogService.cs" />
     <Compile Include="Mvvm\Interfaces\IDialogService.cs" />

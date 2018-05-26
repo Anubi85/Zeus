@@ -6,9 +6,9 @@ using System.Windows.Data;
 namespace Zeus.UI.Converters
 {
     /// <summary>
-    /// Handle conversion between <see cref="bool"/> and <see cref="Visibility"/> types.
+    /// Handle conversion between <see cref="bool"/> and <see cref="Visibility"/> types with inverted logic.
     /// </summary>
-    public class BoolToVisibilityConverter : IValueConverter
+    public class InvertedBoolToVisibilityConverter : IValueConverter
     {
         #region IValueConverter interface
 
@@ -22,7 +22,7 @@ namespace Zeus.UI.Converters
         /// <returns>Return a <see cref="Visibility"/> value according with the given <paramref name="value"/>.</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+            return (bool)value ? Visibility.Collapsed : Visibility.Visible;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Zeus.UI.Converters
         /// <returns>Return a <see cref="bool"/> value according with the given <paramref name="value"/>.</returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (Visibility)value == Visibility.Visible;
+            return (Visibility)value == Visibility.Collapsed || (Visibility)value == Visibility.Hidden;
         }
 
         #endregion
