@@ -228,7 +228,7 @@ namespace Zeus.UI.Mvvm
             if (m_ViewInstanceStore.ContainsKey(viewModel))
             {
                 WindowRecord record = m_ViewInstanceStore[viewModel];
-                if (!record.IsModal)
+                if (record.IsModal)
                 {
                     record.Dialog.DialogResult = dialogResult;
                 }
