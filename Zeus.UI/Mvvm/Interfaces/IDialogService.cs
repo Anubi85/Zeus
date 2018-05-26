@@ -66,6 +66,17 @@ namespace Zeus.UI.Mvvm.Interfaces
         /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
         bool? ShowModalDialog(ViewModelBase viewModel, Window owner);
         /// <summary>
+        /// Closes the dialog associated with the given view model.
+        /// </summary>
+        /// <param name="viewModel">The view model associated with the dialog that has to be closed.</param>
+        void CloseDialog(ViewModelBase viewModel);
+        /// <summary>
+        /// Closes the dialog associated with the given view model.
+        /// </summary>
+        /// <param name="viewModel">The view model associated with the dialog that has to be closed.</param>
+        /// <param name="dialogResult">The result that has to be associated with the dialog.</param>
+        void CloseDialog(ViewModelBase viewModel, bool? dialogResult);
+        /// <summary>
         /// Register a view for a specific view model type.
         /// </summary>
         /// <typeparam name="TView">The view type.</typeparam>

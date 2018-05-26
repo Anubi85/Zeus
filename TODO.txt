@@ -3,3 +3,6 @@ Remove InternalLogger project
 Handle NoResize mode
 Handle WindowStyle None mode
 Implementare ZeusMessageBox
+Spostare Mvvm su dll Zeus.UI.Mvvm
+Spostare Converters su dll Zeus.UI.Converters
+Sposare ValidationRules su dll Zeus.UI.ValidationRules

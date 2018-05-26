@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Zeus.Exceptions;
 using Zeus.UI.Mvvm.Interfaces;
@@ -20,6 +17,10 @@ namespace Zeus.UI.Mvvm
         /// The dictionary that stores the association between the view models and the views.
         /// </summary>
         private Dictionary<Type, Type> m_ViewStore;
+        /// <summary>
+        /// The dictionary that stores the open wiews.
+        /// </summary>
+        private Dictionary<ViewModelBase, Window> m_ViewInstanceStore;
 
         #endregion
 
@@ -85,6 +86,8 @@ namespace Zeus.UI.Mvvm
                 throw new ZeusException(ErrorCodes.RegistrationDoNotExists, string.Format("The view model {0} is not registered.", viewModel.GetType().FullName));
             }
             Window dialog = Activator.CreateInstance(m_ViewStore[viewModel.GetType()]) as Window;
+            //register the opened window
+            m_ViewInstanceStore.Add(viewModel, dialog);
             if (owner != null)
             {
                 dialog.Owner = owner;
@@ -95,20 +98,20 @@ namespace Zeus.UI.Mvvm
             {
                 result = dialog.ShowDialog();
                 callback?.Invoke(viewModel);
+                //remove registration
+                m_ViewInstanceStore.Remove(viewModel);
             }
             else
             {
                 dialog.Show();
-                if (callback != null)
+                EventHandler closeEventHandler = null;
+                closeEventHandler = (sender, e) =>
                 {
-                    EventHandler eventHandler = null;
-                    eventHandler = (sender, e) =>
-                    {
-                        (sender as Window).Closed -= eventHandler;
-                        callback(viewModel);
-                    };
-                    dialog.Closed += eventHandler;
-                }
+                    m_ViewInstanceStore.Remove(viewModel);
+                    (sender as Window).Closed -= closeEventHandler;
+                    callback?.Invoke(viewModel);
+                };
+                dialog.Closed += closeEventHandler;
             }
             return result;
         }
@@ -166,6 +169,29 @@ namespace Zeus.UI.Mvvm
         public bool? ShowModalDialog(ViewModelBase viewModel, Window owner)
         {
             return ShowDialog(viewModel, owner, true, null);
+        }
+        /// <summary>
+        /// Closes the dialog associated with the given view model.
+        /// </summary>
+        /// <param name="viewModel">The view model associated with the dialog that has to be closed.</param>
+        public void CloseDialog(ViewModelBase viewModel)
+        {
+            CloseDialog(viewModel, null);
+        }
+        /// <summary>
+        /// Closes the dialog associated with the given view model.
+        /// </summary>
+        /// <param name="viewModel">The view model associated with the dialog that has to be closed.</param>
+        /// <param name="dialogResult">The result that has to be associated with the dialog.</param>
+        public void CloseDialog(ViewModelBase viewModel, bool? dialogResult)
+        {
+            //check if registrered
+            if (m_ViewInstanceStore.ContainsKey(viewModel))
+            {
+                Window dialog = m_ViewInstanceStore[viewModel];
+                dialog.DialogResult = dialogResult;
+                dialog.Close();
+            }
         }
         /// <summary>
         /// Register a view for a specific view model type.
