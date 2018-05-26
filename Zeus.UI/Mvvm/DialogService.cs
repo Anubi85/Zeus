@@ -11,6 +11,44 @@ namespace Zeus.UI.Mvvm
     /// </summary>
     public class DialogService : IDialogService
     {
+        #region Helper struct
+
+        /// <summary>
+        /// Stores information about a window opened by the <see cref="DialogService"/>.
+        /// </summary>
+        private struct WindowRecord
+        {
+            #region Fields
+
+            /// <summary>
+            /// Gets or sets a flag that indicates if the window associated wit the record is modal.
+            /// </summary>
+            public bool IsModal;
+            /// <summary>
+            /// The <see cref="Window"/> object.
+            /// </summary>
+            public Window Dialog;
+
+            #endregion
+
+            #region Constructor
+
+            /// <summary>
+            /// Initialize a new <see cref="WindowRecord"/> with the given data.
+            /// </summary>
+            /// <param name="isModal">The is window modal flag.</param>
+            /// <param name="dialog">The window instance.</param>
+            public WindowRecord(bool isModal, Window dialog)
+            {
+                IsModal = isModal;
+                Dialog = dialog;
+            }
+
+            #endregion
+        }
+
+        #endregion
+
         #region Fields
 
         /// <summary>
@@ -20,7 +58,7 @@ namespace Zeus.UI.Mvvm
         /// <summary>
         /// The dictionary that stores the open wiews.
         /// </summary>
-        private Dictionary<ViewModelBase, Window> m_ViewInstanceStore;
+        private Dictionary<ViewModelBase, WindowRecord> m_ViewInstanceStore;
 
         #endregion
 
@@ -32,7 +70,7 @@ namespace Zeus.UI.Mvvm
         public DialogService()
         {
             m_ViewStore = new Dictionary<Type, Type>();
-            m_ViewInstanceStore = new Dictionary<ViewModelBase, Window>();
+            m_ViewInstanceStore = new Dictionary<ViewModelBase, WindowRecord>();
         }
 
         #endregion
@@ -88,7 +126,7 @@ namespace Zeus.UI.Mvvm
             }
             Window dialog = Activator.CreateInstance(m_ViewStore[viewModel.GetType()]) as Window;
             //register the opened window
-            m_ViewInstanceStore.Add(viewModel, dialog);
+            m_ViewInstanceStore.Add(viewModel, new WindowRecord(modal, dialog));
             if (owner != null)
             {
                 dialog.Owner = owner;
@@ -189,9 +227,12 @@ namespace Zeus.UI.Mvvm
             //check if registrered
             if (m_ViewInstanceStore.ContainsKey(viewModel))
             {
-                Window dialog = m_ViewInstanceStore[viewModel];
-                dialog.DialogResult = dialogResult;
-                dialog.Close();
+                WindowRecord record = m_ViewInstanceStore[viewModel];
+                if (!record.IsModal)
+                {
+                    record.Dialog.DialogResult = dialogResult;
+                }
+                record.Dialog.Close();
             }
         }
         /// <summary>
