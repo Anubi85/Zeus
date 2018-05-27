@@ -168,7 +168,7 @@
     <Compile Include="Controls\ZeusWindow.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\Colors.cs" />
+    <Compile Include="Enums\ZeusColorStyles.cs" />
     <Compile Include="Enums\ShowContexMenu.cs" />
     <Compile Include="Extensions\ImageSourceExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
