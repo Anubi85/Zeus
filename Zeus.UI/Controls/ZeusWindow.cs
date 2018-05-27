@@ -37,11 +37,11 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle window minimize button visibility.
         /// </summary>
-        public static readonly DependencyProperty ShowMinimizeButtonProperty = DependencyProperty.Register("ShowMinimizeButton", typeof(bool), typeof(ZeusWindow));
+        public static readonly DependencyProperty ShowMinimizeButtonProperty = DependencyProperty.Register("ShowMinimizeButton", typeof(bool), typeof(ZeusWindow), new PropertyMetadata(true));
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle window maximize button visibility.
         /// </summary>
-        public static readonly DependencyProperty ShowMaximizeButtonProperty = DependencyProperty.Register("ShowMaximizeButton", typeof(bool), typeof(ZeusWindow));
+        public static readonly DependencyProperty ShowMaximizeButtonProperty = DependencyProperty.Register("ShowMaximizeButton", typeof(bool), typeof(ZeusWindow), new PropertyMetadata(true));
 
         #endregion
 

@@ -37,7 +37,7 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle window close button visibility.
         /// </summary>
-        public static readonly DependencyProperty ShowCloseButtonProperty = DependencyProperty.Register("ShowCloseButton", typeof(bool), typeof(ZeusWindowBase));
+        public static readonly DependencyProperty ShowCloseButtonProperty = DependencyProperty.Register("ShowCloseButton", typeof(bool), typeof(ZeusWindowBase), new PropertyMetadata(true));
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusWindow"/> color styles.
         /// </summary>

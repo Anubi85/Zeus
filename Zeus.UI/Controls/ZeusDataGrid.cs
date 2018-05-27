@@ -89,7 +89,7 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusDataGrid"/> autoscroll.
         /// </summary>
-        public static readonly DependencyProperty AutoScrollProperty = DependencyProperty.Register("AutoScroll", typeof(bool), typeof(ZeusDataGrid), new PropertyMetadata(default(bool), AutoScrollChanged));
+        public static readonly DependencyProperty AutoScrollProperty = DependencyProperty.Register("AutoScroll", typeof(bool), typeof(ZeusDataGrid), new PropertyMetadata(false, AutoScrollChanged));
 
         #endregion
 
