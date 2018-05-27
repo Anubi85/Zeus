@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using Zeus.UI.Themes.Enums;
 
 namespace Zeus.UI.Controls
 {
@@ -36,6 +37,10 @@ namespace Zeus.UI.Controls
         /// <see cref="DependencyProperty"/> that handle window close button visibility.
         /// </summary>
         public static readonly DependencyProperty ShowCloseButtonProperty = DependencyProperty.Register("ShowCloseButton", typeof(bool), typeof(ZeusDialog));
+        /// <summary>
+        /// <see cref="DependencyProperty"/> that handle <see cref="ZeusDialog"/> color styles.
+        /// </summary>
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(ZeusColorStyles), typeof(ZeusDialog));
 
         #endregion
 
@@ -48,6 +53,14 @@ namespace Zeus.UI.Controls
         {
             get { return (bool)GetValue(ShowCloseButtonProperty); }
             set { SetValue(ShowCloseButtonProperty, value); }
+        }
+        /// <summary>
+        /// Gets or sets <see cref="ZeusDialog"/> color style.
+        /// </summary>
+        public ZeusColorStyles Color
+        {
+            get { return (ZeusColorStyles)GetValue(ColorProperty); }
+            set { SetValue(ColorProperty, value); }
         }
 
         #endregion

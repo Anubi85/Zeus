@@ -1,4 +1,5 @@
 ﻿using Zeus.UI.Controls;
+using Zeus.UI.Themes.Enums;
 
 namespace Zeus.UI.Test
 {
@@ -16,6 +17,7 @@ namespace Zeus.UI.Test
         {
             ZeusDialog dialog = new ZeusDialog();
             dialog.ShowCloseButton = true;
+            dialog.Color = ZeusColorStyles.Green;
             dialog.Show();
         }
     }

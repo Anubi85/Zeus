@@ -75,7 +75,7 @@
                                         Margin="0,5,0,0">
                                         <zc:ZeusButton
                                             x:Name="btnMinimize"
-                                            Color="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}"
+                                            Color="{TemplateBinding Color}"
                                             Width="21"
                                             Height="21"
                                             Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}"
@@ -94,7 +94,7 @@
                                         </zc:ZeusButton>
                                         <zc:ZeusButton
                                             x:Name="btnMaximize"
-                                            Color="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}"
+                                            Color="{TemplateBinding Color}"
                                             Width="21"
                                             Height="21"
                                             Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}"
@@ -113,7 +113,7 @@
                                         </zc:ZeusButton>
                                         <zc:ZeusButton
                                             x:Name="btnRestore"
-                                            Color="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}"
+                                            Color="{TemplateBinding Color}"
                                             Width="21"
                                             Height="21"
                                             Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}"
@@ -131,7 +131,7 @@
                                             </Grid>
                                         </zc:ZeusButton>
                                         <zc:ZeusButton
-                                            Color="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}"
+                                            Color="{TemplateBinding Color}"
                                             Width="21"
                                             Height="21"
                                             Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"

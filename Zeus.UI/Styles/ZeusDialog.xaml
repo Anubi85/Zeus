@@ -3,6 +3,7 @@
                     xmlns:zc="clr-namespace:Zeus.UI.Controls"
                     xmlns:converters="clr-namespace:Zeus.UI.Converters;assembly=Zeus.UI.Converters">
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    <converters:ColorStyleToBrushConverter x:Key="ColorToBrush" />
     <Style TargetType="{x:Type zc:ZeusDialog}">
         <Setter Property="Background">
             <Setter.Value>
@@ -14,11 +15,7 @@
                 <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush">
-            <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource BlueColor}" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="WindowChrome.WindowChrome">
@@ -65,18 +62,42 @@
                                     <zc:ZeusButton
                                         Grid.Column="1"
                                         WindowChrome.IsHitTestVisibleInChrome="True"
-                                        Color="Red"
-                                        MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                        MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                                        Color="{TemplateBinding Color}"
+                                        Width="16"
+                                        Height="16"
                                         Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
-                                        Visibility="{Binding ShowCloseButton, Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusDialog}}}"
-                                        Foreground="{TemplateBinding Background}">
+                                        Visibility="{Binding ShowCloseButton, Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusDialog}}}">
+                                        <zc:ZeusButton.Style>
+                                            <Style TargetType="{x:Type zc:ZeusButton}">
+                                                <Setter Property="Foreground">
+                                                    <Setter.Value>
+                                                        <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Foreground">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter Property="Background">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush Color="{DynamicResource BackgroundColor}" Opacity="0.75" />
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </zc:ZeusButton.Style>
                                         <Grid>
                                             <Path
                                                 RenderOptions.EdgeMode="Aliased"
-                                                Width="9"
-                                                Height="9"
-                                                Data="M0,0 L9,9 M9,0 L0,9 Z"
+                                                Width="8"
+                                                Height="8"
+                                                Data="M0,0 L8,8 M8,0 L0,8 Z"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Center"
                                                 Stroke="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusButton}}}"
