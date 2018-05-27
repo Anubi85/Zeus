@@ -17,6 +17,7 @@ namespace Zeus.UI.Controls
         static ZeusButton()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ZeusButton), new FrameworkPropertyMetadata(typeof(ZeusButton)));
+            ColorProperty = ZeusWindowBase.ColorProperty.AddOwner(typeof(ZeusButton), new FrameworkPropertyMetadata(ZeusColorStyles.Blue, FrameworkPropertyMetadataOptions.Inherits));
         }
 
         #endregion
@@ -26,7 +27,7 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusButton"/> color styles.
         /// </summary>
-        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(ZeusColorStyles), typeof(ZeusButton));
+        public static readonly DependencyProperty ColorProperty;
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusButton"/> border styles.
         /// </summary>

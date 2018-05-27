@@ -21,6 +21,6 @@
             </controls:ZeusTrayIcon.ContextMenu>
         </controls:ZeusTrayIcon>
         <controls:ZeusCheckBox IsThreeState="True">pippo</controls:ZeusCheckBox>
-        <controls:ZeusButton Click="ZeusButton_Click">Open</controls:ZeusButton>
+        <controls:ZeusButton Color="Red" Click="ZeusButton_Click">Open</controls:ZeusButton>
     </Grid>
 </controls:ZeusWindow>

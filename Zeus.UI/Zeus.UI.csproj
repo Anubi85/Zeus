@@ -156,6 +156,7 @@
     <Compile Include="Controls\ZeusWindow.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ZeusWindowBase.cs" />
     <Compile Include="Enums\ShowContexMenu.cs" />
     <Compile Include="Extensions\ImageSourceExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
