@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:zc="clr-namespace:Zeus.UI.Controls">
+                    xmlns:zc="clr-namespace:Zeus.UI.Controls"
+                    xmlns:converters="clr-namespace:Zeus.UI.Converters;assembly=Zeus.UI.Converters">
+    <converters:ColorStyleToBrushConverter x:Key="ColorToBrush" />
     <Style TargetType="{x:Type zc:ZeusTabItem}">
         <Setter Property="Background">
             <Setter.Value>
@@ -12,11 +14,7 @@
                 <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush">
-            <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource BlueColor}" Opacity="0"/>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CloseTabCommand" Value="{Binding CloseTabCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusTabControl}}}" />
         <Setter Property="Template">
@@ -42,10 +40,8 @@
                                 MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                                 Command="{TemplateBinding CloseTabCommand}"
                                 CommandParameter="{TemplateBinding DataContext}"
-                                Visibility="Visible">
-                                <zc:ZeusButton.Foreground>
-                                    <SolidColorBrush Color="{DynamicResource RedColor}" />
-                                </zc:ZeusButton.Foreground>
+                                Visibility="Visible"
+                                Foreground="{TemplateBinding Foreground}">
                                 <Grid>
                                     <Path
                                         RenderOptions.EdgeMode="Aliased"
@@ -65,23 +61,11 @@
                             <Setter Property="Visibility" Value="Collapsed" TargetName="CloseButton" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource BlueColor}" />
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource BlueColor}"/>
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="BorderBrush">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource BlueColor}" />
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="Background" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
+                            <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
                             <Setter Property="Foreground">
                                 <Setter.Value>
                                     <SolidColorBrush Color="{DynamicResource BackgroundColor}" />

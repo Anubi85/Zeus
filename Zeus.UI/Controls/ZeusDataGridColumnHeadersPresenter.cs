@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls.Primitives;
+using Zeus.UI.Themes.Enums;
 
 namespace Zeus.UI.Controls
 {
@@ -16,6 +17,7 @@ namespace Zeus.UI.Controls
         static ZeusDataGridColumnHeadersPresenter()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ZeusDataGridColumnHeadersPresenter), new FrameworkPropertyMetadata(typeof(ZeusDataGridColumnHeadersPresenter)));
+            ColorProperty = ZeusWindowBase.ColorProperty.AddOwner(typeof(ZeusDataGridColumnHeadersPresenter), new FrameworkPropertyMetadata(ZeusColorStyles.Blue, FrameworkPropertyMetadataOptions.Inherits));
         }
 
         #endregion
@@ -29,6 +31,28 @@ namespace Zeus.UI.Controls
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new ZeusDataGridColumnHeader();
+        }
+
+        #endregion
+
+        #region Dependency properties
+
+        /// <summary>
+        /// <see cref="DependencyProperty"/> that handle <see cref="ZeusDataGridColumnHeadersPresenter"/> color styles.
+        /// </summary>
+        public static readonly DependencyProperty ColorProperty;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets <see cref="ZeusDataGridColumnHeadersPresenter"/> color style.
+        /// </summary>
+        public ZeusColorStyles Color
+        {
+            get { return (ZeusColorStyles)GetValue(ColorProperty); }
+            set { SetValue(ColorProperty, value); }
         }
 
         #endregion

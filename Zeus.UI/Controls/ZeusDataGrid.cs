@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using Zeus.UI.Themes.Enums;
 
 namespace Zeus.UI.Controls
 {
@@ -17,6 +18,7 @@ namespace Zeus.UI.Controls
         static ZeusDataGrid()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ZeusDataGrid), new FrameworkPropertyMetadata(typeof(ZeusDataGrid)));
+            ColorProperty = ZeusWindowBase.ColorProperty.AddOwner(typeof(ZeusDataGrid), new FrameworkPropertyMetadata(ZeusColorStyles.Blue, FrameworkPropertyMetadataOptions.Inherits));
         }
 
         #endregion
@@ -90,6 +92,10 @@ namespace Zeus.UI.Controls
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusDataGrid"/> autoscroll.
         /// </summary>
         public static readonly DependencyProperty AutoScrollProperty = DependencyProperty.Register("AutoScroll", typeof(bool), typeof(ZeusDataGrid), new PropertyMetadata(false, AutoScrollChanged));
+        /// <summary>
+        /// <see cref="DependencyProperty"/> that handle <see cref="ZeusDataGrid"/> color styles.
+        /// </summary>
+        public static readonly DependencyProperty ColorProperty;
 
         #endregion
 
@@ -102,6 +108,14 @@ namespace Zeus.UI.Controls
         {
             get { return (bool)GetValue(AutoScrollProperty); }
             set { SetValue(AutoScrollProperty, value); }
+        }
+        /// <summary>
+        /// Gets or sets <see cref="ZeusDataGrid"/> color style.
+        /// </summary>
+        public ZeusColorStyles Color
+        {
+            get { return (ZeusColorStyles)GetValue(ColorProperty); }
+            set { SetValue(ColorProperty, value); }
         }
 
         #endregion

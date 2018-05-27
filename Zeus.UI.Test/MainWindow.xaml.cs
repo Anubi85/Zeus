@@ -15,10 +15,7 @@ namespace Zeus.UI.Test
 
         private void ZeusButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            ZeusDialog dialog = new ZeusDialog();
-            dialog.ShowCloseButton = true;
-            dialog.Color = ZeusColorStyles.Green;
-            dialog.Show();
+            new Dialog().Show();
         }
     }
 }
