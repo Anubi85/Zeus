@@ -166,7 +166,6 @@
     <Compile Include="Enums\Colors.cs" />
     <Compile Include="Enums\ShowContexMenu.cs" />
     <Compile Include="Extensions\ImageSourceExtension.cs" />
-    <Compile Include="Mvvm\ZeusMessageBoxService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

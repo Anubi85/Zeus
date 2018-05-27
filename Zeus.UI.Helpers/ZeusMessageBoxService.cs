@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Zeus.UI.Mvvm.Interfaces;
 
 namespace Zeus.UI.Mvvm
@@ -16,7 +17,7 @@ namespace Zeus.UI.Mvvm
         /// <param name="text">The information text that will be shown.</param>
         public void ShowInfo(string text)
         {
-            MessageBox.Show(text, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            throw new NotImplementedException();
         }
         /// <summary>
         /// Shows a warning dialog.
@@ -24,7 +25,7 @@ namespace Zeus.UI.Mvvm
         /// <param name="text">The warning text that will be shown.</param>
         public void ShowWarning(string text)
         {
-            MessageBox.Show(text, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+            throw new NotImplementedException();
         }
         /// <summary>
         /// Shows an error dialog.
@@ -32,7 +33,7 @@ namespace Zeus.UI.Mvvm
         /// <param name="text">The error text that will be shown.</param>
         public void ShowError(string text)
         {
-            MessageBox.Show(text, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            throw new NotImplementedException();
         }
         /// <summary>
         /// Shows a confirmation dialog.
@@ -40,7 +41,7 @@ namespace Zeus.UI.Mvvm
         /// <param name="text">The confirmation text that will be shown.</param>
         public bool ShowConfirmation(string text)
         {
-            return MessageBox.Show(text, "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes;
+            throw new NotImplementedException();
         }
 
         #endregion

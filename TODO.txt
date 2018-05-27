@@ -2,4 +2,4 @@ Remove InternalLogger project
 Implement ZeusMessageBox
 Implement ZeusCheckBox
 Implement ZeusScrollBar
-Move ZeusMessageBoxService to Zeus.UI.Helpers dll
+Implement ZeusMessageBoxService
