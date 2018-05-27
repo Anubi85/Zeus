@@ -2,8 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:zc="clr-namespace:Zeus.UI.Controls">
     <Style TargetType="{x:Type zc:ZeusButton}">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+            </Setter.Value>
+        </Setter>
         <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
+            </Setter.Value>
+        </Setter>
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -45,6 +54,22 @@
                         </MultiTrigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Opacity" Value="0.5" TargetName="background" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Foreground.Opacity" To="0.5" Duration="0:0:0" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Foreground.Opacity" To="1" Duration="0:0:0" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

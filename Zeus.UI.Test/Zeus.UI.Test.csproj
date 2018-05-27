@@ -100,6 +100,18 @@
       <Project>{c9938270-db0a-446d-9c8f-4b95164cf916}</Project>
       <Name>Zeus.Helpers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zeus.UI.Converters\Zeus.UI.Converters.csproj">
+      <Project>{e923c3fa-5a55-4f72-b240-eec1f3962636}</Project>
+      <Name>Zeus.UI.Converters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zeus.UI.Mvvm\Zeus.UI.Mvvm.csproj">
+      <Project>{d459da7b-4ff0-43a1-8434-ffbc41407ee6}</Project>
+      <Name>Zeus.UI.Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zeus.UI.ValidationRules\Zeus.UI.ValidationRules.csproj">
+      <Project>{b23db966-9df3-4c5e-b95f-69f79b80970b}</Project>
+      <Name>Zeus.UI.ValidationRules</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zeus.UI\Zeus.UI.csproj">
       <Project>{fcfff681-0cbd-4fec-9934-fc7d765dd52f}</Project>
       <Name>Zeus.UI</Name>

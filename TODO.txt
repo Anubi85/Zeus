@@ -1,5 +1,5 @@
-Athena WPF viewer
 Remove InternalLogger project
-Handle NoResize mode
-Handle WindowStyle None mode
-Implementare ZeusMessageBox
+Implement ZeusMessageBox
+Implement ZeusCheckBox
+Implement ZeusScrollBar
+Move ZeusMessageBoxService to Zeus.UI.Helpers dll
