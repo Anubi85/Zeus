@@ -26,22 +26,6 @@ namespace Zeus.UI.Controls
         {
             CommandBindings.Add(new CommandBinding(SystemCommands.CloseWindowCommand, (sender, e) => SystemCommands.CloseWindow(this)));
             Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("/Zeus.UI;component/Styles/Zeus.xaml", UriKind.Relative) });
-            CloseTrueCommand = new Mvvm.RelayCommand(() =>
-            {
-                DialogResult = true;
-                Close();
-            });
-            CloseFalseCommand = new Mvvm.RelayCommand(() =>
-            {
-                DialogResult = false;
-                Close();
-            });
-            CloseNullCommand = new Mvvm.RelayCommand(() =>
-            {
-                DialogResult = null;
-                Close();
-            });
-            CloseCommand = new Mvvm.RelayCommand(Close);
         }
 
         #endregion
@@ -65,22 +49,6 @@ namespace Zeus.UI.Controls
             get { return (bool)GetValue(ShowCloseButtonProperty); }
             set { SetValue(ShowCloseButtonProperty, value); }
         }
-        /// <summary>
-        /// Gets a command that close the dialog and set the result to true.
-        /// </summary>
-        public ICommand CloseTrueCommand { get; private set; }
-        /// <summary>
-        /// Gets a command that close the dialog and set the result to false.
-        /// </summary>
-        public ICommand CloseFalseCommand { get; private set; }
-        /// <summary>
-        /// Gets a command that close the dialog and set the result to null.
-        /// </summary>
-        public ICommand CloseNullCommand { get; private set; }
-        /// <summary>
-        /// Gets a command that close the dialog without setting the result.
-        /// </summary>
-        public ICommand CloseCommand { get; private set; }
 
         #endregion
     }
