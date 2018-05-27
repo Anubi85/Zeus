@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using Zeus.UI.Enums;
 
 namespace Zeus.UI.Controls
 {
@@ -47,6 +48,10 @@ namespace Zeus.UI.Controls
         /// <see cref="DependencyProperty"/> that handle window maximize button visibility.
         /// </summary>
         public static readonly DependencyProperty ShowMaximizeButtonProperty = DependencyProperty.Register("ShowMaximizeButton", typeof(bool), typeof(ZeusWindow));
+        /// <summary>
+        /// <see cref="DependencyProperty"/> that handle <see cref="ZeusWindow"/> color styles.
+        /// </summary>
+        public static readonly DependencyProperty ColorProperty = DependencyProperty.Register("Color", typeof(ZeusColorStyles), typeof(ZeusWindow));
 
         #endregion
 
@@ -75,6 +80,14 @@ namespace Zeus.UI.Controls
         {
             get { return (bool)GetValue(ShowMaximizeButtonProperty); }
             set { SetValue(ShowMaximizeButtonProperty, value); }
+        }
+        /// <summary>
+        /// Gets or sets <see cref="ZeusWindow"/> color style.
+        /// </summary>
+        public ZeusColorStyles Color
+        {
+            get { return (ZeusColorStyles)GetValue(ColorProperty); }
+            set { SetValue(ColorProperty, value); }
         }
 
         #endregion

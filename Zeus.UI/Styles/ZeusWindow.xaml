@@ -14,11 +14,7 @@
                 <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush">
-            <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource BlueColor}" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome
@@ -78,9 +74,9 @@
                                         Margin="0,5,0,0">
                                         <zc:ZeusButton
                                             x:Name="btnMinimize"
-                                            Color="Blue"
-                                            MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                            MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                                            Color="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}"
+                                            Width="21"
+                                            Height="21"
                                             Command="{Binding Source={x:Static SystemCommands.MinimizeWindowCommand}}"
                                             Visibility="{Binding ShowMinimizeButton, Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}">
                                             <Grid>
@@ -97,9 +93,9 @@
                                         </zc:ZeusButton>
                                         <zc:ZeusButton
                                             x:Name="btnMaximize"
-                                            Color="Blue"
-                                            MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                            MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                                            Color="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}"
+                                            Width="21"
+                                            Height="21"
                                             Command="{Binding Source={x:Static SystemCommands.MaximizeWindowCommand}}"
                                             Visibility="{Binding ShowMaximizeButton, Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}">
                                             <Grid>
@@ -116,9 +112,9 @@
                                         </zc:ZeusButton>
                                         <zc:ZeusButton
                                             x:Name="btnRestore"
-                                            Color="Blue"
-                                            MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                            MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                                            Color="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}"
+                                            Width="21"
+                                            Height="21"
                                             Command="{Binding Source={x:Static SystemCommands.RestoreWindowCommand}}"
                                             Visibility="{Binding ShowMaximizeButton, Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}">
                                             <Grid>
@@ -134,9 +130,9 @@
                                             </Grid>
                                         </zc:ZeusButton>
                                         <zc:ZeusButton
-                                            Color="Red"
-                                            MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                            MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                                            Color="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}"
+                                            Width="21"
+                                            Height="21"
                                             Command="{Binding Source={x:Static SystemCommands.CloseWindowCommand}}"
                                             Visibility="{Binding ShowCloseButton, Converter={StaticResource BoolToVisibility}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusWindow}}}">
                                             <Grid>
@@ -229,5 +225,35 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="Color" Value="Blue">
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource BlueColor}" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="Color" Value="Green">
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource GreenColor}" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="Color" Value="Red">
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource RedColor}" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="Color" Value="Yellow">
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{DynamicResource YellowColor}" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>
