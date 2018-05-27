@@ -11,7 +11,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <controls:ZeusMenu>
+            <controls:ZeusMenuItem Header="Menu1">
+                <controls:ZeusMenuItem Header="Menu1-1" />
+                <controls:ZeusMenuItem Header="Menu1-2" />
+            </controls:ZeusMenuItem>
+        </controls:ZeusMenu>
         <controls:ZeusTrayIcon x:Name="pippo" Image="Resources/Icon1.ico" Tooltip="Test Tooltip" ShowContextMenu="OnRightClick">
             <controls:ZeusTrayIcon.ContextMenu>
                 <ContextMenu>
@@ -20,8 +28,8 @@
                 </ContextMenu>
             </controls:ZeusTrayIcon.ContextMenu>
         </controls:ZeusTrayIcon>
-        <controls:ZeusCheckBox IsThreeState="True">pippo</controls:ZeusCheckBox>
-        <controls:ZeusButton Color="Red" Click="ZeusButton_Click">Open</controls:ZeusButton>
-        <controls:ZeusTextBox>aaaa</controls:ZeusTextBox>
+        <controls:ZeusCheckBox Grid.Row="1" IsThreeState="True">pippo</controls:ZeusCheckBox>
+        <controls:ZeusButton Grid.Row="2" Color="Red" Click="ZeusButton_Click">Open</controls:ZeusButton>
+        <controls:ZeusTextBox Grid.Row="3">aaaa</controls:ZeusTextBox>
     </Grid>
 </controls:ZeusWindow>
