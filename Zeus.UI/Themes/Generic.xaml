@@ -5,6 +5,7 @@
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusButton.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusLabel.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusTextBox.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusCheckBox.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusMenu.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusMenuItem.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusStatusBar.xaml" />

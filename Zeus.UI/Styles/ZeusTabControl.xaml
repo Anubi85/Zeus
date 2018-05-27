@@ -18,7 +18,7 @@
                 <ControlTemplate TargetType="{x:Type zc:ZeusTabControl}">
                     <Grid
                         ClipToBounds="true"
-                        SnapsToDevicePixels="true"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                         KeyboardNavigation.TabNavigation="Local">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition x:Name="ColumnDefinition0"/>

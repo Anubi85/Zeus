@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Zeus.UI.Test"
         xmlns:controls="clr-namespace:Zeus.UI.Controls;assembly=Zeus.UI"
         mc:Ignorable="d"
-        Title="MainWindow" WindowStyle="None" ResizeMode="CanResizeWithGrip" ShowMaximizeButton="True" ShowMinimizeButton="True" Height="350" Width="525" ShowCloseButton="True">
+        Title="MainWindow" ShowMaximizeButton="True" ShowMinimizeButton="True" Height="350" Width="525" ShowCloseButton="True">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -20,5 +20,6 @@
                 </ContextMenu>
             </controls:ZeusTrayIcon.ContextMenu>
         </controls:ZeusTrayIcon>
+        <controls:ZeusCheckBox IsThreeState="True">pippo</controls:ZeusCheckBox>
     </Grid>
 </controls:ZeusWindow>

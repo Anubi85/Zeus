@@ -3,7 +3,6 @@
                     xmlns:zc="clr-namespace:Zeus.UI.Controls">
     <Style TargetType="{x:Type zc:ZeusDataGridRow}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="SnapsToDevicePixels" Value="true"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type zc:ZeusDataGridRow}">
@@ -12,7 +11,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True">
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <SelectiveScrollingGrid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>

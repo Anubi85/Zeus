@@ -50,6 +50,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ZeusCheckBox.cs" />
     <Compile Include="Controls\ZeusDataGrid.cs" />
     <Compile Include="Controls\ZeusDataGridCell.cs" />
     <Compile Include="Controls\ZeusDataGridCellsPresenter.cs" />
@@ -66,6 +67,10 @@
     <Compile Include="Controls\ZeusTabControl.cs" />
     <Compile Include="Controls\ZeusTabItem.cs" />
     <Compile Include="Controls\ZeusTextBox.cs" />
+    <Page Include="Styles\ZeusCheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ZeusDataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -197,10 +202,6 @@
     <ProjectReference Include="..\Zeus.UI.Converters\Zeus.UI.Converters.csproj">
       <Project>{e923c3fa-5a55-4f72-b240-eec1f3962636}</Project>
       <Name>Zeus.UI.Converters</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zeus.UI.Mvvm\Zeus.UI.Mvvm.csproj">
-      <Project>{d459da7b-4ff0-43a1-8434-ffbc41407ee6}</Project>
-      <Name>Zeus.UI.Mvvm</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zeus\Zeus.csproj">
       <Project>{26023327-E03F-4A49-B5C0-F130AA72C3FB}</Project>

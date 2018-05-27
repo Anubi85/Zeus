@@ -15,7 +15,7 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Background="{TemplateBinding Background}"
                         Padding="{TemplateBinding Padding}"
-                        SnapsToDevicePixels="true">
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
                 </ControlTemplate>

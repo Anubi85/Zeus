@@ -56,7 +56,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                         Padding="{TemplateBinding Padding}">
                         <ScrollViewer
                             x:Name="DG_ScrollViewer"

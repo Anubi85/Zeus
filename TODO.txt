@@ -1,5 +1,5 @@
 Remove InternalLogger project
 Implement ZeusMessageBox
-Implement ZeusCheckBox
 Implement ZeusScrollBar
 Implement ZeusMessageBoxService
+Implement color for CheckBox and TextBox

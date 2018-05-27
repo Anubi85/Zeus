@@ -16,32 +16,83 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type zc:ZeusMenuItem}">
-                    <Grid SnapsToDevicePixels="True">
-                        <Rectangle x:Name="bg" Fill="{TemplateBinding Background}"/>
-                        <Border x:Name="bgBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,1,0" />
+                    <Grid SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <Rectangle
+                            x:Name="bg"
+                            Fill="{TemplateBinding Background}"/>
+                        <Border
+                            x:Name="bgBorder"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1,1,1,0" />
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="IconAndCheck" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter x:Name="Icon" Content="{TemplateBinding Icon}" ContentSource="Icon" Margin="4,0,0,0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center" />
-                            <Border x:Name="GlyphPanel" Width="10" Height="10" Visibility="Hidden" FlowDirection="LeftToRight" Margin="4,0,0,0" VerticalAlignment="Center" >
-                                <Path  Data="M0,5.1L1.7,5.2 3.4,7.1 8,0.4 9.2,0 3.3,10.8z" Stretch="Fill" >
+                            <ContentPresenter
+                                x:Name="Icon"
+                                Content="{TemplateBinding Icon}"
+                                ContentSource="Icon" Margin="4,0,0,0"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                VerticalAlignment="Center" />
+                            <Border
+                                x:Name="GlyphPanel"
+                                Width="10"
+                                Height="10"
+                                Visibility="Hidden"
+                                FlowDirection="LeftToRight"
+                                Margin="4,0,0,0"
+                                VerticalAlignment="Center" >
+                                <Path
+                                    Data="M0,5.1L1.7,5.2 3.4,7.1 8,0.4 9.2,0 3.3,10.8z"
+                                    Stretch="Fill" >
                                     <Path.Fill>
                                         <SolidColorBrush Color="{DynamicResource BlueColor}" />
                                     </Path.Fill>
                                 </Path>
                             </Border>
-                            <ContentPresenter Grid.Column="1" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            <ContentPresenter Grid.Column="2" Content="{TemplateBinding InputGestureText}" ContentSource="InputGestureText" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ContentPresenter
+                                Grid.Column="1"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                Content="{TemplateBinding Header}"
+                                ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                                ContentSource="Header"
+                                Margin="{TemplateBinding Padding}"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ContentPresenter
+                                Grid.Column="2"
+                                Content="{TemplateBinding InputGestureText}"
+                                ContentSource="InputGestureText"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Grid>
-                        <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" Placement="Bottom" VerticalOffset="-1">
-                            <Grid SnapsToDevicePixels="True">
-                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,1,1">
-                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="True"  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle"/>
+                        <Popup
+                            x:Name="PART_Popup"
+                            AllowsTransparency="True"
+                            Focusable="False"
+                            IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                            Placement="Bottom"
+                            VerticalOffset="-1">
+                            <Grid SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                <Border
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1,0,1,1">
+                                    <ItemsPresenter
+                                        x:Name="ItemsPresenter"
+                                        KeyboardNavigation.DirectionalNavigation="Cycle"
+                                        Grid.IsSharedSizeScope="True" 
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                        KeyboardNavigation.TabNavigation="Cycle"/>
                                 </Border>
-                                <Border x:Name="fixBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,1,0,0" HorizontalAlignment="Left" Width="{Binding Path=ActualWidth, ElementName=ItemsPresenter}" Margin="1,0" >
+                                <Border
+                                    x:Name="fixBorder"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0,1,0,0"
+                                    HorizontalAlignment="Left"
+                                    Width="{Binding Path=ActualWidth, ElementName=ItemsPresenter}"
+                                    Margin="1,0" >
                                     <Border.RenderTransform>
                                         <TranslateTransform X="{Binding Path=ActualWidth, ElementName=bg}" />
                                     </Border.RenderTransform>
