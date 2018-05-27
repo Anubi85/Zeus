@@ -1,4 +1,4 @@
-﻿namespace Zeus.UI.Enums
+﻿namespace Zeus.UI.Themes.Enums
 {
     /// <summary>
     /// Zeus color styles.

@@ -1,6 +1,6 @@
-﻿using Zeus.UI.Enums;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using Zeus.UI.Themes.Enums;
 
 namespace Zeus.UI.Controls
 {

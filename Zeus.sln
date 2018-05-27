@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.UI.ValidationRules", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.UI.Helpers", "Zeus.UI.Helpers\Zeus.UI.Helpers.csproj", "{D72F9428-97EE-4B24-8A19-970C1E02524E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zeus.UI.Themes", "Zeus.UI.Themes\Zeus.UI.Themes.csproj", "{03419767-EFB9-4BEC-B028-0281D396E8B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -242,6 +244,18 @@ Global
 		{D72F9428-97EE-4B24-8A19-970C1E02524E}.Release|x64.Build.0 = Release|Any CPU
 		{D72F9428-97EE-4B24-8A19-970C1E02524E}.Release|x86.ActiveCfg = Release|Any CPU
 		{D72F9428-97EE-4B24-8A19-970C1E02524E}.Release|x86.Build.0 = Release|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Debug|x64.Build.0 = Debug|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Debug|x86.Build.0 = Debug|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Release|x64.ActiveCfg = Release|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Release|x64.Build.0 = Release|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Release|x86.ActiveCfg = Release|Any CPU
+		{03419767-EFB9-4BEC-B028-0281D396E8B9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

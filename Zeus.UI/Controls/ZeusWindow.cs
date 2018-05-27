@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using Zeus.UI.Enums;
+using Zeus.UI.Themes.Enums;
 
 namespace Zeus.UI.Controls
 {

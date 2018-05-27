@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E923C3FA-5A55-4F72-B240-EEC1F3962636}</ProjectGuid>
+    <ProjectGuid>{03419767-EFB9-4BEC-B028-0281D396E8B9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Zeus.UI.Converters</RootNamespace>
-    <AssemblyName>Zeus.UI.Converters</AssemblyName>
+    <RootNamespace>Zeus.UI.Themes</RootNamespace>
+    <AssemblyName>Zeus.UI.Themes</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\Redist\Zeus.UI.Converters.XML</DocumentationFile>
+    <DocumentationFile>..\Redist\Zeus.UI.Themes.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -44,17 +44,22 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoolToVisibilityConverter.cs" />
-    <Compile Include="ColorStyleToBrushConverter.cs" />
-    <Compile Include="InvertedBoolToVisibilityConverter.cs" />
-    <Compile Include="InvertThicknessConverter.cs" />
+    <Compile Include="Enums\ZeusColorStyles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Zeus.UI.Themes\Zeus.UI.Themes.csproj">
-      <Project>{03419767-efb9-4bec-b028-0281d396e8b9}</Project>
-      <Name>Zeus.UI.Themes</Name>
-    </ProjectReference>
+    <Page Include="Zeus.Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zeus.Dark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Zeus.Light.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

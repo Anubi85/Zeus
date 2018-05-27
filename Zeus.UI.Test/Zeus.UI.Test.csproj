@@ -108,6 +108,10 @@
       <Project>{d459da7b-4ff0-43a1-8434-ffbc41407ee6}</Project>
       <Name>Zeus.UI.Mvvm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zeus.UI.Themes\Zeus.UI.Themes.csproj">
+      <Project>{03419767-efb9-4bec-b028-0281d396e8b9}</Project>
+      <Name>Zeus.UI.Themes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zeus.UI.ValidationRules\Zeus.UI.ValidationRules.csproj">
       <Project>{b23db966-9df3-4c5e-b95f-69f79b80970b}</Project>
       <Name>Zeus.UI.ValidationRules</Name>
