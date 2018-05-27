@@ -3,6 +3,7 @@
                     xmlns:zc="clr-namespace:Zeus.UI.Controls"
                     xmlns:converters="clr-namespace:Zeus.UI.Converters;assembly=Zeus.UI.Converters">
     <converters:InvertThicknessConverter x:Key="InvertThickness" />
+    <converters:ColorStyleToBrushConverter x:Key="ColorToBrush" />
     <Style TargetType="{x:Type zc:ZeusTextBox}">
         <Setter Property="Background">
             <Setter.Value>
@@ -22,11 +23,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="1"/>
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
-        <Setter Property="SelectionBrush">
-            <Setter.Value>
-                <SolidColorBrush Color="{DynamicResource BlueColor}" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="SelectionBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
         <Setter Property="SelectionOpacity" Value="0.5" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Validation.ErrorTemplate">
@@ -81,11 +78,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter Property="BorderBrush">
-                                <Setter.Value>
-                                    <SolidColorBrush Color="{DynamicResource BlueColor}" />
-                                </Setter.Value>
-                            </Setter>
+                            <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
                         </Trigger>
                         <Trigger Property="Validation.HasError" Value="True">
                             <Trigger.EnterActions>
