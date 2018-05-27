@@ -11,5 +11,12 @@ namespace Zeus.UI.Test
         {
             InitializeComponent();
         }
+
+        private void ZeusButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ZeusDialog dialog = new ZeusDialog();
+            dialog.ShowCloseButton = true;
+            dialog.Show();
+        }
     }
 }

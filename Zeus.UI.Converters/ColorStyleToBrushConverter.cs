@@ -29,7 +29,7 @@ namespace Zeus.UI.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             SolidColorBrush brush = new SolidColorBrush();
-            brush.Opacity = (double)(parameter ?? 1);
+            brush.Opacity = (double)(parameter ?? 1.0);
             switch((ZeusColorStyles)value)
             {
                 case ZeusColorStyles.Blue:

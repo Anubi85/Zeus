@@ -3,6 +3,7 @@
                     xmlns:zc="clr-namespace:Zeus.UI.Controls"
                     xmlns:converters="clr-namespace:Zeus.UI.Converters;assembly=Zeus.UI.Converters">
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    <converters:ColorStyleToBrushConverter x:Key="ColorToBrush" />
     <Style TargetType="{x:Type zc:ZeusWindow}">
         <Setter Property="Background">
             <Setter.Value>
@@ -14,7 +15,7 @@
                 <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome
@@ -225,35 +226,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="Color" Value="Blue">
-                <Setter Property="BorderBrush">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource BlueColor}" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-            <Trigger Property="Color" Value="Green">
-                <Setter Property="BorderBrush">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource GreenColor}" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-            <Trigger Property="Color" Value="Red">
-                <Setter Property="BorderBrush">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource RedColor}" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-            <Trigger Property="Color" Value="Yellow">
-                <Setter Property="BorderBrush">
-                    <Setter.Value>
-                        <SolidColorBrush Color="{DynamicResource YellowColor}" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-        </Style.Triggers>
     </Style>
 </ResourceDictionary>
