@@ -13,6 +13,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <controls:ZeusMenu>
             <controls:ZeusMenuItem Header="Menu1">
@@ -31,5 +32,10 @@
         <controls:ZeusCheckBox Grid.Row="1" IsThreeState="True">pippo</controls:ZeusCheckBox>
         <controls:ZeusButton Grid.Row="2" Color="Red" Click="ZeusButton_Click">Open</controls:ZeusButton>
         <controls:ZeusTextBox Grid.Row="3">aaaa</controls:ZeusTextBox>
+        <controls:ZeusStatusBar Grid.Row="4">
+            <controls:ZeusStatusBarItem>
+                <controls:ZeusLabel Content="Status" />
+            </controls:ZeusStatusBarItem>
+        </controls:ZeusStatusBar>
     </Grid>
 </controls:ZeusWindow>
