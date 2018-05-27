@@ -66,16 +66,6 @@
     <Compile Include="Controls\ZeusTabControl.cs" />
     <Compile Include="Controls\ZeusTabItem.cs" />
     <Compile Include="Controls\ZeusTextBox.cs" />
-    <Compile Include="Converters\InvertedBoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\InvertThicknessConverter.cs" />
-    <Compile Include="Mvvm\DialogService.cs" />
-    <Compile Include="Mvvm\Interfaces\IDialogService.cs" />
-    <Compile Include="Mvvm\ObservableObject.cs" />
-    <Compile Include="Mvvm\RelayCommand.cs" />
-    <Compile Include="Mvvm\ServiceLocator.cs" />
-    <Compile Include="Mvvm\ViewModelBase.cs" />
-    <Compile Include="ValidationRules\IntegerValidationRule.cs" />
-    <Compile Include="ValidationRules\IPTextValidationRule.cs" />
     <Page Include="Styles\ZeusDataGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -171,7 +161,6 @@
     <Compile Include="Controls\ZeusButton.cs" />
     <Compile Include="Controls\ZeusTrayIcon.cs" />
     <Compile Include="Controls\ZeusWindow.cs" />
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\Colors.cs" />
