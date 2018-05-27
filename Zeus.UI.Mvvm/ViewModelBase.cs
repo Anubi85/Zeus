@@ -9,7 +9,7 @@ namespace Zeus.UI.Mvvm
     /// <summary>
     /// Provides common view model functionalities.
     /// </summary>
-    public abstract class ViewModelBase : ObservableObject
+    public abstract class ViewModelBase : ObservableObjectBase
     {
         #region Fields
 

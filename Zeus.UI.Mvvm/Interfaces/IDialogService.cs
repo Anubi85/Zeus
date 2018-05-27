@@ -9,26 +9,6 @@ namespace Zeus.UI.Mvvm.Interfaces
     public interface IDialogService
     {
         /// <summary>
-        /// Shows an information dialog.
-        /// </summary>
-        /// <param name="text">The information text that will be shown.</param>
-        void ShowInfo(string text);
-        /// <summary>
-        /// Shows a warning dialog.
-        /// </summary>
-        /// <param name="text">The warning text that will be shown.</param>
-        void ShowWarning(string text);
-        /// <summary>
-        /// Shows an error dialog.
-        /// </summary>
-        /// <param name="text">The error text that will be shown.</param>
-        void ShowError(string text);
-        /// <summary>
-        /// Shows a confirmation dialog.
-        /// </summary>
-        /// <param name="text">The confirmation text that will be shown.</param>
-        bool ShowConfirmation(string text);
-        /// <summary>
         /// Shows a new non modal dialog that binds to the provided view model.
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>

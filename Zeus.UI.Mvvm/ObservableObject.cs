@@ -9,7 +9,7 @@ namespace Zeus.UI.Mvvm
     /// <summary>
     /// Provides a basic <see cref="INotifyPropertyChanged"/> implementation.
     /// </summary>
-    public abstract class ObservableObject : INotifyPropertyChanged
+    public abstract class ObservableObjectBase : INotifyPropertyChanged
     {
         #region INotifyPropertyChanged interface
 
