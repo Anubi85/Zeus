@@ -298,7 +298,7 @@ namespace Zeus.UI.Mvvm
         /// <param name="executeCallback">A flag that indicates if the callback action shall be executed.</param>
         public void CloseDialog(ViewModelBase viewModel, bool executeCallback)
         {
-            CloseDialog(viewModel, null, executeCallback);
+            CloseDialog(viewModel, null, (bool?)executeCallback);
         }
         /// <summary>
         /// Closes the dialog associated with the given view model.
@@ -317,7 +317,7 @@ namespace Zeus.UI.Mvvm
         /// <param name="executeCallback">A flag that indicates if the callback action shall be executed.</param>
         public void CloseDialog(ViewModelBase viewModel, bool? dialogResult, bool executeCallback)
         {
-            CloseDialog(viewModel, dialogResult, executeCallback);
+            CloseDialog(viewModel, dialogResult, (bool?)executeCallback);
         }
         /// <summary>
         /// Register a view for a specific view model type.
