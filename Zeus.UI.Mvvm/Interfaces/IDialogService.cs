@@ -30,8 +30,23 @@ namespace Zeus.UI.Mvvm.Interfaces
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
         /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
+        /// <param name="canExecuteCallback">A function that specify when the <paramref name="callback"/> action shall be executed.</param>
+        void ShowDialog(ViewModelBase viewModel, Action<ViewModelBase> callback, Func<bool?, bool> canExecuteCallback);
+        /// <summary>
+        /// Shows a new non modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>        
         /// <param name="owner">The owner window of the dialog.</param>
+        /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
         void ShowDialog(ViewModelBase viewModel, Window owner, Action<ViewModelBase> callback);
+        /// <summary>
+        /// Shows a new non modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>        
+        /// <param name="owner">The owner window of the dialog.</param>
+        /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
+        /// <param name="canExecuteCallback">A function that specify when the <paramref name="callback"/> action shall be executed.</param>
+        void ShowDialog(ViewModelBase viewModel, Window owner, Action<ViewModelBase> callback, Func<bool?, bool> canExecuteCallback);
         /// <summary>
         /// Shows a new modal dialog that binds to the provided view model.
         /// </summary>
@@ -42,9 +57,41 @@ namespace Zeus.UI.Mvvm.Interfaces
         /// Shows a new modal dialog that binds to the provided view model.
         /// </summary>
         /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
+        /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
+        /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
+        bool? ShowModalDialog(ViewModelBase viewModel, Action<ViewModelBase> callback);
+        /// <summary>
+        /// Shows a new modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
+        /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
+        /// <param name="canExecuteCallback">A function that specify when the <paramref name="callback"/> action shall be executed.</param>
+        /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
+        bool? ShowModalDialog(ViewModelBase viewModel, Action<ViewModelBase> callback, Func<bool?, bool> canExecuteCallback);
+        /// <summary>
+        /// Shows a new modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
         /// <param name="owner">The owner window of the dialog.</param>
         /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
         bool? ShowModalDialog(ViewModelBase viewModel, Window owner);
+        /// <summary>
+        /// Shows a new modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
+        /// <param name="owner">The owner window of the dialog.</param>
+        /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
+        /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
+        bool? ShowModalDialog(ViewModelBase viewModel, Window owner, Action<ViewModelBase> callback);
+        /// <summary>
+        /// Shows a new modal dialog that binds to the provided view model.
+        /// </summary>
+        /// <param name="viewModel">The view model of the dialog that has to be shown.</param>
+        /// <param name="owner">The owner window of the dialog.</param>
+        /// <param name="callback">Callback action that will be execute after the dialog as been colosed.</param>
+        /// <param name="canExecuteCallback">A function that specify when the <paramref name="callback"/> action shall be executed.</param>
+        /// <returns>A <see cref="Nullable"/> <see cref="bool"/> value hat specified whether the activity was accepted (true) or cancelled(false).</returns>
+        bool? ShowModalDialog(ViewModelBase viewModel, Window owner, Action<ViewModelBase> callback, Func<bool?, bool> canExecuteCallback);
         /// <summary>
         /// Closes the dialog associated with the given view model.
         /// </summary>
@@ -54,8 +101,21 @@ namespace Zeus.UI.Mvvm.Interfaces
         /// Closes the dialog associated with the given view model.
         /// </summary>
         /// <param name="viewModel">The view model associated with the dialog that has to be closed.</param>
+        /// <param name="executeCallback">A flag that indicates if the callback action shall be executed.</param>
+        void CloseDialog(ViewModelBase viewModel, bool executeCallback);
+        /// <summary>
+        /// Closes the dialog associated with the given view model.
+        /// </summary>
+        /// <param name="viewModel">The view model associated with the dialog that has to be closed.</param>
         /// <param name="dialogResult">The result that has to be associated with the dialog.</param>
         void CloseDialog(ViewModelBase viewModel, bool? dialogResult);
+        /// <summary>
+        /// Closes the dialog associated with the given view model.
+        /// </summary>
+        /// <param name="viewModel">The view model associated with the dialog that has to be closed.</param>
+        /// <param name="dialogResult">The result that has to be associated with the dialog.</param>
+        /// <param name="executeCallback">A flag that indicates if the callback action shall be executed.</param>
+        void CloseDialog(ViewModelBase viewModel, bool? dialogResult, bool executeCallback);
         /// <summary>
         /// Register a view for a specific view model type.
         /// </summary>

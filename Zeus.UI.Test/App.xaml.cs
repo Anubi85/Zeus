@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using Zeus.UI.Mvvm;
+using Zeus.UI.Mvvm.Interfaces;
 
 namespace Zeus.UI.Test
 {
@@ -9,6 +11,9 @@ namespace Zeus.UI.Test
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            DialogService ds = new DialogService();
+            ds.Register<Dialog, DialogViewModel>();
+            ServiceLocator.Register<IDialogService>(ds);
             base.OnStartup(e);
         }
     }

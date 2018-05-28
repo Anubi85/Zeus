@@ -7,6 +7,9 @@
         xmlns:controls="clr-namespace:Zeus.UI.Controls;assembly=Zeus.UI"
         mc:Ignorable="d"
         Title="MainWindow" Color="Yellow" ShowMaximizeButton="True" ShowMinimizeButton="True" Height="350" Width="525" ShowCloseButton="True">
+    <controls:ZeusWindow.DataContext>
+        <local:MainViewModel />
+    </controls:ZeusWindow.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -30,7 +33,7 @@
             </controls:ZeusTrayIcon.ContextMenu>
         </controls:ZeusTrayIcon>
         <controls:ZeusCheckBox Grid.Row="1" IsThreeState="True">pippo</controls:ZeusCheckBox>
-        <controls:ZeusButton Grid.Row="2" Color="Red" Click="ZeusButton_Click">Open</controls:ZeusButton>
+        <controls:ZeusButton Grid.Row="2" Color="Red" Command="{Binding OpenDialogCommand}" >Open</controls:ZeusButton>
         <controls:ZeusTextBox Grid.Row="3">aaaa</controls:ZeusTextBox>
         <controls:ZeusStatusBar Grid.Row="4">
             <controls:ZeusStatusBarItem>
