@@ -44,6 +44,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DialogResult.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="Interfaces\IDialogService.cs" />
     <Compile Include="Interfaces\IMessageBoxService.cs" />
