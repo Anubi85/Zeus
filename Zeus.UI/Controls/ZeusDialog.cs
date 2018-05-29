@@ -27,17 +27,17 @@ namespace Zeus.UI.Controls
         public ZeusDialog()
         {
             AddHandler(LoadedEvent, new RoutedEventHandler(OnLoad));
-            m_BlinkStart = null;
+            m_BlinkStart = false;
             m_TitlebarBlinkStoryboard = new Storyboard();
             m_TitlebarBlinkStoryboard.Children.Add(new DoubleAnimation(1, 0, TimeSpan.FromTicks(750000)));
             m_TitlebarBlinkStoryboard.RepeatBehavior = new RepeatBehavior(5);
             m_TitlebarBlinkStoryboard.AutoReverse = true;
             Storyboard.SetTargetProperty(m_TitlebarBlinkStoryboard, new PropertyPath(Border.OpacityProperty));
             m_WindowBorderBlinkStoryboard = new Storyboard();
-            m_WindowBorderBlinkStoryboard.Children.Add(new ThicknessAnimation(new Thickness(1), new Thickness(0), TimeSpan.FromTicks(750000)));
+            m_WindowBorderBlinkStoryboard.Children.Add(new DoubleAnimation(1, 0, TimeSpan.FromTicks(750000)));
             m_WindowBorderBlinkStoryboard.RepeatBehavior = new RepeatBehavior(5);
             m_WindowBorderBlinkStoryboard.AutoReverse = true;
-            Storyboard.SetTargetProperty(m_WindowBorderBlinkStoryboard, new PropertyPath(Border.BorderThicknessProperty));
+            Storyboard.SetTargetProperty(m_WindowBorderBlinkStoryboard, new PropertyPath("BorderBrush.Opacity"));
         }
 
         #endregion
@@ -46,11 +46,10 @@ namespace Zeus.UI.Controls
 
         /// <summary>
         /// A flag that indicates if the blink animation should start.
-        /// null mean ready for new animation.
-        /// false mean ready for animation.
-        /// true mean animation started.
+        /// false mean ready for new animation.
+        /// true mean ready for animation.
         /// </summary>
-        private bool? m_BlinkStart;
+        private bool m_BlinkStart;
         /// <summary>
         /// Storyboard used for blink animation when a modal dialog parent is click.
         /// </summary>
@@ -96,12 +95,12 @@ namespace Zeus.UI.Controls
         /// <returns>The appropriate return value depends on the particular message. See the message documentation details for the Win32 message being handled.</returns>
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            switch((WM)msg)
+            switch ((WM)msg)
             {
-                case WM.NCACTIVATE:
-                    if (m_BlinkStart != null &&  m_BlinkStart == false)
+                case WM.GETICON:
+                    if (m_BlinkStart)
                     {
-                        m_BlinkStart = true;
+                        m_BlinkStart = false;
                         m_TitlebarBlinkStoryboard.Begin(m_Titlebar);
                         if (m_WindowBorder.Visibility == Visibility.Visible)
                         {
@@ -110,10 +109,12 @@ namespace Zeus.UI.Controls
                     }
                     break;
                 case WM.WINDOWPOSCHANGING:
-                    m_BlinkStart = false;
+                    m_BlinkStart = true;
+                    break;
+                case WM.NCACTIVATE:
                     break;
                 default:
-                    m_BlinkStart = null;
+                    m_BlinkStart = false;
                     break;
             }
             return IntPtr.Zero;
