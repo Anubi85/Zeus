@@ -2,4 +2,3 @@ Remove InternalLogger project
 Implement ZeusMessageBox
 Implement ZeusScrollBar
 Implement ZeusMessageBoxService
-Fix Tray icon that does not disappear

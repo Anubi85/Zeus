@@ -281,6 +281,18 @@ namespace Zeus.Helpers
         public enum WM
         {
             /// <summary>
+            /// Sent to a window whose size, position, or place in the Z order is about to change.
+            /// </summary>
+            WINDOWPOSCHANGING = 0x0046,
+            /// <summary>
+            /// Sent to a window to retrieve a handle to the large or small icon associated with a window.
+            /// </summary>
+            GETICON = 0x007F,
+            /// <summary>
+            /// Sent to a window when its nonclient area needs to be changed to indicate an active or inactive state.
+            /// </summary>
+            NCACTIVATE = 0x0086,
+            /// <summary>
             /// Posted to the window with the keyboard focus when a nonsystem key is pressed.
             /// A nonsystem key is a key that is pressed when the ALT key is not pressed.
             /// </summary>
