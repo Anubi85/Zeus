@@ -130,6 +130,10 @@
       <Project>{fcfff681-0cbd-4fec-9934-fc7d765dd52f}</Project>
       <Name>Zeus.UI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zeus\Zeus.csproj">
+      <Project>{26023327-e03f-4a49-b5c0-f130aa72c3fb}</Project>
+      <Name>Zeus</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icon1.ico" />

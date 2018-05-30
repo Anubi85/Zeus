@@ -15,7 +15,7 @@ namespace Zeus.UI.Test
 
         private void CloseDialog()
         {
-            ServiceLocator.Resolve<IDialogService>().CloseDialog(this, true);
+            ServiceLocator.Resolve<IDialogService>().CloseDialog(this, DialogResult.Success);
         }
 
         public DialogViewModel()

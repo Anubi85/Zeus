@@ -31,7 +31,6 @@ namespace Zeus.UI.Controls
             m_BlinkStoryboard.RepeatBehavior = new RepeatBehavior(5);
             m_BlinkStoryboard.AutoReverse = true;
             Storyboard.SetTargetProperty(m_BlinkStoryboard, new PropertyPath("BorderBrush.Opacity"));
-            ContentRendered += (sender, e) => Console.WriteLine("Rendered");
         }
 
         #endregion

@@ -16,7 +16,7 @@ namespace Zeus.UI.Test
 
         private void OpenDialog(object owner)
         {
-            ServiceLocator.Resolve<IDialogService>().ShowModalDialog(new DialogViewModel(), owner as Window, (vm) => Console.WriteLine("Callback"));
+            ServiceLocator.Resolve<IDialogService>().ShowModalDialog(new DialogViewModel(), owner as Window, (vm) => Console.WriteLine("Callback"), (res) => res == DialogResult.Success);
         }
 
         public MainViewModel()
