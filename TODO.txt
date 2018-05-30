@@ -1,4 +1,3 @@
 Remove InternalLogger project
 Implement ZeusMessageBox
-Implement ZeusScrollBar
 Implement ZeusMessageBoxService

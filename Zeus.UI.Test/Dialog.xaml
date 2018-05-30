@@ -7,8 +7,18 @@
         xmlns:controls="clr-namespace:Zeus.UI.Controls;assembly=Zeus.UI"
         mc:Ignorable="d"
         Color="Green"
-        Title="Dialog" Height="Auto" Width="Auto" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner">
+        Title="Dialog" Height="Auto" Width="Auto"  WindowStartupLocation="CenterOwner">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <controls:ZeusButton Command="{Binding CloseDialogCommand}">Close</controls:ZeusButton>
+        <controls:ZeusScrollBar Grid.Column="1" Orientation="Vertical" />
+        <controls:ZeusScrollBar Grid.Row="1" Orientation="Horizontal" />
     </Grid>
 </controls:ZeusDialog>

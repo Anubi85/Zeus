@@ -1,0 +1,263 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:zc="clr-namespace:Zeus.UI.Controls"
+                    xmlns:converters="clr-namespace:Zeus.UI.Converters;assembly=Zeus.UI.Converters"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <converters:ColorStyleToBrushConverter x:Key="ColorToBrush" />
+    <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusScrollBar}}, Converter={StaticResource ColorToBrush}}" />
+        <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusScrollBar}}, Converter={StaticResource ColorToBrush}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Grid>
+                        <Border
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}" />
+                        <Border
+                            x:Name="background"
+                            Background="{TemplateBinding Foreground}"
+                            Opacity="0"
+                            Width="{TemplateBinding Width}"
+                            Height="{TemplateBinding Height}" />
+                        <ContentPresenter
+                            x:Name="arrow"
+                            Opacity="0.5"
+                            Margin="{TemplateBinding Padding}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            RecognizesAccessKey="True"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="1" TargetName="arrow" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" Value="0.25" TargetName="background" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle
+                        Fill="{TemplateBinding Background}"
+                        Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusScrollBar}}, Converter={StaticResource ColorToBrush}}"/>
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Margin" Value="1 "/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <Rectangle
+                            x:Name="rect"
+                            Opacity="0"
+                            Fill="{TemplateBinding BorderBrush}"
+                            Margin="{TemplateBinding Padding}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.5" TargetName="rect" />
+                        </Trigger>
+                        <Trigger Property="IsDragging" Value="True">
+                            <Setter Property="Opacity" Value="1" TargetName="rect" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type zc:ZeusScrollBar}">
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"/>
+        <Setter Property="MinWidth" Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type zc:ZeusScrollBar}">
+                    <Grid
+                        x:Name="Bg"
+                        Background="{TemplateBinding Background}"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                            <RowDefinition Height="0.00001*"/>
+                            <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                        </Grid.RowDefinitions>
+                        <RepeatButton
+                            Grid.Row="0"
+                            Command="{x:Static ScrollBar.LineUpCommand}"
+                            IsEnabled="{TemplateBinding IsMouseOver}"
+                            Style="{StaticResource ScrollBarButton}">
+                            <Path
+                                Margin="3,5"
+                                Stretch="Fill"
+                                Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RepeatButton}}}"
+                                Data="M 0 1 L 2 1 L 1 0 Z" />
+                        </RepeatButton>
+                        <Track
+                            x:Name="PART_Track"
+                            Grid.Row="1"
+                            IsDirectionReversed="true"
+                            IsEnabled="{TemplateBinding IsMouseOver}">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton
+                                    Command="{x:Static ScrollBar.PageUpCommand}"
+                                    Style="{StaticResource ScrollBarPageButton}"/>
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton
+                                    Command="{x:Static ScrollBar.PageDownCommand}"
+                                    Style="{StaticResource ScrollBarPageButton}"/>
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource ScrollBarThumb}" />
+                            </Track.Thumb>
+                        </Track>
+                        <RepeatButton
+                            Grid.Row="2"
+                            Command="{x:Static ScrollBar.LineDownCommand}"
+                            IsEnabled="{TemplateBinding IsMouseOver}"
+                            Style="{StaticResource ScrollBarButton}">
+                            <Path
+                                Margin="3,5"
+                                Stretch="Fill"
+                                Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RepeatButton}}}"
+                                Data="M 0 0 L 2 0 L 1 1 Z" />
+                        </RepeatButton>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="Bg">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource ForegroundColor}" Opacity="0.25" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="MinWidth" Value="0"/>
+                <Setter Property="Height" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
+                <Setter Property="MinHeight" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type zc:ZeusScrollBar}">
+                            <Grid
+                                x:Name="Bg"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                    <ColumnDefinition Width="0.00001*"/>
+                                    <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                </Grid.ColumnDefinitions>
+                                <RepeatButton
+                                    Grid.Column="0"
+                                    Command="{x:Static ScrollBar.LineLeftCommand}"
+                                    IsEnabled="{TemplateBinding IsMouseOver}"
+                                    Style="{StaticResource ScrollBarButton}">
+                                    <Path
+                                        Margin="5,3"
+                                        Stretch="Fill"
+                                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RepeatButton}}}"
+                                        Data="M 1 0 L 1 2 L 0 1 Z" />
+                                </RepeatButton>
+                                <Track
+                                    x:Name="PART_Track"
+                                    Grid.Column="1"
+                                    IsEnabled="{TemplateBinding IsMouseOver}">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton
+                                            Command="{x:Static ScrollBar.PageLeftCommand}"
+                                            Style="{StaticResource ScrollBarPageButton}"/>
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton
+                                            Command="{x:Static ScrollBar.PageRightCommand}"
+                                            Style="{StaticResource ScrollBarPageButton}"/>
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb Style="{StaticResource ScrollBarThumb}" />
+                                    </Track.Thumb>
+                                </Track>
+                                <RepeatButton
+                                    Grid.Column="2"
+                                    Command="{x:Static ScrollBar.LineRightCommand}"
+                                    IsEnabled="{TemplateBinding IsMouseOver}"
+                                    Style="{StaticResource ScrollBarButton}">
+                                    <Path
+                                        Margin="5,3"
+                                        Stretch="Fill"
+                                        Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type RepeatButton}}}"
+                                        Data="M 0 0 L 0 2 L 1 1 Z" />
+                                </RepeatButton>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="Bg">
+                                        <Setter.Value>
+                                            <SolidColorBrush Color="{DynamicResource ForegroundColor}" Opacity="0.25" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

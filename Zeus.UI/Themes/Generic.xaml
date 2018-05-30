@@ -19,6 +19,7 @@
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGridRowHeader.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGridCellsPresenter.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDataGridCell.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusScrollBar.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusWindow.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDialog.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/Zeus.xaml" />
