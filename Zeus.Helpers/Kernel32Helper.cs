@@ -17,6 +17,12 @@ namespace Zeus.Helpers
         /// <returns>The handle of the module if succeed, <see cref="IntPtr.Zero"/> if fails.</returns>
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
+        /// <summary>
+        /// Retrieves the thread identifier of the calling thread.
+        /// </summary>
+        /// <returns>The thread identifier of the calling thread.</returns>
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern uint GetCurrentThreadId();
 
         #endregion
     }

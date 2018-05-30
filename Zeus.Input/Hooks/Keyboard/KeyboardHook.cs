@@ -40,6 +40,10 @@ namespace Zeus.Input.Hooks.Keyboard
         /// The thread that actually process the keyboard messages formatting the data and firing events.
         /// </summary>
         private Thread m_WorkerThread;
+        /// <summary>
+        /// Reference to the <see cref="User32Helper.LowLevelKeyboardProc"/> callback.
+        /// </summary>
+        private User32Helper.LowLevelKeyboardProc m_LowLevelKeyboardCallback;
 
         #endregion
 
@@ -79,14 +83,14 @@ namespace Zeus.Input.Hooks.Keyboard
         /// <param name="lParam">A pointer to a <see cref="KBDLLHOOKSTRUCT"/> structure.</param>
         /// <returns>If returns <see cref="IntPtr.Zero"/> other message hooks in the queue are not processed,
         /// otherwise processing continues normally.</returns>
-        private IntPtr HookCallBack(int nCode, User32Helper.WM wParam, IntPtr lParam)
+        private IntPtr HookCallBack(int nCode, IntPtr wParam, IntPtr lParam)
         {
             if (nCode >= 0)
             {
-                KeyData data = new KeyData(wParam, lParam);
+                KeyData data = new KeyData((User32Helper.WM)wParam.ToInt32(), lParam);
                 m_HookQueue.Add(data);
             }
-            return User32Helper.CallNextHookEx(m_HookID, nCode, (int)wParam, lParam);
+            return User32Helper.CallNextHookEx(m_HookID, nCode, wParam, lParam);
         }
 
         #endregion
@@ -106,7 +110,8 @@ namespace Zeus.Input.Hooks.Keyboard
             {
                 using (ProcessModule curModule = curProc.MainModule)
                 {
-                    m_HookID = User32Helper.SetWindowsHookEx(User32Helper.WH.KEYBOARD_LL, HookCallBack, Kernel32Helper.GetModuleHandle(curModule.ModuleName), 0);
+                    m_LowLevelKeyboardCallback = new User32Helper.LowLevelKeyboardProc(HookCallBack);
+                    m_HookID = User32Helper.SetWindowsHookEx(User32Helper.WH.KEYBOARD_LL, m_LowLevelKeyboardCallback, Kernel32Helper.GetModuleHandle(curModule.ModuleName), 0);
                 }
             }
         }

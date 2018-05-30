@@ -164,14 +164,6 @@ namespace Zeus.UI.Controls
             }
         }
         /// <summary>
-        /// Gets or sets icon context menu.
-        /// </summary>
-        public ContextMenu ContextMenu
-        {
-            get { return GetValue(ContextMenuProperty) as ContextMenu; }
-            set { SetValue(ContextMenuProperty, value); }
-        }
-        /// <summary>
         /// Gets or sets the automatic display mode of the icon <see cref="ContextMenu"/>.
         /// </summary>
         public ShowContexMenu ShowContextMenu
@@ -200,10 +192,6 @@ namespace Zeus.UI.Controls
         /// <see cref="DependencyProperty"/> for icon tooltip.
         /// </summary>
         public static readonly DependencyProperty TooltipProperty = DependencyProperty.Register("Tooltip", typeof(string), typeof(ZeusTrayIcon), new PropertyMetadata(null, TooltipPropertyChanged));
-        /// <summary>
-        /// <see cref="DependencyProperty"/> for icon context menu.
-        /// </summary>
-        public static readonly DependencyProperty ContextMenuProperty = DependencyProperty.Register("ContextMenu", typeof(ContextMenu), typeof(ZeusTrayIcon));
         /// <summary>
         /// <see cref="DependencyProperty"/> that control the automatic display of the <see cref="ContextMenu"/>.
         /// </summary>

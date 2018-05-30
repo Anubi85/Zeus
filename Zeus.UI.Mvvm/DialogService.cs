@@ -120,6 +120,7 @@ namespace Zeus.UI.Mvvm
             };
             if (modal)
             {
+                dialog.ShowInTaskbar = false;
                 result = dialog.ShowDialog();
                 performCallback(result, m_ViewInstaceExecuteCallbackStore[viewModel]);
                 //remove registration

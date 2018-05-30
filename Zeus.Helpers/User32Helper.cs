@@ -19,7 +19,7 @@ namespace Zeus.Helpers
         /// <param name="dwThreadId">The identifier of the thread with which the hook procedure is to be associated.</param>
         /// <returns>Returns the handle of the hook procedureif succeed, <see cref="IntPtr.Zero"/> otherwise.</returns>
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SetWindowsHookEx(WH idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
+        public static extern IntPtr SetWindowsHookEx(WH idHook, Delegate lpfn, IntPtr hMod, uint dwThreadId);
 
         /// <summary>
         /// Removes a hook procedure installed in a hook chain by the <see cref="SetWindowsHookEx(WH, LowLevelKeyboardProc, IntPtr, uint)"/> function
@@ -38,7 +38,7 @@ namespace Zeus.Helpers
         /// <param name="lParam">The lParam value passed to the current hook procedure.</param>
         /// <returns>The retrun value of the next hook procedure in the chain.</returns>
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, int wParam, IntPtr lParam);
+        public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
         /// <summary>
         /// Retrieves the status of the specified virtual key.
@@ -110,7 +110,18 @@ namespace Zeus.Helpers
         /// <param name="lParam">A pointer to a <see cref="KBDLLHOOKSTRUCT"/> structure.</param>
         /// <returns>If returns <see cref="IntPtr.Zero"/> other message hooks in the queue are not processed,
         /// otherwise processing continues normally.</returns>
-        public delegate IntPtr LowLevelKeyboardProc(int nCode, WM wParam, IntPtr lParam);
+        public delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+        /// <summary>
+        /// Delegate for CallWndProc hooks.
+        /// </summary>
+        /// <param name="nCode">A code the hook procedure uses to determine how to process the message.
+        /// If nCode is less than zero, the hook procedure must pass the message to the <see cref="CallNextHookEx(IntPtr, int, int, IntPtr)"/>
+        /// function without further processing and should return the value returned by <see cref="CallNextHookEx(IntPtr, int, int, IntPtr)"/>.</param>
+        /// <param name="wParam">Specifies whether the message was sent by the current thread. If the message was sent by the current thread, it is nonzero; otherwise, it is zero.</param>
+        /// <param name="lParam">A pointer to a <see cref="CWPSTRUCT"/> structure that contains details about the message..</param>
+        /// <returns>If returns <see cref="IntPtr.Zero"/> other message hooks in the queue are not processed,
+        /// otherwise processing continues normally.</returns>
+        public delegate IntPtr CallWndProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         #endregion
 
@@ -145,6 +156,30 @@ namespace Zeus.Helpers
             public IntPtr dwExtraInfo;
         }
 #pragma warning restore 0649
+
+        /// <summary>
+        /// Contains information about a not yet processed message sent to the thread.
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CWPSTRUCT
+        {
+            /// <summary>
+            /// Additional information about the message. The exact meaning depends on the <see cref="message"/> value.
+            /// </summary>
+            public IntPtr lParam;
+            /// <summary>
+            /// Additional information about the message. The exact meaning depends on the <see cref="message"/> value.
+            /// </summary>
+            public IntPtr wParam;
+            /// <summary>
+            /// The message.
+            /// </summary>
+            public uint message;
+            /// <summary>
+            /// A handle to the window to receive the message.
+            /// </summary>
+            public IntPtr hwnd;
+        }
 
         #endregion
 
@@ -281,13 +316,122 @@ namespace Zeus.Helpers
         public enum WM
         {
             /// <summary>
+            /// Performs no operation.
+            /// </summary>
+            NULL = 0x0000,
+            /// <summary>
+            /// Sent when an application requests that a window be created.
+            /// The window procedure of the new window receives this message after the window is created, but before the window becomes visible.
+            /// </summary>
+            CREATE = 0x0001,
+            /// <summary>
+            /// Sent when a window is being destroyed.
+            /// It is sent to the window procedure of the window being destroyed after the window is removed from the screen.
+            /// This message is sent first to the window being destroyed and then to the child windows (if any) as they are destroyed.
+            /// During the processing of the message, it can be assumed that all child windows still exist.
+            /// </summary>
+            DESTROY = 0x0002,
+            /// <summary>
+            /// Sent after a window has been moved.
+            /// </summary>
+            MOVE = 0x0003,
+            /// <summary>
+            /// Sent to a window after its size has changed.
+            /// </summary>
+            SIZE = 0x0005,
+            /// <summary>
+            /// Sent when an application changes the enabled state of a window.
+            /// </summary>
+            ENABLE = 0x000A,
+            /// <summary>
+            /// Sent as a signal that a window or an application should terminate.
+            /// </summary>
+            CLOSE = 0x0010,
+            /// <summary>
+            /// Indicates a request to terminate an application.
+            /// </summary>
+            QUIT = 0x0012,
+            /// <summary>
+            /// Sent to an icon when the user requests that the window be restored to its previous size and position.
+            /// </summary>
+            QUERYOPEN = 0x0013,
+            /// <summary>
+            /// Sent to a window when the window is about to be hidden or shown.
+            /// </summary>
+            SHOWWINDOW = 0x0018,
+            /// <summary>
+            /// Sent when a window belonging to a different application than the active window is about to be activated.
+            /// The message is sent to the application whose window is being activated and to the application whose window is being deactivated.
+            /// </summary>
+            ACTIVATEAPP = 0x001C,
+            /// <summary>
+            /// Sent to cancel certain modes, such as mouse capture. 
+            /// Certain functions also send this message explicitly to the specified window regardless of whether it is the active window. 
+            /// </summary>
+            CANCELMODE = 0x001F,
+            /// <summary>
+            /// Sent to a child window when the user clicks the window's title bar or when the window is activated, moved, or sized.
+            /// </summary>
+            CHILDACTIVATE = 0x0022,
+            /// <summary>
+            /// Sent to a window when the size or position of the window is about to change.
+            /// </summary>
+            GETMINMAXINFO = 0x0024,
+            /// <summary>
+            /// Sent to a minimized (iconic) window.
+            /// The window is about to be dragged by the user but does not have an icon defined for its class.
+            /// </summary>
+            QUERYDRAGICON = 0x0037,
+            /// <summary>
+            ///Sent to all top-level windows when the system detects more than 12.5 percent of system time over a 30- to 60-second interval is being spent compacting memory.
+            ///This indicates that system memory is low. 
+            /// </summary>
+            COMPACTING = 0x0041,
+            /// <summary>
             /// Sent to a window whose size, position, or place in the Z order is about to change.
             /// </summary>
             WINDOWPOSCHANGING = 0x0046,
             /// <summary>
+            /// Sent to a window whose size, position, or place in the Z order has changed.
+            /// </summary>
+            WINDOWPOSCHANGED = 0x0047,
+            /// <summary>
+            /// Posted to the window with the focus when the user chooses a new input language,
+            /// either with the hotkey (specified in the Keyboard control panel application) or from the indicator on the system taskbar.
+            /// </summary>
+            INPUTLANGCHANGEREQUEST = 0x0050,
+            /// <summary>
+            /// Sent to the topmost affected window after an application's input language has been changed.
+            /// </summary>
+            INPUTLANGCHANGE = 0x0051,
+            /// <summary>
+            /// Sent to all windows after the user has logged on or off.
+            /// </summary>
+            USERCHANGED = 0x0054,
+            /// <summary>
+            /// Sent to a window when one or more of the window's styles is about to change.
+            /// </summary>
+            STYLECHANGING = 0x007C,
+            /// <summary>
+            /// Sent to a window after one or more of the window's styles has changed.
+            /// </summary>
+            STYLECHANGED = 0x007D,
+            /// <summary>
             /// Sent to a window to retrieve a handle to the large or small icon associated with a window.
             /// </summary>
             GETICON = 0x007F,
+            /// <summary>
+            /// Sent prior to the <see cref="CREATE"/> message when a window is first created.
+            /// </summary>
+            NCCREATE = 0x0081,
+            /// <summary>
+            /// Notifies a window that its nonclient area is being destroyed.
+            /// </summary>
+            NCDESTROY = 0x0082,
+            /// <summary>
+            /// Sent when the size and position of a window's client area must be calculated.
+            /// </summary>
+            NCCALCSIZE = 0x0083,
             /// <summary>
             /// Sent to a window when its nonclient area needs to be changed to indicate an active or inactive state.
             /// </summary>
@@ -363,9 +507,33 @@ namespace Zeus.Helpers
             /// </summary>
             MOUSEHWHEEL = 0x020E,
             /// <summary>
-            /// Posted when the user presses a hot key registered by the <see cref="RegisterHotKey(IntPtr, int, int, int)"/> function.
+            /// Sent to a window that the user is resizing.
+            /// </summary>
+            SIZING = 0x0214,
+            /// <summary>
+            /// Sent to a window that the user is moving.
+            /// </summary>
+            MOVING = 0x0216,
+            /// <summary>
+            /// Sent one time to a window after it enters the moving or sizing modal loop.
+            /// </summary>
+            ENTERSIZEMOVE = 0x0231,
+            /// <summary>
+            /// Sent one time to a window, after it has exited the moving or sizing modal loop.
+            /// </summary>
+            EXITSIZEMOVE = 0x0232,
+            /// <summary>
+            /// Sent when the effective dots per inch (dpi) for a window has changed.
+            /// </summary>
+            DPICHANGED = 0x02E0,
+            /// <summary>
+            /// Posted when the user presses a hot key registered by the <see cref="User32Helper.RegisterHotKey(IntPtr, int, int, int)"/> function.
             /// </summary>
             HOTKEY = 0x0312,
+            /// <summary>
+            /// Broadcast to every window following a theme change event.
+            /// </summary>
+            THEMECHANGED = 0x031A,
         }
 
         #endregion

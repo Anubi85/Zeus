@@ -28,7 +28,6 @@ namespace Zeus
         /// The circular index that point to the head element.
         /// </summary>
         private CircularIndex m_Head;
-        private CircularIndex elemToCopy;
 
         #endregion
 

@@ -44,7 +44,6 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Border
-                                x:Name="titlebar"
                                 Grid.Row="0"
                                 Grid.Column="0"
                                 Background="{TemplateBinding BorderBrush}">
