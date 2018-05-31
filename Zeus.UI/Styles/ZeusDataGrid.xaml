@@ -42,8 +42,8 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
         <Setter Property="GridLinesVisibility" Value="None" />
-        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="zc:ZeusScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="zc:ZeusScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type zc:ZeusDataGrid}">
@@ -53,11 +53,11 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                         Padding="{TemplateBinding Padding}">
-                        <ScrollViewer
+                        <zc:ZeusScrollViewer
                             x:Name="DG_ScrollViewer"
                             Focusable="false">
-                            <ScrollViewer.Template>
-                                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                            <zc:ZeusScrollViewer.Template>
+                                <ControlTemplate TargetType="{x:Type zc:ZeusScrollViewer}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
@@ -114,16 +114,16 @@
                                         </Grid>
                                     </Grid>
                                 </ControlTemplate>
-                            </ScrollViewer.Template>
+                            </zc:ZeusScrollViewer.Template>
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                        </ScrollViewer>
+                        </zc:ZeusScrollViewer>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsGrouping" Value="true">
-                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                <Setter Property="zc:ZeusScrollViewer.CanContentScroll" Value="false"/>
             </Trigger>
         </Style.Triggers>
     </Style>
