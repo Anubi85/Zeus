@@ -13,8 +13,8 @@
         </Setter>
         <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignement, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusListBox}}}" />
-        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignement, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusListBox}}}" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusListBox}}}" />
+        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusListBox}}}" />
         <Setter Property="Padding" Value="2,0,0,0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
