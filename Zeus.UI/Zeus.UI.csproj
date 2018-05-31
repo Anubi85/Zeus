@@ -61,6 +61,8 @@
     <Compile Include="Controls\ZeusDataGridRowHeader.cs" />
     <Compile Include="Controls\ZeusDialog.cs" />
     <Compile Include="Controls\ZeusLabel.cs" />
+    <Compile Include="Controls\ZeusListBox.cs" />
+    <Compile Include="Controls\ZeusListBoxItem.cs" />
     <Compile Include="Controls\ZeusMenu.cs" />
     <Compile Include="Controls\ZeusMenuItem.cs" />
     <Compile Include="Controls\ZeusScrollBar.cs" />
@@ -99,6 +101,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\ZeusLabel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ZeusListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ZeusListBoxItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
