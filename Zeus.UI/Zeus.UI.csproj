@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ZeusCheckBox.cs" />
+    <Compile Include="Controls\ZeusComboBox.cs" />
+    <Compile Include="Controls\ZeusComboBoxItem.cs" />
     <Compile Include="Controls\ZeusDataGrid.cs" />
     <Compile Include="Controls\ZeusDataGridCell.cs" />
     <Compile Include="Controls\ZeusDataGridCellsPresenter.cs" />
@@ -72,8 +74,15 @@
     <Compile Include="Controls\ZeusTabControl.cs" />
     <Compile Include="Controls\ZeusTabItem.cs" />
     <Compile Include="Controls\ZeusTextBox.cs" />
-    <Compile Include="Test.cs" />
     <Page Include="Styles\ZeusCheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ZeusComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ZeusComboBoxItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

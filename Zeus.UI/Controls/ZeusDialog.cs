@@ -78,8 +78,8 @@ namespace Zeus.UI.Controls
         /// Delegate for CallWndProc hooks.
         /// </summary>
         /// <param name="nCode">A code the hook procedure uses to determine how to process the message.
-        /// If nCode is less than zero, the hook procedure must pass the message to the <see cref="User32Helper.CallNextHookEx(IntPtr, int, int, IntPtr)"/>
-        /// function without further processing and should return the value returned by <see cref="User32Helper.CallNextHookEx(IntPtr, int, int, IntPtr)"/>.</param>
+        /// If nCode is less than zero, the hook procedure must pass the message to the <see cref="User32Helper.CallNextHookEx(IntPtr, int, IntPtr, IntPtr)"/>
+        /// function without further processing and should return the value returned by <see cref="User32Helper.CallNextHookEx(IntPtr, int, IntPtr, IntPtr)"/>.</param>
         /// <param name="wParam">Specifies whether the message was sent by the current thread. If the message was sent by the current thread, it is nonzero; otherwise, it is zero.</param>
         /// <param name="lParam">A pointer to a <see cref="User32Helper.CWPSTRUCT"/> structure that contains details about the message..</param>
         /// <returns>If returns <see cref="IntPtr.Zero"/> other message hooks in the queue are not processed,
