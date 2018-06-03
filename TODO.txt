@@ -1,5 +1,3 @@
 Remove InternalLogger project
 Implement ZeusMessageBox
 Implement ZeusMessageBoxService
-Implement ZeusComboBox
-Implement ZeusComboBoxItem

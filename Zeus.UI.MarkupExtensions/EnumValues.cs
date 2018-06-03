@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Markup;
 
 namespace Zeus.UI.MarkupExtensions
@@ -10,6 +8,7 @@ namespace Zeus.UI.MarkupExtensions
     /// <summary>
     /// Implements a markup extension that provides enum values starting from enum type.
     /// </summary>
+    [MarkupExtensionReturnType(typeof(IEnumerable<object>))]
     public class EnumValues : MarkupExtension
     {
         #region MarkupExtension implementation
@@ -27,7 +26,7 @@ namespace Zeus.UI.MarkupExtensions
             }
             else
             {
-                return null;
+                throw new ArgumentException("Provided type is not an enum");
             }
         }
 
