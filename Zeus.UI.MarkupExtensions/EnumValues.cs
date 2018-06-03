@@ -22,7 +22,7 @@ namespace Zeus.UI.MarkupExtensions
         {
             if (m_EnumType.IsEnum)
             {
-                return Enum.GetValues(m_EnumType).Cast<object>().Select(ev => new { Value = (int)ev, Name = ev.ToString() });
+                return Enum.GetValues(m_EnumType);
             }
             else
             {
