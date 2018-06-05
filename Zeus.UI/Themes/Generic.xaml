@@ -25,6 +25,7 @@
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusListBoxItem.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusComboBox.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusComboBoxItem.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDateTimePicker.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusWindow.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDialog.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/Zeus.xaml" />

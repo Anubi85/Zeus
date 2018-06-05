@@ -61,6 +61,7 @@
     <Compile Include="Controls\ZeusDataGridColumnHeadersPresenter.cs" />
     <Compile Include="Controls\ZeusDataGridRow.cs" />
     <Compile Include="Controls\ZeusDataGridRowHeader.cs" />
+    <Compile Include="Controls\ZeusDateTimePicker.cs" />
     <Compile Include="Controls\ZeusDialog.cs" />
     <Compile Include="Controls\ZeusLabel.cs" />
     <Compile Include="Controls\ZeusListBox.cs" />
@@ -107,6 +108,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\ZeusDataGridRowHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ZeusDateTimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
