@@ -75,6 +75,10 @@
     <Compile Include="Controls\ZeusTabControl.cs" />
     <Compile Include="Controls\ZeusTabItem.cs" />
     <Compile Include="Controls\ZeusTextBox.cs" />
+    <Page Include="Styles\DatePickerTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\ZeusCheckBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
