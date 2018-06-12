@@ -22,7 +22,7 @@
         </Setter>
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="1"/>
-        <Setter Property="zc:ZeusScrollViewer.PanningMode" Value="VerticalFirst"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
         <Setter Property="SelectionBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
         <Setter Property="SelectionOpacity" Value="0.5" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />

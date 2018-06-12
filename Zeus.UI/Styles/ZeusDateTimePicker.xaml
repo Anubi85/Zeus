@@ -58,7 +58,7 @@
                     <Setter.Value>
                         <Binding Path="Color" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusButton}}" Converter="{StaticResource ColorToBrush}">
                             <Binding.ConverterParameter>
-                                <sys:Double>0.75</sys:Double>
+                                <sys:Double>0.5</sys:Double>
                             </Binding.ConverterParameter>
                         </Binding>
                     </Setter.Value>
@@ -85,7 +85,9 @@
         <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="SelectedDateFormat" Value="Short" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="DateFormat" Value="Short" />
+        <Setter Property="TimeFormat" Value="Short" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type zc:ZeusDateTimePicker}">
@@ -103,12 +105,14 @@
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <DatePickerTextBox
+                                <zc:ZeusTextBox
                                     x:Name="PART_TextBox"
                                     Grid.Column="0"
                                     Focusable="{TemplateBinding Focusable}"
                                     HorizontalContentAlignment="Stretch"
-                                    VerticalContentAlignment="Center"/>
+                                    VerticalContentAlignment="Center"
+                                    SelectionBrush="{Binding Color, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusDateTimePicker}}, Converter={StaticResource ColorToBrush}}"
+                                    SelectionOpacity="0.5"/>
                                 <zc:ZeusButton
                                     x:Name="PART_Button"
                                     Grid.Column="1"
@@ -119,6 +123,17 @@
                                     VerticalAlignment="Center"
                                     Width="20"
                                     Template="{StaticResource DropDownButton}"/>
+                                <Popup
+                                    x:Name="PART_Popup" 
+                                    PlacementTarget="{Binding ElementName=PART_Root}"
+                                    Placement="Bottom" 
+                                    HorizontalOffset="-1"
+                                    VerticalOffset="-3"
+                                    StaysOpen="False"
+                                    AllowsTransparency="True">
+                                    <Calendar
+                                        x:Name="PART_Calendar"></Calendar>
+                                </Popup>
                             </Grid>
                         </Border>
                     </Grid>

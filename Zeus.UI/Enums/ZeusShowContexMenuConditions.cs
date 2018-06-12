@@ -6,7 +6,7 @@ namespace Zeus.UI.Enums
     /// Context menu display mode.
     /// </summary>
     [Flags]
-    public enum ShowContexMenu
+    public enum ZeusShowContexMenuConditions
     {
         /// <summary>
         /// Context menu will never automatically displayed.

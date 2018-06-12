@@ -17,6 +17,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <controls:ZeusMenu>
             <controls:ZeusMenuItem Header="Menu1">
@@ -35,8 +36,9 @@
         <controls:ZeusCheckBox Grid.Row="1" IsThreeState="True">pippo</controls:ZeusCheckBox>
         <controls:ZeusButton Grid.Row="2" Color="Red" Command="{Binding OpenDialogCommand}"
                              CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:ZeusWindow}}}">Open</controls:ZeusButton>
-        <controls:ZeusTextBox Grid.Row="3">aaaa</controls:ZeusTextBox>
-        <controls:ZeusStatusBar Grid.Row="4">
+        <controls:ZeusTextBox Grid.Row="3"></controls:ZeusTextBox>
+        <controls:ZeusDateTimePicker Grid.Row="4" />
+        <controls:ZeusStatusBar Grid.Row="5">
             <controls:ZeusStatusBarItem>
                 <controls:ZeusLabel Content="Status" />
             </controls:ZeusStatusBarItem>

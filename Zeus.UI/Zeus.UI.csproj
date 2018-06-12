@@ -75,6 +75,8 @@
     <Compile Include="Controls\ZeusTabControl.cs" />
     <Compile Include="Controls\ZeusTabItem.cs" />
     <Compile Include="Controls\ZeusTextBox.cs" />
+    <Compile Include="Enums\ZeusDateTimePickerFormats.cs" />
+    <Compile Include="Events\ZeusDateTimeSelectionChangedEventArgs.cs" />
     <Page Include="Styles\DatePickerTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -197,7 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ZeusWindowBase.cs" />
-    <Compile Include="Enums\ShowContexMenu.cs" />
+    <Compile Include="Enums\ZeusShowContexMenuConditions.cs" />
     <Compile Include="Extensions\ImageSourceExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

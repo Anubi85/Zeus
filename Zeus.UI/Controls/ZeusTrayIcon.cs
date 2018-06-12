@@ -166,9 +166,9 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// Gets or sets the automatic display mode of the icon <see cref="ContextMenu"/>.
         /// </summary>
-        public ShowContexMenu ShowContextMenu
+        public ZeusShowContexMenuConditions ShowContextMenu
         {
-            get { return (ShowContexMenu)GetValue(ShowContextMenuProperty); }
+            get { return (ZeusShowContexMenuConditions)GetValue(ShowContextMenuProperty); }
             set { SetValue(ShowContextMenuProperty, value); }
         }
         /// <summary>
@@ -195,7 +195,7 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// <see cref="DependencyProperty"/> that control the automatic display of the <see cref="ContextMenu"/>.
         /// </summary>
-        public static readonly DependencyProperty ShowContextMenuProperty = DependencyProperty.Register("ShowContextMenu", typeof(ShowContexMenu), typeof(ZeusTrayIcon));
+        public static readonly DependencyProperty ShowContextMenuProperty = DependencyProperty.Register("ShowContextMenu", typeof(ZeusShowContexMenuConditions), typeof(ZeusTrayIcon));
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusTrayIcon"/> color styles.
         /// </summary>
@@ -268,7 +268,7 @@ namespace Zeus.UI.Controls
         /// Open the <see cref="ContextMenu"/> if it is defined and the condition is valid.
         /// </summary>
         /// <param name="condition">The condition that has to be valid in order to open the <see cref="ContextMenu"/>.</param>
-        private void OpenContextMenu(ShowContexMenu condition)
+        private void OpenContextMenu(ZeusShowContexMenuConditions condition)
         {
             ContextMenu.IsOpen = ContextMenu != null && ShowContextMenu.HasFlag(condition);
             User32Helper.SetForegroundWindow(m_MessageWindow.Handle);
@@ -290,13 +290,13 @@ namespace Zeus.UI.Controls
                 switch ((User32Helper.WM)lParam.ToInt32())
                 {
                     case User32Helper.WM.LBUTTONDOWN:
-                        OpenContextMenu(ShowContexMenu.OnLeftClick);
+                        OpenContextMenu(ZeusShowContexMenuConditions.OnLeftClick);
                         break;
                     case User32Helper.WM.RBUTTONDOWN:
-                        OpenContextMenu(ShowContexMenu.OnRightClick);
+                        OpenContextMenu(ZeusShowContexMenuConditions.OnRightClick);
                         break;
                     case User32Helper.WM.MBUTTONDOWN:
-                        OpenContextMenu(ShowContexMenu.OnMiddleClick);
+                        OpenContextMenu(ZeusShowContexMenuConditions.OnMiddleClick);
                         break;
                     default:
                         break;
