@@ -4,6 +4,7 @@
                     xmlns:converters="clr-namespace:Zeus.UI.Converters;assembly=Zeus.UI.Converters"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <converters:ColorStyleToBrushConverter x:Key="ColorToBrush" />
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
     <ControlTemplate x:Key="DropDownButton" TargetType="{x:Type zc:ZeusButton}">
         <Grid
             x:Name="Container"
@@ -108,6 +109,7 @@
                                 <zc:ZeusTextBox
                                     x:Name="PART_TextBox"
                                     Grid.Column="0"
+                                    BorderThickness="0"
                                     Focusable="{TemplateBinding Focusable}"
                                     HorizontalContentAlignment="Stretch"
                                     VerticalContentAlignment="Center"
@@ -133,12 +135,27 @@
                                     <StackPanel
                                         Background="{TemplateBinding Background}"
                                         Orientation="Horizontal">
-                                        <zc:ZeusCalendar x:Name="PART_Calendar" />
+                                        <zc:ZeusCalendar
+                                            x:Name="PART_Calendar"
+                                            Visibility="{Binding IsCalendarVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusDateTimePicker}}, Converter={StaticResource BoolToVisibility}}"/>
                                     </StackPanel>
                                 </Popup>
                             </Grid>
                         </Border>
                     </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsKeyboardFocusWithin" Value="False" />
+                                <Condition Property="IsDropDownOpen" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="BorderBrush">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource ForegroundColor}" Opacity="0.25" />
+                                </Setter.Value>
+                            </Setter>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -95,6 +95,9 @@
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
                             <Setter TargetName="Indeterminate" Property="Visibility" Value="Collapsed" />
                         </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

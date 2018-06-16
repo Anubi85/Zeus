@@ -96,11 +96,23 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// Identifies the <see cref="IsDropDownOpen"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsDropDownOpenProperty = DependencyProperty.Register("IsDropDownOpenProperty", typeof(bool), typeof(ZeusDateTimePicker), new FrameworkPropertyMetadata(false));
+        public static readonly DependencyProperty IsDropDownOpenProperty = DependencyProperty.Register("IsDropDownOpen", typeof(bool), typeof(ZeusDateTimePicker), new FrameworkPropertyMetadata(false));
+        /// <summary>
+        /// Identifies the <see cref="IsTodayHighlighted"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsTodayHighlightedProperty = DependencyProperty.Register("IsTodayHighlighted", typeof(bool), typeof(ZeusDateTimePicker), new FrameworkPropertyMetadata(true));
+        /// <summary>
+        /// Identifies the <see cref="FirstDayOfWeek"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty FirstDayOfWeekProperty = DependencyProperty.Register("FirstDayOfWeek", typeof(DayOfWeek), typeof(ZeusDateTimePicker), new FrameworkPropertyMetadata(DayOfWeek.Sunday));
         /// <summary>
         /// Identifies the <see cref="SelectedDateTime"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SelectedDateTimeProperty = DependencyProperty.Register("SelectedDateTime", typeof(DateTime?), typeof(ZeusDateTimePicker), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedDateTimeChanged));
+        /// <summary>
+        /// Identifies the <see cref="IsCalendarVisible"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsCalendarVisibleProperty = DependencyProperty.Register("IsCalendarVisible", typeof(bool), typeof(ZeusDateTimePicker), new FrameworkPropertyMetadata(true));
 
         #endregion
 
@@ -139,12 +151,43 @@ namespace Zeus.UI.Controls
             set { SetValue(IsDropDownOpenProperty, value); }
         }
         /// <summary>
+        /// Gets or sets a value that indicates whether today is highlighted or not in the calendar.
+        /// </summary>
+        public bool IsTodayHighlighted
+        {
+            get { return (bool)GetValue(IsTodayHighlightedProperty); }
+            set { SetValue(IsTodayHighlightedProperty, value); }
+        }
+        /// <summary>
+        /// Gets or sets the first day of the week in the calendar.
+        /// </summary>
+        public DayOfWeek FirstDayOfWeek
+        {
+            get { return (DayOfWeek)GetValue(FirstDayOfWeekProperty); }
+            set { SetValue(FirstDayOfWeekProperty, value); }
+        }
+        /// <summary>
+        /// Gets the days that are not selectable.
+        /// </summary>
+        public CalendarBlackoutDatesCollection BlackoutDates
+        {
+            get { return m_Calendar.BlackoutDates; }
+        }
+        /// <summary>
         /// Gets or sets the currently selected date and time.
         /// </summary>
         public DateTime? SelectedDateTime
         {
             get { return (DateTime?)GetValue(SelectedDateTimeProperty); }
             set { SetValue(SelectedDateTimeProperty, value); }
+        }
+        /// <summary>
+        /// Gets or sets a flag that indicates if the calendar is visible or not.
+        /// </summary>
+        public bool IsCalendarVisible
+        {
+            get { return (bool)GetValue(IsCalendarVisibleProperty); }
+            set { SetValue(IsCalendarVisibleProperty, value); }
         }
 
         #endregion
@@ -211,6 +254,8 @@ namespace Zeus.UI.Controls
             }
             if (m_Calendar != null)
             {
+                m_Calendar.SetBinding(ZeusCalendar.IsTodayHighlightedProperty, new Binding(IsTodayHighlightedProperty.Name) { Source = this });
+                m_Calendar.SetBinding(ZeusCalendar.FirstDayOfWeekProperty, new Binding(FirstDayOfWeekProperty.Name) { Source = this });
                 m_Calendar.SelectedDatesChanged += OnCalendarSelectedDateChanged;
             }
             WriteValueToTextBox();
