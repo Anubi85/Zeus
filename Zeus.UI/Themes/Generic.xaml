@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/Zeus.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusButton.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusLabel.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusTextBox.xaml" />
@@ -26,8 +27,8 @@
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusComboBox.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusComboBoxItem.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDateTimePicker.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusCalendar.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusWindow.xaml" />
         <ResourceDictionary Source="/Zeus.UI;component/Styles/ZeusDialog.xaml" />
-        <ResourceDictionary Source="/Zeus.UI;component/Styles/Zeus.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

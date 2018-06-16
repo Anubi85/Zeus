@@ -128,11 +128,13 @@
                                     PlacementTarget="{Binding ElementName=PART_Root}"
                                     Placement="Bottom" 
                                     HorizontalOffset="-1"
-                                    VerticalOffset="-3"
                                     StaysOpen="False"
                                     AllowsTransparency="True">
-                                    <Calendar
-                                        x:Name="PART_Calendar"></Calendar>
+                                    <StackPanel
+                                        Background="{TemplateBinding Background}"
+                                        Orientation="Horizontal">
+                                        <zc:ZeusCalendar x:Name="PART_Calendar" />
+                                    </StackPanel>
                                 </Popup>
                             </Grid>
                         </Border>

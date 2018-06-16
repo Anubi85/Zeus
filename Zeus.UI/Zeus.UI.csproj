@@ -51,6 +51,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ZeusCalendar.cs" />
     <Compile Include="Controls\ZeusCheckBox.cs" />
     <Compile Include="Controls\ZeusComboBox.cs" />
     <Compile Include="Controls\ZeusComboBoxItem.cs" />
@@ -77,7 +78,19 @@
     <Compile Include="Controls\ZeusTextBox.cs" />
     <Compile Include="Enums\ZeusDateTimePickerFormats.cs" />
     <Compile Include="Events\ZeusDateTimeSelectionChangedEventArgs.cs" />
-    <Page Include="Styles\DatePickerTextBox.xaml">
+    <Page Include="Styles\CalendarButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CalendarDayButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\CalendarItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ZeusCalendar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

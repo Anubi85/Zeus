@@ -37,7 +37,7 @@
         <controls:ZeusButton Grid.Row="2" Color="Red" Command="{Binding OpenDialogCommand}"
                              CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:ZeusWindow}}}">Open</controls:ZeusButton>
         <controls:ZeusTextBox Grid.Row="3"></controls:ZeusTextBox>
-        <controls:ZeusDateTimePicker Grid.Row="4" />
+        <controls:ZeusDateTimePicker Margin="2" Grid.Row="4" />
         <controls:ZeusStatusBar Grid.Row="5">
             <controls:ZeusStatusBarItem>
                 <controls:ZeusLabel Content="Status" />

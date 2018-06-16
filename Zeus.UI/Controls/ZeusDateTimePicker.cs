@@ -7,7 +7,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Zeus.UI.Enums;
 using Zeus.UI.Themes.Enums;
-using Calendar = System.Windows.Controls.Calendar;
 
 namespace Zeus.UI.Controls
 {
@@ -17,7 +16,7 @@ namespace Zeus.UI.Controls
     [TemplatePart(Name = ElementTextBox, Type = typeof(ZeusTextBox))]
     [TemplatePart(Name = ElementButton, Type = typeof(ZeusButton))]
     [TemplatePart(Name = ElementPopup, Type = typeof(Popup))]
-    [TemplatePart(Name = ElementCalendar, Type = typeof(Calendar))]
+    [TemplatePart(Name = ElementCalendar, Type = typeof(ZeusCalendar))]
     public class ZeusDateTimePicker : Control
     {
         #region Constants
@@ -58,7 +57,7 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// The calendar control.
         /// </summary>
-        private Calendar m_Calendar;
+        private ZeusCalendar m_Calendar;
         /// <summary>
         /// A flag that enables or disables the textbox text update.
         /// </summary>
@@ -194,7 +193,7 @@ namespace Zeus.UI.Controls
             m_TextBox = GetTemplateChild(ElementTextBox) as ZeusTextBox;
             m_DropDownButton = GetTemplateChild(ElementButton) as ZeusButton;
             m_PopUp = GetTemplateChild(ElementPopup) as Popup;
-            m_Calendar = GetTemplateChild(ElementCalendar) as Calendar;
+            m_Calendar = GetTemplateChild(ElementCalendar) as ZeusCalendar;
             //subscribe events and apply bindings
             if (m_DropDownButton != null)
             {

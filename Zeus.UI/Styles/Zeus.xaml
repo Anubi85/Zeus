@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Zeus.UI.Controls">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Zeus.UI;component/Styles/DatePickerTextBox.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/CalendarItem.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/CalendarButton.xaml" />
+        <ResourceDictionary Source="/Zeus.UI;component/Styles/CalendarDayButton.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

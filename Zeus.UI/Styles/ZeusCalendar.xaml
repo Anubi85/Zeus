@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:zc="clr-namespace:Zeus.UI.Controls"
+                    xmlns:converters="clr-namespace:Zeus.UI.Converters;assembly=Zeus.UI.Converters">
+    <converters:ColorStyleToBrushConverter x:Key="ColorToBrush" />
+    <Style TargetType="{x:Type zc:ZeusCalendar}">
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource ForegroundColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CalendarItemStyle" Value="{DynamicResource ZeusCalendarItemStyle}" />
+        <Setter Property="CalendarButtonStyle" Value="{DynamicResource ZeusCalendarButtonStyle}" />
+        <Setter Property="CalendarDayButtonStyle" Value="{DynamicResource ZeusCalendarDayButtonStyle}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type zc:ZeusCalendar}">
+                    <Grid
+                        x:Name="PART_Root"
+                        HorizontalAlignment="Center">
+                        <Border
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" />
+                        <CalendarItem
+                            x:Name="PART_CalendarItem"
+                            BorderThickness="0"
+                            Margin="3"
+                            Style="{TemplateBinding CalendarItemStyle}"
+                            Background="{TemplateBinding Background}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
