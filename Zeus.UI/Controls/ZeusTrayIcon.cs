@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
-using Zeus.UI.Themes.Enums;
 
 namespace Zeus.UI.Controls
 {
@@ -48,7 +47,6 @@ namespace Zeus.UI.Controls
         static ZeusTrayIcon()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ZeusTrayIcon), new FrameworkPropertyMetadata(typeof(ZeusTrayIcon)));
-            ColorProperty = ZeusWindowBase.ColorProperty.AddOwner(typeof(ZeusTrayIcon), new FrameworkPropertyMetadata(ZeusColorStyles.Blue, FrameworkPropertyMetadataOptions.Inherits));
         }
 
         /// <summary>
@@ -171,14 +169,6 @@ namespace Zeus.UI.Controls
             get { return (ZeusShowContexMenuConditions)GetValue(ShowContextMenuProperty); }
             set { SetValue(ShowContextMenuProperty, value); }
         }
-        /// <summary>
-        /// Gets or sets <see cref="ZeusTrayIcon"/> color style.
-        /// </summary>
-        public ZeusColorStyles Color
-        {
-            get { return (ZeusColorStyles)GetValue(ColorProperty); }
-            set { SetValue(ColorProperty, value); }
-        }
 
         #endregion
 
@@ -196,10 +186,6 @@ namespace Zeus.UI.Controls
         /// <see cref="DependencyProperty"/> that control the automatic display of the <see cref="ContextMenu"/>.
         /// </summary>
         public static readonly DependencyProperty ShowContextMenuProperty = DependencyProperty.Register("ShowContextMenu", typeof(ZeusShowContexMenuConditions), typeof(ZeusTrayIcon));
-        /// <summary>
-        /// <see cref="DependencyProperty"/> that handle <see cref="ZeusTrayIcon"/> color styles.
-        /// </summary>
-        public static readonly DependencyProperty ColorProperty;
 
         #endregion
 

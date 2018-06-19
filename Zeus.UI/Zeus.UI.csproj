@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="Controls\ZeusCalendar.cs" />
     <Compile Include="Controls\ZeusCheckBox.cs" />
+    <Compile Include="Controls\ZeusClock.cs" />
+    <Compile Include="Controls\ZeusClockButton.cs" />
     <Compile Include="Controls\ZeusComboBox.cs" />
     <Compile Include="Controls\ZeusComboBoxItem.cs" />
     <Compile Include="Controls\ZeusDataGrid.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Controls\ZeusTabControl.cs" />
     <Compile Include="Controls\ZeusTabItem.cs" />
     <Compile Include="Controls\ZeusTextBox.cs" />
+    <Compile Include="Enums\ZeusClockMode.cs" />
     <Compile Include="Enums\ZeusDateTimePickerFormats.cs" />
     <Compile Include="Events\ZeusDateTimeSelectionChangedEventArgs.cs" />
     <Page Include="Styles\CalendarButton.xaml">
@@ -95,6 +98,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\ZeusCheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ZeusClock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\ZeusClockButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,6 +218,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Controls\ZeusButton.cs" />
+    <Compile Include="Controls\ZeusTextBlock.cs" />
     <Compile Include="Controls\ZeusTrayIcon.cs" />
     <Compile Include="Controls\ZeusWindow.cs" />
   </ItemGroup>

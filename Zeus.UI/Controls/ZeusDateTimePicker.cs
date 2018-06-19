@@ -13,10 +13,10 @@ namespace Zeus.UI.Controls
     /// <summary>
     /// Zeus styled <see cref="DatePicker"/>.
     /// </summary>
-    [TemplatePart(Name = ElementTextBox, Type = typeof(ZeusTextBox))]
-    [TemplatePart(Name = ElementButton, Type = typeof(ZeusButton))]
-    [TemplatePart(Name = ElementPopup, Type = typeof(Popup))]
-    [TemplatePart(Name = ElementCalendar, Type = typeof(ZeusCalendar))]
+    [TemplatePart(Name = c_ElementTextBox, Type = typeof(ZeusTextBox))]
+    [TemplatePart(Name = c_ElementButton, Type = typeof(ZeusButton))]
+    [TemplatePart(Name = c_ElementPopup, Type = typeof(Popup))]
+    [TemplatePart(Name = c_ElementCalendar, Type = typeof(ZeusCalendar))]
     public class ZeusDateTimePicker : Control
     {
         #region Constants
@@ -24,19 +24,19 @@ namespace Zeus.UI.Controls
         /// <summary>
         /// Name of the text box element in the control template.
         /// </summary>
-        private const string ElementTextBox = "PART_TextBox";
+        private const string c_ElementTextBox = "PART_TextBox";
         /// <summary>
         /// Name of the button element in the control template.
         /// </summary>
-        private const string ElementButton = "PART_Button";
+        private const string c_ElementButton = "PART_Button";
         /// <summary>
         /// Name of the popup element in the control template.
         /// </summary>
-        private const string ElementPopup = "PART_Popup";
+        private const string c_ElementPopup = "PART_Popup";
         /// <summary>
         /// Name of the calendar element in the control template.
         /// </summary>
-        private const string ElementCalendar = "PART_Calendar";
+        private const string c_ElementCalendar = "PART_Calendar";
 
         #endregion
 
@@ -233,10 +233,10 @@ namespace Zeus.UI.Controls
             {
                 m_TextBox.TextChanged -= OnTextBoxTextChanged;
             }
-            m_TextBox = GetTemplateChild(ElementTextBox) as ZeusTextBox;
-            m_DropDownButton = GetTemplateChild(ElementButton) as ZeusButton;
-            m_PopUp = GetTemplateChild(ElementPopup) as Popup;
-            m_Calendar = GetTemplateChild(ElementCalendar) as ZeusCalendar;
+            m_TextBox = GetTemplateChild(c_ElementTextBox) as ZeusTextBox;
+            m_DropDownButton = GetTemplateChild(c_ElementButton) as ZeusButton;
+            m_PopUp = GetTemplateChild(c_ElementPopup) as Popup;
+            m_Calendar = GetTemplateChild(c_ElementCalendar) as ZeusCalendar;
             //subscribe events and apply bindings
             if (m_DropDownButton != null)
             {
