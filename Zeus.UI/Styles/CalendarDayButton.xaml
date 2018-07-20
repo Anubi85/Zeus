@@ -70,12 +70,12 @@
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="Background" />
                             <Setter Property="Opacity" Value="1" TargetName="Background" />
-                            <Setter Property="Foreground" Value="{Binding Background}" />
+                            <Setter Property="Foreground" Value="{Binding Background, RelativeSource={RelativeSource Self}}" />
                         </Trigger>
                         <Trigger Property="IsHighlighted" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="Background" />
                             <Setter Property="Opacity" Value="0.75" TargetName="Background" />
-                            <Setter Property="Foreground" Value="{Binding Background}" />
+                            <Setter Property="Foreground" Value="{Binding Background, RelativeSource={RelativeSource Self}}" />
                         </Trigger>
                         <Trigger Property="IsToday" Value="True">
                             <Setter Property="Visibility" Value="Visible" TargetName="Border" />

@@ -18,5 +18,27 @@ namespace Zeus.UI.Controls
         }
 
         #endregion
+
+        #region Depndenct properties
+
+        /// <summary>
+        /// <see cref="DependencyProperty"/> that handle <see cref="ZeusClockButton"/> is selected flag.
+        /// </summary>
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(ZeusClockButton), new PropertyMetadata(false));
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets a flag that indicates if the button is currently selected.
+        /// </summary>
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
+        }
+
+        #endregion
     }
 }

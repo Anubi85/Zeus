@@ -4,7 +4,11 @@
                     xmlns:converters="clr-namespace:Zeus.UI.Converters;assembly=Zeus.UI.Converters">
     <converters:ColorStyleToBrushConverter x:Key="ColorToBrush" />
     <Style TargetType="{x:Type zc:ZeusButton}">
-        <Setter Property="Background" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="{DynamicResource BackgroundColor}" />
+            </Setter.Value>
+        </Setter>
         <Setter Property="BorderBrush" Value="{Binding Color, RelativeSource={RelativeSource Self}, Converter={StaticResource ColorToBrush}}" />
         <Setter Property="Foreground">
             <Setter.Value>
@@ -18,10 +22,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type zc:ZeusButton}">
                     <Grid>
-                        <Rectangle 
+                        <Border 
                             x:Name="background"
                             Opacity="0"
-                            Fill="{TemplateBinding Background}" />
+                            Background="{TemplateBinding BorderBrush}" />
                         <Border
                             x:Name="border"
                             Background="Transparent"

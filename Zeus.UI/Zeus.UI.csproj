@@ -225,6 +225,7 @@
   <ItemGroup>
     <Compile Include="Controls\ZeusWindowBase.cs" />
     <Compile Include="Enums\ZeusShowContexMenuConditions.cs" />
+    <Compile Include="Events\ZeusSelectedTimeChangedEventArgs.cs" />
     <Compile Include="Extensions\ImageSourceExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

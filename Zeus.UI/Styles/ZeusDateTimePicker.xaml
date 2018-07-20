@@ -139,7 +139,8 @@
                                             x:Name="PART_Calendar"
                                             Visibility="{Binding IsCalendarVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusDateTimePicker}}, Converter={StaticResource BoolToVisibility}}"/>
                                         <zc:ZeusClock
-                                            x:Name="PART_Clock" />
+                                            x:Name="PART_Clock"                                            
+                                            Visibility="{Binding IsClockVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type zc:ZeusDateTimePicker}}, Converter={StaticResource BoolToVisibility}}"/>
                                     </StackPanel>
                                 </Popup>
                             </Grid>

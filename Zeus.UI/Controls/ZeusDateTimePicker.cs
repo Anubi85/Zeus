@@ -6,6 +6,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using Zeus.UI.Enums;
+using Zeus.UI.Events;
 using Zeus.UI.Themes.Enums;
 
 namespace Zeus.UI.Controls
@@ -17,6 +18,7 @@ namespace Zeus.UI.Controls
     [TemplatePart(Name = c_ElementButton, Type = typeof(ZeusButton))]
     [TemplatePart(Name = c_ElementPopup, Type = typeof(Popup))]
     [TemplatePart(Name = c_ElementCalendar, Type = typeof(ZeusCalendar))]
+    [TemplatePart(Name = c_ElementClock, Type = typeof(ZeusClock))]
     public class ZeusDateTimePicker : Control
     {
         #region Constants
@@ -37,6 +39,10 @@ namespace Zeus.UI.Controls
         /// Name of the calendar element in the control template.
         /// </summary>
         private const string c_ElementCalendar = "PART_Calendar";
+        /// <summary>
+        /// Name of the clock element in the control template.
+        /// </summary>
+        private const string c_ElementClock = "PART_Clock";
 
         #endregion
 
@@ -58,6 +64,10 @@ namespace Zeus.UI.Controls
         /// The calendar control.
         /// </summary>
         private ZeusCalendar m_Calendar;
+        /// <summary>
+        /// The clock control.
+        /// </summary>
+        private ZeusClock m_Clock;
         /// <summary>
         /// A flag that enables or disables the textbox text update.
         /// </summary>
@@ -113,6 +123,10 @@ namespace Zeus.UI.Controls
         /// Identifies the <see cref="IsCalendarVisible"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IsCalendarVisibleProperty = DependencyProperty.Register("IsCalendarVisible", typeof(bool), typeof(ZeusDateTimePicker), new FrameworkPropertyMetadata(true));
+        /// <summary>
+        /// Identifies the <see cref="IsClockVisible"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IsClockVisibleProperty = DependencyProperty.Register("IsClockVisible", typeof(bool), typeof(ZeusDateTimePicker), new FrameworkPropertyMetadata(true));
 
         #endregion
 
@@ -189,10 +203,18 @@ namespace Zeus.UI.Controls
             get { return (bool)GetValue(IsCalendarVisibleProperty); }
             set { SetValue(IsCalendarVisibleProperty, value); }
         }
+        /// <summary>
+        /// Gets or sets a flag that indicates if the clock is visible or not.
+        /// </summary>
+        public bool IsClockVisible
+        {
+            get { return (bool)GetValue(IsClockVisibleProperty); }
+            set { SetValue(IsClockVisibleProperty, value); }
+        }
 
         #endregion
 
-        #region RoutedEvents
+        #region Routed events
 
         /// <summary>
         /// Occours when the selected date and time change.
@@ -233,10 +255,19 @@ namespace Zeus.UI.Controls
             {
                 m_TextBox.TextChanged -= OnTextBoxTextChanged;
             }
+            if (m_Calendar != null)
+            {
+                m_Calendar.SelectedDatesChanged -= OnCalendarSelectedDateChanged;
+            }
+            if (m_Clock != null)
+            {
+                m_Clock.SelectedTimeChanged -= OnClockSelectedTimeChanged;
+            }
             m_TextBox = GetTemplateChild(c_ElementTextBox) as ZeusTextBox;
             m_DropDownButton = GetTemplateChild(c_ElementButton) as ZeusButton;
             m_PopUp = GetTemplateChild(c_ElementPopup) as Popup;
             m_Calendar = GetTemplateChild(c_ElementCalendar) as ZeusCalendar;
+            m_Clock = GetTemplateChild(c_ElementClock) as ZeusClock;
             //subscribe events and apply bindings
             if (m_DropDownButton != null)
             {
@@ -258,6 +289,10 @@ namespace Zeus.UI.Controls
                 m_Calendar.SetBinding(ZeusCalendar.FirstDayOfWeekProperty, new Binding(FirstDayOfWeekProperty.Name) { Source = this });
                 m_Calendar.SelectedDatesChanged += OnCalendarSelectedDateChanged;
             }
+            if (m_Clock != null)
+            {
+                m_Clock.SelectedTimeChanged += OnClockSelectedTimeChanged;
+            }
             WriteValueToTextBox();
         }
         /// <summary>
@@ -265,17 +300,28 @@ namespace Zeus.UI.Controls
         /// </summary>
         private void UpdateCalendar()
         {
-            if (m_Calendar.SelectedDate != SelectedDateTime.Value.Date)
+            if (SelectedDateTime.HasValue && m_Calendar.SelectedDate != SelectedDateTime.Value.Date)
             {
-                if (SelectedDateTime.HasValue)
-                {
-                    m_Calendar.SelectedDate = SelectedDateTime.Value.Date;
-                    m_Calendar.DisplayDate = m_Calendar.SelectedDate.Value;
-                }
-                else
-                {
-                    m_Calendar.SelectedDate = SelectedDateTime;
-                }
+                m_Calendar.SelectedDate = SelectedDateTime.Value.Date;
+                m_Calendar.DisplayDate = m_Calendar.SelectedDate.Value;
+            }
+            else if (!SelectedDateTime.HasValue)
+            {
+                m_Calendar.SelectedDate = null;
+            }
+        }
+        /// <summary>
+        /// Updates the selected and display time of the clock child control.
+        /// </summary>
+        private void UpdateClock()
+        {
+            if (SelectedDateTime.HasValue && m_Clock.SelectedTime != SelectedDateTime.Value.TimeOfDay)
+            {
+                m_Clock.SelectedTime = SelectedDateTime.Value.TimeOfDay;
+            }
+            else if (!SelectedDateTime.HasValue)
+            {
+                m_Clock.SelectedTime = new TimeSpan();
             }
         }
         /// <summary>
@@ -291,11 +337,11 @@ namespace Zeus.UI.Controls
                     string timeFormat = TimeFormat == ZeusDateTimePickerFormats.Long ? formatInfo.LongTimePattern : formatInfo.ShortTimePattern;
                     string dateFormat = DateFormat == ZeusDateTimePickerFormats.Long ? formatInfo.LongDatePattern : formatInfo.ShortDatePattern;
                     DateTime displayed = SelectedDateTime.Value.Date + SelectedDateTime.Value.TimeOfDay;
-                    m_TextBox.Text = string.Format("{0} {1}", displayed.ToString(dateFormat), displayed.ToString(timeFormat));
+                    m_TextBox.Text = string.Format("{0} {1}", IsCalendarVisible ? displayed.ToString(dateFormat) : string.Empty, IsClockVisible ? displayed.ToString(timeFormat) : string.Empty);
                 }
                 else
                 {
-                    m_TextBox.Text = "Select a date";
+                    m_TextBox.Text = "Select a value";
                 }
             }
         }
@@ -339,10 +385,11 @@ namespace Zeus.UI.Controls
             zdtp.RaiseEvent(new RoutedEventArgs(SelectedDateTimeChangedEvent, zdtp));
             //set values on child conrols
             zdtp.UpdateCalendar();
+            zdtp.UpdateClock();
             zdtp.WriteValueToTextBox();
         }
         /// <summary>
-        /// Handle the changes in calenda child control SelectedDate property.
+        /// Handle the changes in calendar child control SelectedDate property.
         /// </summary>
         /// <param name="sender">The object that raise te evnet.</param>
         /// <param name="e">Information about the event.</param>
@@ -351,6 +398,17 @@ namespace Zeus.UI.Controls
             SelectedDateTime = SelectedDateTime == null ? m_Calendar.SelectedDate : m_Calendar.SelectedDate.Value.Date + SelectedDateTime.Value.TimeOfDay;
             WriteValueToTextBox();
             IsDropDownOpen = false;
+        }
+        /// <summary>
+        /// Handle the changes in clock child control SelectedTime property.
+        /// </summary>
+        /// <param name="sender">The object that raise te evnet.</param>
+        /// <param name="e">Information about the event.</param>
+        private void OnClockSelectedTimeChanged(object sender, ZeusSelectedTimeChangedEventArgs e)
+        {
+            SelectedDateTime = SelectedDateTime == null ? DateTime.Now.Date + m_Clock.SelectedTime : SelectedDateTime.Value.Date + m_Clock.SelectedTime;
+            WriteValueToTextBox();
+            IsDropDownOpen = e.FromIncreaseButton;
         }
         /// <summary>
         /// Handle the text changed event of the textbox child control.
