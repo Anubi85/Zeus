@@ -20,6 +20,13 @@ namespace Zeus.UI.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ZeusDataGrid), new FrameworkPropertyMetadata(typeof(ZeusDataGrid)));
             ColorProperty = ZeusWindowBase.ColorProperty.AddOwner(typeof(ZeusDataGrid), new FrameworkPropertyMetadata(ZeusColorStyles.Blue, FrameworkPropertyMetadataOptions.Inherits));
         }
+        /// <summary>
+        /// Initialize the control.
+        /// </summary>
+        public ZeusDataGrid()
+        {
+            SelectionChanged += SelectionChangedHandler;
+        }
 
         #endregion
 
@@ -83,6 +90,18 @@ namespace Zeus.UI.Controls
                 (d as ZeusDataGrid)?.UnsetAutoScroll();
             }
         }
+        /// <summary>
+        /// Handle the datagrid items selection changing events.
+        /// </summary>
+        /// <param name="sender">The object that triggered the event.</param>
+        /// <param name="e">Information about the event.</param>
+        private void SelectionChangedHandler(object sender, SelectionChangedEventArgs e)
+        {
+            if (!IsSelectable)
+            {
+                (sender as ZeusDataGrid)?.UnselectAllCells();
+            }
+        }
 
         #endregion
 
@@ -92,6 +111,10 @@ namespace Zeus.UI.Controls
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusDataGrid"/> autoscroll.
         /// </summary>
         public static readonly DependencyProperty AutoScrollProperty = DependencyProperty.Register("AutoScroll", typeof(bool), typeof(ZeusDataGrid), new PropertyMetadata(false, AutoScrollChanged));
+        /// <summary>
+        /// <see cref="DependencyProperty"/> that handle <see cref="ZeusDataGrid"/> selection behaviour.
+        /// </summary>
+        public static readonly DependencyProperty IsSelectableProperty = DependencyProperty.Register("IsSelectable", typeof(bool), typeof(ZeusDataGrid), new PropertyMetadata(true));
         /// <summary>
         /// <see cref="DependencyProperty"/> that handle <see cref="ZeusDataGrid"/> color styles.
         /// </summary>
@@ -108,6 +131,14 @@ namespace Zeus.UI.Controls
         {
             get { return (bool)GetValue(AutoScrollProperty); }
             set { SetValue(AutoScrollProperty, value); }
+        }
+        /// <summary>
+        /// Gets or sets <see cref="ZeusDataGrid"/> is selectable flag.
+        /// </summary>
+        public bool IsSelectable
+        {
+            get { return (bool)GetValue(IsSelectableProperty); }
+            set { SetValue(IsSelectableProperty, value); }
         }
         /// <summary>
         /// Gets or sets <see cref="ZeusDataGrid"/> color style.
