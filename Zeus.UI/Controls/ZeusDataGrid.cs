@@ -20,13 +20,6 @@ namespace Zeus.UI.Controls
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ZeusDataGrid), new FrameworkPropertyMetadata(typeof(ZeusDataGrid)));
             ColorProperty = ZeusWindowBase.ColorProperty.AddOwner(typeof(ZeusDataGrid), new FrameworkPropertyMetadata(ZeusColorStyles.Blue, FrameworkPropertyMetadataOptions.Inherits));
         }
-        /// <summary>
-        /// Initialize the control.
-        /// </summary>
-        public ZeusDataGrid()
-        {
-            SelectionChanged += SelectionChangedHandler;
-        }
 
         #endregion
 
@@ -91,15 +84,18 @@ namespace Zeus.UI.Controls
             }
         }
         /// <summary>
-        /// Handle the datagrid items selection changing events.
+        /// Handle the datagrid items selection changed events.
         /// </summary>
-        /// <param name="sender">The object that triggered the event.</param>
         /// <param name="e">Information about the event.</param>
-        private void SelectionChangedHandler(object sender, SelectionChangedEventArgs e)
+        protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
             if (!IsSelectable)
             {
-                (sender as ZeusDataGrid)?.UnselectAllCells();
+                UnselectAllCells();
+            }
+            else
+            {
+                base.OnSelectionChanged(e);
             }
         }
 

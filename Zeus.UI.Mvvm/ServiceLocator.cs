@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows;
 using Zeus.Exceptions;
 
 namespace Zeus.UI.Mvvm
@@ -96,6 +98,11 @@ namespace Zeus.UI.Mvvm
         /// <returns>The registred service instace.</returns>
         public static T Resolve<T>()
         {
+            //check if in design mode
+            if ((bool)DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue)
+            {
+                return default(T);
+            }
             //check for existance
             if (!s_ServiceStore.ContainsKey(typeof(T)))
             {
